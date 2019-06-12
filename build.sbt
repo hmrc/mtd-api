@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +27,13 @@ lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin, SbtArtifactory)
   .settings(
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test(),
+    dependencyOverrides ++= AppDependencies.overrides,
     retrieveManaged := true,
     evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
-    scalaVersion := "2.11.11"
+    scalaVersion := "2.11.12"
+  )
+  .settings(
+    unmanagedResourceDirectories in Compile += baseDirectory.value / "resources"
   )
   .settings(majorVersion := 0)
   .settings(publishingSettings: _*)

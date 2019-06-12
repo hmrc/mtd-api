@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 HM Revenue & Customs
+ * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,12 @@ addSbtPlugin("uk.gov.hmrc" % "sbt-artifactory" % "0.19.0")
 
 addSbtPlugin("uk.gov.hmrc" % "sbt-distributables" % "1.5.0")
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.5.19")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.20")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.0")
+
+addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "0.2.10")
+
+addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.3.4")
