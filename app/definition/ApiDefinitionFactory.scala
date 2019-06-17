@@ -43,7 +43,7 @@ class ApiDefinitionFactory @Inject()(appConfig: AppConfig) {
         )
       ),
       api = APIDefinition(
-        name = "#name#",
+        name = "#mtd-api# (MTD)",
         description = "#desc#",
         context = appConfig.apiGatewayContext,
         versions = Seq(
