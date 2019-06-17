@@ -28,18 +28,18 @@ class DocumentationISpec extends IntegrationBaseSpec {
       |  "scopes":[
       |    {
       |      "key":"read:self-assessment",
-      |      "name":"#name of scope#",
-      |      "description":"#Description of scope#"
+      |      "name":"#name#",
+      |      "description":"#desc#"
       |    },
       |    {
       |      "key":"write:self-assessment",
-      |      "name":"#name of scope#",
-      |      "description":"#Description of scope#"
+      |      "name":"#name#",
+      |      "description":"#desc#"
       |    }
       |  ],
       |  "api":{
       |    "name":"#mtd-api# (MTD)",
-      |    "description":"#Description of API#,
+      |    "description":"#desc#",
       |    "context":"mtd/template",
       |    "versions":[
       |      {

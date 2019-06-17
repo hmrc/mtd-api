@@ -18,7 +18,7 @@ package v1.orchestrators
 
 import cats.data.EitherT
 import cats.implicits._
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.controllers.EndpointLogContext
 import v1.models.domain.SampleResponse
@@ -29,6 +29,7 @@ import v1.services.SampleService
 
 import scala.concurrent.{ExecutionContext, Future}
 
+@Singleton
 class SampleOrchestrator @Inject()(sampleService: SampleService) extends DesResponseMappingSupport {
 
   def orchestrate(request: SampleRequestData)(

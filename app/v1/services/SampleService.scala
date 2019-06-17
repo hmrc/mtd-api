@@ -16,7 +16,7 @@
 
 package v1.services
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.connectors.httpparsers.StandardDesHttpParser._
 import v1.connectors.{DesConnector, DesOutcome, DesUri}
@@ -26,6 +26,7 @@ import v1.models.requestData.SampleRequestData
 
 import scala.concurrent.{ExecutionContext, Future}
 
+@Singleton
 class SampleService @Inject()(connector: DesConnector) {
 
   def doService(request: SampleRequestData)(
