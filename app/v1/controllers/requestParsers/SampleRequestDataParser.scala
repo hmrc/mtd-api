@@ -23,16 +23,10 @@ import v1.models.domain.SampleRequestBody
 import v1.models.errors.{BadRequestError, ErrorWrapper}
 import v1.models.requestData.{DesTaxYear, SampleRawData, SampleRequestData}
 
-class SampleRequestDataParser @Inject()(validator: SampleValidator)
+class SampleRequestDataParser @Inject()(val validator: SampleValidator)
   extends RequestParser[SampleRawData, SampleRequestData] {
 
-  def parseRequest(data: SampleRawData): Either[ErrorWrapper, SampleRequestData] = {
-    validator.validate(data) match {
-      case Nil =>
-        Right(SampleRequestData(Nino(data.nino), DesTaxYear.fromMtd(data.taxYear), data.body.as[SampleRequestBody]))
-      case err :: Nil => Left(ErrorWrapper(None, err, None))
-      case errs => Left(ErrorWrapper(None, BadRequestError, Some(errs)))
-    }
-  }
+  override protected def requestFor(data: SampleRawData): SampleRequestData =
+    SampleRequestData(Nino(data.nino), DesTaxYear.fromMtd(data.taxYear), data.body.as[SampleRequestBody])
 
 }

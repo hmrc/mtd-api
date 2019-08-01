@@ -16,26 +16,23 @@
 
 package v1.controllers
 
-import java.util.UUID
-
 import cats.data.EitherT
 import cats.implicits._
-import javax.inject.{ Inject, Singleton }
-import play.api.Logger
+import javax.inject.{Inject, Singleton}
 import play.api.http.MimeTypes
-import play.api.libs.json.{ JsValue, Json }
-import play.api.mvc.{ Action, ControllerComponents }
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import v1.controllers.requestParsers.SampleRequestDataParser
-import v1.models.audit.{ AuditEvent, SampleAuditDetail, SampleAuditResponse }
+import v1.models.audit.{AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import v1.models.auth.UserDetails
 import v1.models.errors._
 import v1.models.requestData.SampleRawData
 import v1.orchestrators.SampleOrchestrator
 import v1.services._
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class SampleController @Inject()(val authService: EnrolmentsAuthService,
@@ -44,9 +41,7 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
                                  sampleOrchestrator: SampleOrchestrator,
                                  auditService: AuditService,
                                  cc: ControllerComponents)(implicit ec: ExecutionContext)
-    extends AuthorisedController(cc) {
-
-  protected val logger: Logger = Logger(this.getClass)
+    extends AuthorisedController(cc) with BaseController {
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(controllerName = "SampleController", endpointName = "sampleEndpoint")
@@ -65,13 +60,13 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
           auditSubmission(createAuditDetails(rawData, CREATED, vendorResponse.correlationId, request.userDetails))
 
           Created(Json.toJson(vendorResponse.responseData))
-            .withHeaders("X-CorrelationId" -> vendorResponse.correlationId)
+            .withApiHeaders(vendorResponse.correlationId)
             .as(MimeTypes.JSON)
         }
 
       result.leftMap { errorWrapper =>
         val correlationId = getCorrelationId(errorWrapper)
-        val result        = errorResult(errorWrapper).withHeaders("X-CorrelationId" -> correlationId)
+        val result        = errorResult(errorWrapper).withApiHeaders(correlationId)
         auditSubmission(createAuditDetails(rawData, result.header.status, correlationId, request.userDetails, Some(errorWrapper)))
         result
       }.merge
@@ -84,22 +79,6 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
         BadRequest(Json.toJson(errorWrapper))
       case NotFoundError   => NotFound(Json.toJson(errorWrapper))
       case DownstreamError => InternalServerError(Json.toJson(errorWrapper))
-    }
-  }
-
-  private def getCorrelationId(errorWrapper: ErrorWrapper): String = {
-    errorWrapper.correlationId match {
-      case Some(correlationId) =>
-        logger.info(
-          s"[${endpointLogContext.controllerName}][getCorrelationId] - " +
-            s"Error received from DES ${Json.toJson(errorWrapper)} with CorrelationId: $correlationId")
-        correlationId
-      case None =>
-        val correlationId = UUID.randomUUID().toString
-        logger.info(
-          s"[${endpointLogContext.controllerName}][getCorrelationId] - " +
-            s"Validation error: ${Json.toJson(errorWrapper)} with CorrelationId: $correlationId")
-        correlationId
     }
   }
 
