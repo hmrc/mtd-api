@@ -14,26 +14,25 @@
  * limitations under the License.
  */
 
-package v1.orchestrators
+package v1.support
 
-import play.api.Logger
+import utils.Logging
 import v1.controllers.EndpointLogContext
 import v1.models.errors._
 import v1.models.outcomes.ResponseWrapper
 
 trait DesResponseMappingSupport {
+  self: Logging =>
 
-  protected val logger: Logger = Logger(this.getClass)
-
-  final def mapDesErrors[D](errorCodeMap: PartialFunction[String, MtdError])(desOutcome: ResponseWrapper[DesError])(
-      implicit logContext: EndpointLogContext): ErrorWrapper = {
+  final def mapDesErrors[D](errorCodeMap: PartialFunction[String, MtdError])(desResponseWrapper: ResponseWrapper[DesError])(
+    implicit logContext: EndpointLogContext): ErrorWrapper = {
 
     lazy val defaultErrorCodeMapping: String => MtdError = { code =>
       logger.info(s"[${logContext.controllerName}] [${logContext.endpointName}] - No mapping found for error code $code")
       DownstreamError
     }
 
-    desOutcome match {
+    desResponseWrapper match {
       case ResponseWrapper(correlationId, DesErrors(error :: Nil)) =>
         ErrorWrapper(Some(correlationId), errorCodeMap.applyOrElse(error.code, defaultErrorCodeMapping), None)
 

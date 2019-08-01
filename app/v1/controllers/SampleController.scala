@@ -19,18 +19,19 @@ package v1.controllers
 import cats.data.EitherT
 import cats.implicits._
 import javax.inject.{Inject, Singleton}
+import play.api.Logger
 import play.api.http.MimeTypes
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
+import utils.Logging
 import v1.controllers.requestParsers.SampleRequestDataParser
 import v1.models.audit.{AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import v1.models.auth.UserDetails
 import v1.models.errors._
 import v1.models.requestData.SampleRawData
-import v1.orchestrators.SampleOrchestrator
-import v1.services._
+import v1.services.{SampleService, _}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -38,10 +39,10 @@ import scala.concurrent.{ExecutionContext, Future}
 class SampleController @Inject()(val authService: EnrolmentsAuthService,
                                  val lookupService: MtdIdLookupService,
                                  requestDataParser: SampleRequestDataParser,
-                                 sampleOrchestrator: SampleOrchestrator,
+                                 sampleService: SampleService,
                                  auditService: AuditService,
                                  cc: ControllerComponents)(implicit ec: ExecutionContext)
-    extends AuthorisedController(cc) with BaseController {
+  extends AuthorisedController(cc) with BaseController with Logging {
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(controllerName = "SampleController", endpointName = "sampleEndpoint")
@@ -51,8 +52,8 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
       val rawData = SampleRawData(nino, taxYear, request.body)
       val result =
         for {
-          parsedRequest  <- EitherT.fromEither[Future](requestDataParser.parseRequest(rawData))
-          vendorResponse <- EitherT(sampleOrchestrator.orchestrate(parsedRequest))
+          parsedRequest <- EitherT.fromEither[Future](requestDataParser.parseRequest(rawData))
+          vendorResponse <- EitherT(sampleService.doServiceThing(parsedRequest))
         } yield {
           logger.info(
             s"[${endpointLogContext.controllerName}][${endpointLogContext.endpointName}] - " +
@@ -66,7 +67,7 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
 
       result.leftMap { errorWrapper =>
         val correlationId = getCorrelationId(errorWrapper)
-        val result        = errorResult(errorWrapper).withApiHeaders(correlationId)
+        val result = errorResult(errorWrapper).withApiHeaders(correlationId)
         auditSubmission(createAuditDetails(rawData, result.header.status, correlationId, request.userDetails, Some(errorWrapper)))
         result
       }.merge
@@ -75,9 +76,9 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
   private def errorResult(errorWrapper: ErrorWrapper) = {
     errorWrapper.error match {
       case RuleIncorrectOrEmptyBodyError | BadRequestError | NinoFormatError | TaxYearFormatError | RuleTaxYearNotSupportedError |
-          RuleTaxYearRangeExceededError =>
+           RuleTaxYearRangeExceededError =>
         BadRequest(Json.toJson(errorWrapper))
-      case NotFoundError   => NotFound(Json.toJson(errorWrapper))
+      case NotFoundError => NotFound(Json.toJson(errorWrapper))
       case DownstreamError => InternalServerError(Json.toJson(errorWrapper))
     }
   }

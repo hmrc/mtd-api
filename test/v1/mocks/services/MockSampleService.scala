@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package v1.mocks.services
 
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.connectors.DesOutcome
-import v1.models.des.DesSampleResponse
+import v1.controllers.EndpointLogContext
+import v1.models.domain.SampleResponse
+import v1.models.errors.ErrorWrapper
+import v1.models.outcomes.ResponseWrapper
 import v1.models.requestData.SampleRequestData
 import v1.services.SampleService
 
@@ -32,10 +33,10 @@ trait MockSampleService extends MockFactory {
 
   object MockSampleService {
 
-    def doService(requestData: SampleRequestData): CallHandler[Future[DesOutcome[DesSampleResponse]]] = {
+    def doServiceThing(requestData: SampleRequestData): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[SampleResponse]]]] = {
       (mockSampleService
-        .doService(_: SampleRequestData)(_: HeaderCarrier, _: ExecutionContext))
-        .expects(requestData, *, *)
+        .doServiceThing(_: SampleRequestData)(_: HeaderCarrier, _: ExecutionContext, _: EndpointLogContext))
+        .expects(requestData, *, *, *)
     }
   }
 

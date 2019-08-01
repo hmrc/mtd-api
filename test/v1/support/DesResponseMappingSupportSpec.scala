@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package v1.orchestrators
+package v1.support
 
 import support.UnitSpec
+import utils.Logging
 import v1.controllers.EndpointLogContext
 import v1.models.errors._
 import v1.models.outcomes.ResponseWrapper
 
 class DesResponseMappingSupportSpec extends UnitSpec {
 
-  implicit val logContext = EndpointLogContext("ctrl", "ep")
-  val mapping = new DesResponseMappingSupport {}
+  implicit val logContext: EndpointLogContext = EndpointLogContext("ctrl", "ep")
+  val mapping = new DesResponseMappingSupport with Logging {}
 
   val correlationId = "someCorrelationId"
 

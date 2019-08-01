@@ -13,31 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package v1.mocks.orchestrators
+package v1.mocks.connectors
 
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.controllers.EndpointLogContext
-import v1.models.domain.SampleResponse
-import v1.models.errors.ErrorWrapper
-import v1.models.outcomes.ResponseWrapper
+import v1.connectors.{DesOutcome, SampleConnector}
+import v1.models.des.DesSampleResponse
 import v1.models.requestData.SampleRequestData
-import v1.orchestrators.SampleOrchestrator
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockSampleOrchestrator extends MockFactory {
+trait MockSampleConnector extends MockFactory {
 
-  val mockSampleOrchestrator: SampleOrchestrator = mock[SampleOrchestrator]
+  val mockSampleConnector: SampleConnector = mock[SampleConnector]
 
-  object MockSampleOrchestrator {
+  object MockSampleConnector {
 
-    def orchestrate(requestData: SampleRequestData): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[SampleResponse]]]] = {
-      (mockSampleOrchestrator
-        .orchestrate(_: SampleRequestData)(_: HeaderCarrier, _: ExecutionContext, _: EndpointLogContext))
-        .expects(requestData, *, *, *)
+    def doConnectorThing(requestData: SampleRequestData): CallHandler[Future[DesOutcome[DesSampleResponse]]] = {
+      (mockSampleConnector
+        .doConnectorThing(_: SampleRequestData)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(requestData, *, *)
     }
   }
 

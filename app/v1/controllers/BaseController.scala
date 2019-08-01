@@ -18,14 +18,13 @@ package v1.controllers
 
 import java.util.UUID
 
-import play.api.Logger
 import play.api.libs.json.Json
 import play.api.mvc.Result
+import utils.Logging
 import v1.models.errors.ErrorWrapper
 
 trait BaseController {
-
-  protected val logger = Logger(this.getClass)
+  self: Logging =>
 
   implicit class Response(result: Result) {
 

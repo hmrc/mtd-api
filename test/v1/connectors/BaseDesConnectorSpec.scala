@@ -22,27 +22,26 @@ import v1.models.outcomes.ResponseWrapper
 
 import scala.concurrent.Future
 
-class DesConnectorSpec extends ConnectorSpec {
+class BaseDesConnectorSpec extends ConnectorSpec {
 
   // WLOG
   case class Result(value: Int)
-
-  val baseUrl = "test-BaseUrl"
-
-  val correlationId = "someCorrelationId"
 
   // WLOG
   val body = "body"
 
   val outcome = Right(ResponseWrapper(correlationId, Result(2)))
 
-  val url         = "some/url?param=value"
+  val url = "some/url?param=value"
   val absoluteUrl = s"$baseUrl/$url"
 
   implicit val httpReads: HttpReads[DesOutcome[Result]] = mock[HttpReads[DesOutcome[Result]]]
 
   class Test extends MockHttpClient with MockAppConfig {
-    val connector: DesConnector = new DesConnector(http = mockHttpClient, appConfig = mockAppConfig)
+    val connector: BaseDesConnector = new BaseDesConnector {
+      val http = mockHttpClient
+      val appConfig = mockAppConfig
+    }
     MockedAppConfig.desBaseUrl returns baseUrl
     MockedAppConfig.desToken returns "des-token"
     MockedAppConfig.desEnvironment returns "des-environment"
