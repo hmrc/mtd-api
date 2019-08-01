@@ -16,10 +16,7 @@
 
 package v1.controllers
 
-import cats.data.EitherT
-import cats.implicits._
 import javax.inject.{Inject, Singleton}
-import play.api.Logger
 import play.api.http.MimeTypes
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
@@ -29,21 +26,22 @@ import utils.Logging
 import v1.controllers.requestParsers.SampleRequestDataParser
 import v1.models.audit.{AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import v1.models.auth.UserDetails
+import v1.models.domain.SampleResponse
 import v1.models.errors._
 import v1.models.requestData.SampleRawData
-import v1.orchestrators.SampleOrchestrator
+import v1.orchestrators.DesResponseMappingSupport
 import v1.services._
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SampleController @Inject()(val authService: EnrolmentsAuthService,
-                                 val lookupService: MtdIdLookupService,
-                                 requestDataParser: SampleRequestDataParser,
-                                 sampleOrchestrator: SampleOrchestrator,
-                                 auditService: AuditService,
-                                 cc: ControllerComponents)(implicit ec: ExecutionContext)
-  extends AuthorisedController(cc) with BaseController with Logging {
+class SampleDirectNoCatsController @Inject()(val authService: EnrolmentsAuthService,
+                                             val lookupService: MtdIdLookupService,
+                                             requestDataParser: SampleRequestDataParser,
+                                             sampleService: SampleService,
+                                             auditService: AuditService,
+                                             cc: ControllerComponents)(implicit ec: ExecutionContext)
+  extends AuthorisedController(cc) with BaseController with DesResponseMappingSupport with Logging {
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(controllerName = "SampleController", endpointName = "sampleEndpoint")
@@ -51,28 +49,38 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
   def handleRequest(nino: String, taxYear: String): Action[JsValue] =
     authorisedAction(nino).async(parse.json) { implicit request =>
       val rawData = SampleRawData(nino, taxYear, request.body)
-      val result =
-        for {
-          parsedRequest <- EitherT.fromEither[Future](requestDataParser.parseRequest(rawData))
-          vendorResponse <- EitherT(sampleOrchestrator.orchestrate(parsedRequest))
-        } yield {
-          logger.info(
-            s"[${endpointLogContext.controllerName}][${endpointLogContext.endpointName}] - " +
-              s"Success response received with CorrelationId: ${vendorResponse.correlationId}")
-          auditSubmission(createAuditDetails(rawData, CREATED, vendorResponse.correlationId, request.userDetails))
 
-          Created(Json.toJson(vendorResponse.responseData))
-            .withApiHeaders(vendorResponse.correlationId)
-            .as(MimeTypes.JSON)
+      requestDataParser.parseRequest(rawData) match {
+        case Right(parsedRequest) => sampleService.doService(parsedRequest).map {
+          case Right(desResponse) =>
+            logger.info(s"${endpointLogContext.controllerName}][${endpointLogContext.endpointName} Success response received with correlationId: ${desResponse.correlationId}")
+            auditSubmission(createAuditDetails(rawData, CREATED, desResponse.correlationId, request.userDetails))
+
+            Created(Json.toJson(SampleResponse(desResponse.responseData.responseData)))
+              .withApiHeaders(desResponse.correlationId).as(MimeTypes.JSON)
+
+          case Left(desErrorWrapper) =>
+            val mtdErrorWrapper = mapDesErrors(desErrorMap)(desErrorWrapper)
+            val correlationId = getCorrelationId(mtdErrorWrapper)
+            val result = errorResult(mtdErrorWrapper).withApiHeaders(correlationId)
+            auditSubmission(createAuditDetails(rawData, result.header.status, correlationId, request.userDetails, Some(mtdErrorWrapper)))
+            result
         }
 
-      result.leftMap { errorWrapper =>
-        val correlationId = getCorrelationId(errorWrapper)
-        val result = errorResult(errorWrapper).withApiHeaders(correlationId)
-        auditSubmission(createAuditDetails(rawData, result.header.status, correlationId, request.userDetails, Some(errorWrapper)))
-        result
-      }.merge
+        case Left(mtdErrorWrapper) =>
+          val correlationId = getCorrelationId(mtdErrorWrapper)
+          val result = errorResult(mtdErrorWrapper).withApiHeaders(correlationId)
+          auditSubmission(createAuditDetails(rawData, result.header.status, correlationId, request.userDetails, Some(mtdErrorWrapper)))
+          Future.successful(result)
+      }
     }
+
+  private def desErrorMap =
+    Map(
+      "NOT_FOUND" -> NotFoundError,
+      "SERVER_ERROR" -> DownstreamError,
+      "SERVICE_UNAVAILABLE" -> DownstreamError
+    )
 
   private def errorResult(errorWrapper: ErrorWrapper) = {
     errorWrapper.error match {
@@ -90,8 +98,9 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
                                  userDetails: UserDetails,
                                  errorWrapper: Option[ErrorWrapper] = None): SampleAuditDetail = {
     val response = errorWrapper
-      .map { wrapper =>
-        SampleAuditResponse(statusCode, Some(wrapper.auditErrors))
+      .map {
+        wrapper =>
+          SampleAuditResponse(statusCode, Some(wrapper.auditErrors))
       }
       .getOrElse(SampleAuditResponse(statusCode, None))
 

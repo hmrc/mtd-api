@@ -24,7 +24,7 @@ import v1.models.outcomes.ResponseWrapper
 trait DesResponseMappingSupport {
   self: Logging =>
 
-  final def mapDesErrors[D](errorCodeMap: PartialFunction[String, MtdError])(desOutcome: ResponseWrapper[DesError])(
+  final def mapDesErrors[D](errorCodeMap: PartialFunction[String, MtdError])(desResponseWrapper: ResponseWrapper[DesError])(
     implicit logContext: EndpointLogContext): ErrorWrapper = {
 
     lazy val defaultErrorCodeMapping: String => MtdError = { code =>
@@ -32,7 +32,7 @@ trait DesResponseMappingSupport {
       DownstreamError
     }
 
-    desOutcome match {
+    desResponseWrapper match {
       case ResponseWrapper(correlationId, DesErrors(error :: Nil)) =>
         ErrorWrapper(Some(correlationId), errorCodeMap.applyOrElse(error.code, defaultErrorCodeMapping), None)
 

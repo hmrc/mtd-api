@@ -61,7 +61,7 @@ class SampleDirectController @Inject()(val authService: EnrolmentsAuthService,
               s"Success response received with CorrelationId: ${desResponseWrapper.correlationId}")
           auditSubmission(createAuditDetails(rawData, CREATED, desResponseWrapper.correlationId, request.userDetails))
 
-          Created(Json.toJson(SampleResponse(desResponseWrapper.response.responseData))) // *If* need to convert to Mtd
+          Created(Json.toJson(SampleResponse(desResponseWrapper.responseData.responseData))) // *If* need to convert to Mtd
             .withApiHeaders(desResponseWrapper.correlationId)
             .as(MimeTypes.JSON)
         }

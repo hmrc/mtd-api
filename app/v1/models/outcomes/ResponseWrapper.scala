@@ -16,6 +16,6 @@
 
 package v1.models.outcomes
 
-case class ResponseWrapper[+A](correlationId: String, response: A) {
-  def map[B](f: A => B): ResponseWrapper[B] = ResponseWrapper(correlationId, f(response))
+case class ResponseWrapper[+A](correlationId: String, responseData: A) {
+  def map[B](f: A => B): ResponseWrapper[B] = ResponseWrapper(correlationId, f(responseData))
 }
