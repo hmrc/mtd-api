@@ -16,17 +16,16 @@
 
 package v1.orchestrators
 
-import play.api.Logger
+import utils.Logging
 import v1.controllers.EndpointLogContext
 import v1.models.errors._
 import v1.models.outcomes.ResponseWrapper
 
 trait DesResponseMappingSupport {
-
-  protected val logger: Logger = Logger(this.getClass)
+  self: Logging =>
 
   final def mapDesErrors[D](errorCodeMap: PartialFunction[String, MtdError])(desOutcome: ResponseWrapper[DesError])(
-      implicit logContext: EndpointLogContext): ErrorWrapper = {
+    implicit logContext: EndpointLogContext): ErrorWrapper = {
 
     lazy val defaultErrorCodeMapping: String => MtdError = { code =>
       logger.info(s"[${logContext.controllerName}] [${logContext.endpointName}] - No mapping found for error code $code")

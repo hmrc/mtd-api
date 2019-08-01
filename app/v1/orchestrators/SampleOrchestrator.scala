@@ -20,9 +20,10 @@ import cats.data.EitherT
 import cats.implicits._
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.HeaderCarrier
+import utils.Logging
 import v1.controllers.EndpointLogContext
 import v1.models.domain.SampleResponse
-import v1.models.errors.{DownstreamError, ErrorWrapper, NinoFormatError, TaxYearFormatError}
+import v1.models.errors.{DownstreamError, ErrorWrapper, NinoFormatError, NotFoundError, TaxYearFormatError}
 import v1.models.outcomes.ResponseWrapper
 import v1.models.requestData.SampleRequestData
 import v1.services.SampleService
@@ -30,7 +31,7 @@ import v1.services.SampleService
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SampleOrchestrator @Inject()(sampleService: SampleService) extends DesResponseMappingSupport {
+class SampleOrchestrator @Inject()(sampleService: SampleService) extends DesResponseMappingSupport with Logging {
 
   def orchestrate(request: SampleRequestData)(
     implicit hc: HeaderCarrier,
@@ -38,16 +39,15 @@ class SampleOrchestrator @Inject()(sampleService: SampleService) extends DesResp
     logContext: EndpointLogContext): Future[Either[ErrorWrapper, ResponseWrapper[SampleResponse]]] = {
 
     val result = for {
-      desResponse <- EitherT(sampleService.doService(request)).leftMap(mapDesErrors(desErrorMap))
-    } yield desResponse.map(des => SampleResponse(des.responseData))
+      desResponseWrapper <- EitherT(sampleService.doService(request)).leftMap(mapDesErrors(desErrorMap))
+    } yield desResponseWrapper.map(des => SampleResponse(des.responseData)) // *If* need to convert to Mtd
 
     result.value
   }
 
   private def desErrorMap =
     Map(
-      "INVALID_NINO" -> NinoFormatError,
-      "INVALID_TAX_YEAR" -> TaxYearFormatError,
+      "NOT_FOUND" -> NotFoundError,
       "SERVER_ERROR" -> DownstreamError,
       "SERVICE_UNAVAILABLE" -> DownstreamError
     )

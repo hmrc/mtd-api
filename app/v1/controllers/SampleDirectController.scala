@@ -19,7 +19,6 @@ package v1.controllers
 import cats.data.EitherT
 import cats.implicits._
 import javax.inject.{Inject, Singleton}
-import play.api.Logger
 import play.api.http.MimeTypes
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
@@ -29,21 +28,22 @@ import utils.Logging
 import v1.controllers.requestParsers.SampleRequestDataParser
 import v1.models.audit.{AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import v1.models.auth.UserDetails
+import v1.models.domain.SampleResponse
 import v1.models.errors._
 import v1.models.requestData.SampleRawData
-import v1.orchestrators.SampleOrchestrator
+import v1.orchestrators.DesResponseMappingSupport
 import v1.services._
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SampleController @Inject()(val authService: EnrolmentsAuthService,
-                                 val lookupService: MtdIdLookupService,
-                                 requestDataParser: SampleRequestDataParser,
-                                 sampleOrchestrator: SampleOrchestrator,
-                                 auditService: AuditService,
-                                 cc: ControllerComponents)(implicit ec: ExecutionContext)
-  extends AuthorisedController(cc) with BaseController with Logging {
+class SampleDirectController @Inject()(val authService: EnrolmentsAuthService,
+                                       val lookupService: MtdIdLookupService,
+                                       requestDataParser: SampleRequestDataParser,
+                                       sampleService: SampleService,
+                                       auditService: AuditService,
+                                       cc: ControllerComponents)(implicit ec: ExecutionContext)
+  extends AuthorisedController(cc) with BaseController with DesResponseMappingSupport with Logging {
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(controllerName = "SampleController", endpointName = "sampleEndpoint")
@@ -54,15 +54,15 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
       val result =
         for {
           parsedRequest <- EitherT.fromEither[Future](requestDataParser.parseRequest(rawData))
-          vendorResponse <- EitherT(sampleOrchestrator.orchestrate(parsedRequest))
+          desResponseWrapper <- EitherT(sampleService.doService(parsedRequest)).leftMap(mapDesErrors(desErrorMap))
         } yield {
           logger.info(
             s"[${endpointLogContext.controllerName}][${endpointLogContext.endpointName}] - " +
-              s"Success response received with CorrelationId: ${vendorResponse.correlationId}")
-          auditSubmission(createAuditDetails(rawData, CREATED, vendorResponse.correlationId, request.userDetails))
+              s"Success response received with CorrelationId: ${desResponseWrapper.correlationId}")
+          auditSubmission(createAuditDetails(rawData, CREATED, desResponseWrapper.correlationId, request.userDetails))
 
-          Created(Json.toJson(vendorResponse.response))
-            .withApiHeaders(vendorResponse.correlationId)
+          Created(Json.toJson(SampleResponse(desResponseWrapper.response.responseData))) // *If* need to convert to Mtd
+            .withApiHeaders(desResponseWrapper.correlationId)
             .as(MimeTypes.JSON)
         }
 
@@ -73,6 +73,13 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
         result
       }.merge
     }
+
+  private def desErrorMap =
+    Map(
+      "NOT_FOUND" -> NotFoundError,
+      "SERVER_ERROR" -> DownstreamError,
+      "SERVICE_UNAVAILABLE" -> DownstreamError
+    )
 
   private def errorResult(errorWrapper: ErrorWrapper) = {
     errorWrapper.error match {

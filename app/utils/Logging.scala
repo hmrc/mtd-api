@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package utils
 
-package v1.models.outcomes
+import play.api.Logger
 
-case class ResponseWrapper[+A](correlationId: String, response: A) {
-  def map[B](f: A => B): ResponseWrapper[B] = ResponseWrapper(correlationId, f(response))
+trait Logging {
+  lazy val logger: Logger = Logger(this.getClass)
 }
