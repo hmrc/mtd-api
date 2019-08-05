@@ -16,18 +16,18 @@
 
 package v1.connectors
 
-import javax.inject.{Inject, Singleton}
+import config.AppConfig
 import play.api.Logger
 import play.api.libs.json.Writes
 import uk.gov.hmrc.http.logging.Authorization
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads}
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
-import config.AppConfig
 
 import scala.concurrent.{ExecutionContext, Future}
 
-@Singleton
-class DesConnector @Inject()(http: HttpClient, appConfig: AppConfig) {
+trait BaseDesConnector {
+  val http: HttpClient
+  val appConfig: AppConfig
 
   val logger = Logger(this.getClass)
 
@@ -40,7 +40,7 @@ class DesConnector @Inject()(http: HttpClient, appConfig: AppConfig) {
                                                               httpReads: HttpReads[DesOutcome[Resp]]): Future[DesOutcome[Resp]] = {
 
     def doPost(implicit hc: HeaderCarrier): Future[DesOutcome[Resp]] = {
-      http.POST(s"${appConfig.desBaseUrl}/${uri.uri}", body)
+      http.POST(s"${appConfig.desBaseUrl}/${uri.value}", body)
     }
 
     doPost(desHeaderCarrier(hc))
@@ -51,7 +51,7 @@ class DesConnector @Inject()(http: HttpClient, appConfig: AppConfig) {
                                    httpReads: HttpReads[DesOutcome[Resp]]): Future[DesOutcome[Resp]] = {
 
     def doGet(implicit hc: HeaderCarrier): Future[DesOutcome[Resp]] =
-      http.GET(s"${appConfig.desBaseUrl}/${uri.uri}")
+      http.GET(s"${appConfig.desBaseUrl}/${uri.value}")
 
     doGet(desHeaderCarrier(hc))
   }

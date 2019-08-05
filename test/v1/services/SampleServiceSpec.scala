@@ -16,41 +16,69 @@
 
 package v1.services
 
+import support.UnitSpec
 import uk.gov.hmrc.domain.Nino
-import v1.connectors.DesUri
-import v1.mocks.connectors.MockDesConnector
+import uk.gov.hmrc.http.HeaderCarrier
+import v1.controllers.EndpointLogContext
+import v1.mocks.connectors.MockSampleConnector
 import v1.models.des.DesSampleResponse
-import v1.models.domain.{SampleRequestBody, EmptyJsonBody}
+import v1.models.domain.{SampleRequestBody, SampleResponse}
+import v1.models.errors._
 import v1.models.outcomes.ResponseWrapper
 import v1.models.requestData.{DesTaxYear, SampleRequestData}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class SampleServiceSpec extends ServiceSpec {
+class SampleServiceSpec extends UnitSpec {
 
-  val correlationId = "a1e8057e-fbbc-47a8-a8b4-78d9f015c253"
+  private val nino = "AA123456A"
+  private val taxYear = "2017-18"
+  private val correlationId = "X-123"
 
-  val taxYear = DesTaxYear("2018")
-  val nino    = Nino("AA123456A")
-  val calcId  = "041f7e4d-87b9-4d4a-a296-3cfbdf92f7e2"
+  private val requestBody = SampleRequestBody("someData")
 
-  trait Test extends MockDesConnector {
-    lazy val service = new SampleService(connector)
+  private val requestData = SampleRequestData(Nino(nino), DesTaxYear.fromMtd(taxYear), requestBody)
+
+  trait Test extends MockSampleConnector {
+    implicit val hc: HeaderCarrier = HeaderCarrier()
+    implicit val logContext: EndpointLogContext = EndpointLogContext("c", "ep")
+
+    val service = new SampleService(
+      sampleConnector = mockSampleConnector
+    )
   }
 
-  "doService" must {
-    val request = SampleRequestData(nino, taxYear, SampleRequestBody("someData"))
+  "service" when {
+    "service call successsful" must {
+      "return mapped result" in new Test {
+        MockSampleConnector.doConnectorThing(requestData)
+          .returns(Future.successful(Right(ResponseWrapper(correlationId, DesSampleResponse("result")))))
 
-    "post an empty body and retun the result" in new Test {
+        await(service.doServiceThing(requestData)) shouldBe Right(ResponseWrapper(correlationId, SampleResponse("result")))
+      }
+    }
 
-      val outcome = Right(ResponseWrapper(correlationId, DesSampleResponse(calcId)))
+    "unsuccessful" must {
+      "map errors according to spec" when {
 
-      MockedDesConnector
-        .post(EmptyJsonBody,
-              DesUri[DesSampleResponse](s"income-tax/nino/${nino.nino}/taxYear/${taxYear.value}/someService"))
-        .returns(Future.successful(outcome))
+        def serviceError(desErrorCode: String, error: MtdError): Unit =
+          s"a $desErrorCode error is returned from the service" in new Test {
 
-      await(service.doService(request)) shouldBe outcome
+            MockSampleConnector.doConnectorThing(requestData)
+              .returns(Future.successful(Left(ResponseWrapper(correlationId, DesErrors.single(DesErrorCode(desErrorCode))))))
+
+            await(service.doServiceThing(requestData)) shouldBe Left(ErrorWrapper(Some(correlationId), error))
+          }
+
+        val input = Seq(
+          ("NOT_FOUND", NotFoundError),
+          ("SERVER_ERROR", DownstreamError),
+          ("SERVICE_UNAVAILABLE", DownstreamError)
+        )
+
+        input.foreach(args => (serviceError _).tupled(args))
+      }
     }
   }
 }

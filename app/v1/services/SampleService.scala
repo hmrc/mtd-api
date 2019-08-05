@@ -16,26 +16,40 @@
 
 package v1.services
 
+import cats.data.EitherT
+import cats.implicits._
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.connectors.httpparsers.StandardDesHttpParser._
-import v1.connectors.{DesConnector, DesOutcome, DesUri}
-import v1.models.des.DesSampleResponse
-import v1.models.domain.EmptyJsonBody
+import utils.Logging
+import v1.connectors.SampleConnector
+import v1.controllers.EndpointLogContext
+import v1.models.domain.SampleResponse
+import v1.models.errors.{DownstreamError, ErrorWrapper, NotFoundError}
+import v1.models.outcomes.ResponseWrapper
 import v1.models.requestData.SampleRequestData
+import v1.support.DesResponseMappingSupport
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SampleService @Inject()(connector: DesConnector) {
+class SampleService @Inject()(sampleConnector: SampleConnector) extends DesResponseMappingSupport with Logging {
 
-  def doService(request: SampleRequestData)(
-      implicit hc: HeaderCarrier,
-      ec: ExecutionContext): Future[DesOutcome[DesSampleResponse]] = {
+  def doServiceThing(request: SampleRequestData)(
+    implicit hc: HeaderCarrier,
+    ec: ExecutionContext,
+    logContext: EndpointLogContext): Future[Either[ErrorWrapper, ResponseWrapper[SampleResponse]]] = {
 
-    connector.post(
-      body = EmptyJsonBody,
-      DesUri[DesSampleResponse](s"income-tax/nino/${request.nino}/taxYear/${request.desTaxYear}/someService")
-    )
+    val result = for {
+      desResponseWrapper <- EitherT(sampleConnector.doConnectorThing(request)).leftMap(mapDesErrors(desErrorMap))
+    } yield desResponseWrapper.map(des => SampleResponse(des.responseData)) // *If* need to convert to Mtd
+
+    result.value
   }
+
+  private def desErrorMap =
+    Map(
+      "NOT_FOUND" -> NotFoundError,
+      "SERVER_ERROR" -> DownstreamError,
+      "SERVICE_UNAVAILABLE" -> DownstreamError
+    )
 }

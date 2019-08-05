@@ -158,8 +158,7 @@ class SampleControllerISpec extends IntegrationBaseSpec {
           (Status.BAD_REQUEST, "INVALID_REQUEST", Status.INTERNAL_SERVER_ERROR, DownstreamError),
           (Status.SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", Status.INTERNAL_SERVER_ERROR, DownstreamError),
           (Status.INTERNAL_SERVER_ERROR, "SERVER_ERROR", Status.INTERNAL_SERVER_ERROR, DownstreamError),
-          (Status.BAD_REQUEST, "INVALID_NINO", Status.BAD_REQUEST, NinoFormatError),
-          (Status.BAD_REQUEST, "INVALID_TAX_YEAR", Status.BAD_REQUEST, TaxYearFormatError))
+          (Status.BAD_REQUEST, "NOT_FOUND", Status.NOT_FOUND, NotFoundError))
 
         input.foreach(args => (serviceErrorTest _).tupled(args))
       }

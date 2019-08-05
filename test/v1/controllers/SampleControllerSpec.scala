@@ -20,9 +20,8 @@ import play.api.libs.json.Json
 import play.api.mvc.Result
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.mocks.orchestrators.MockSampleOrchestrator
 import v1.mocks.requestParsers.MockSampleRequestDataParser
-import v1.mocks.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
+import v1.mocks.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService, MockSampleService}
 import v1.models.audit.{AuditError, AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import v1.models.domain.{SampleRequestBody, SampleResponse}
 import v1.models.errors._
@@ -37,7 +36,7 @@ class SampleControllerSpec
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
     with MockSampleRequestDataParser
-    with MockSampleOrchestrator
+    with MockSampleService
     with MockAuditService {
 
   trait Test {
@@ -47,7 +46,7 @@ class SampleControllerSpec
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       requestDataParser = mockRequestDataParser,
-      sampleOrchestrator = mockSampleOrchestrator,
+      sampleService = mockSampleService,
       auditService = mockAuditService,
       cc = cc
     )
@@ -83,8 +82,8 @@ class SampleControllerSpec
           .parse(rawData)
           .returns(Right(requestData))
 
-        MockSampleOrchestrator
-          .orchestrate(requestData)
+        MockSampleService
+          .doServiceThing(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, SampleResponse("result")))))
 
         val result: Future[Result] = controller.handleRequest(nino, taxYear)(fakePostRequest(requestBodyJson))
@@ -142,16 +141,16 @@ class SampleControllerSpec
         input.foreach(args => (errorsFromParserTester _).tupled(args))
       }
 
-      "orchestrator errors occur" must {
-        def orchestrationErrors(mtdError: MtdError, expectedStatus: Int): Unit = {
+      "service errors occur" must {
+        def serviceErrors(mtdError: MtdError, expectedStatus: Int): Unit = {
           s"a $mtdError error is returned from the service" in new Test {
 
             MockSampleRequestDataParser
               .parse(rawData)
               .returns(Right(requestData))
 
-            MockSampleOrchestrator
-              .orchestrate(requestData)
+            MockSampleService
+              .doServiceThing(requestData)
               .returns(Future.successful(Left(ErrorWrapper(Some(correlationId), mtdError))))
 
             val result: Future[Result] = controller.handleRequest(nino, taxYear)(fakePostRequest(requestBodyJson))
@@ -181,7 +180,7 @@ class SampleControllerSpec
           (DownstreamError, INTERNAL_SERVER_ERROR)
         )
 
-        input.foreach(args => (orchestrationErrors _).tupled(args))
+        input.foreach(args => (serviceErrors _).tupled(args))
       }
     }
   }
