@@ -47,7 +47,7 @@ abstract class AuthorisedController(cc: ControllerComponents)(implicit ec: Execu
         .withDelegatedAuthRule("mtd-it-auth")
 
     def invokeBlockWithAuthCheck[A](mtdId: String, request: Request[A], block: UserRequest[A] => Future[Result])(
-        implicit headerCarrier: HeaderCarrier): Future[Result] = {
+      implicit headerCarrier: HeaderCarrier): Future[Result] = {
       authService.authorised(predicate(mtdId)).flatMap[Result] {
         case Right(userDetails)      => block(UserRequest(userDetails.copy(mtdId = mtdId), request))
         case Left(UnauthorisedError) => Future.successful(Forbidden(Json.toJson(UnauthorisedError)))
@@ -63,6 +63,7 @@ abstract class AuthorisedController(cc: ControllerComponents)(implicit ec: Execu
         case Right(mtdId)            => invokeBlockWithAuthCheck(mtdId, request, block)
         case Left(NinoFormatError)   => Future.successful(BadRequest(Json.toJson(NinoFormatError)))
         case Left(UnauthorisedError) => Future.successful(Forbidden(Json.toJson(UnauthorisedError)))
+        case Left(InvalidBearerTokenError) => Future.successful(Unauthorized(Json.toJson(InvalidBearerTokenError)))
         case Left(_)                 => Future.successful(InternalServerError(Json.toJson(DownstreamError)))
       }
     }
