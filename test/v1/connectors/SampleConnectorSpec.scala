@@ -16,8 +16,9 @@
 
 package v1.connectors
 
+import mocks.MockAppConfig
 import uk.gov.hmrc.domain.Nino
-import v1.mocks.{MockAppConfig, MockHttpClient}
+import v1.mocks.MockHttpClient
 import v1.models.des.DesSampleResponse
 import v1.models.domain.{EmptyJsonBody, SampleRequestBody}
 import v1.models.outcomes.ResponseWrapper

@@ -20,11 +20,14 @@ import play.api.libs.json.Json
 import play.api.mvc.Result
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
+import v1.mocks.hateoas.MockHateoasFactory
 import v1.mocks.requestParsers.MockSampleRequestDataParser
 import v1.mocks.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService, MockSampleService}
 import v1.models.audit.{AuditError, AuditEvent, SampleAuditDetail, SampleAuditResponse}
-import v1.models.domain.{SampleRequestBody, SampleResponse}
+import v1.models.domain.{SampleHateoasData, SampleRequestBody, SampleResponse}
 import v1.models.errors._
+import v1.models.hateoas.{HateoasWrapper, Link}
+import v1.models.hateoas.Method.GET
 import v1.models.outcomes.ResponseWrapper
 import v1.models.requestData.{DesTaxYear, SampleRawData, SampleRequestData}
 
@@ -32,11 +35,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SampleControllerSpec
-    extends ControllerBaseSpec
+  extends ControllerBaseSpec
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
-    with MockSampleRequestDataParser
     with MockSampleService
+    with MockSampleRequestDataParser
+    with MockHateoasFactory
     with MockAuditService {
 
   trait Test {
@@ -47,6 +51,7 @@ class SampleControllerSpec
       lookupService = mockMtdIdLookupService,
       requestDataParser = mockRequestDataParser,
       sampleService = mockSampleService,
+      hateoasFactory = mockHateoasFactory,
       auditService = mockAuditService,
       cc = cc
     )
@@ -60,19 +65,29 @@ class SampleControllerSpec
   private val correlationId = "X-123"
 
   private val requestBodyJson = Json.parse("""{
-      |  "data" : "someData"
-      |}
+                                             |  "data" : "someData"
+                                             |}
     """.stripMargin)
 
   private val responseBody = Json.parse("""{
-      |  "responseData" : "result"
-      |}
+                                          |  "responseData" : "result",
+                                          |  "links": [
+                                          |   {
+                                          |     "href": "/foo/bar",
+                                          |     "method": "GET",
+                                          |     "rel": "test-relationship"
+                                          |   }
+                                          |  ]
+                                          |}
     """.stripMargin)
+
+  val response = SampleResponse("result")
 
   private val requestBody = SampleRequestBody("someData")
 
   private val rawData     = SampleRawData(nino, taxYear, requestBodyJson)
   private val requestData = SampleRequestData(Nino(nino), DesTaxYear.fromMtd(taxYear), requestBody)
+  val testHateoasLink = Link(href = "/foo/bar", method = GET, rel = "test-relationship")
 
   "handleRequest" should {
     "return CREATED" when {
@@ -85,6 +100,9 @@ class SampleControllerSpec
         MockSampleService
           .doServiceThing(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, SampleResponse("result")))))
+
+        MockHateoasFactory.wrap(response, SampleHateoasData(nino))
+          .returns(HateoasWrapper(response, Seq(testHateoasLink)))
 
         val result: Future[Result] = controller.handleRequest(nino, taxYear)(fakePostRequest(requestBodyJson))
 

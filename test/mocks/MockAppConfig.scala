@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.mocks
+package mocks
 
 import config.AppConfig
 import org.scalamock.handlers.CallHandler
@@ -31,6 +31,6 @@ trait MockAppConfig extends MockFactory {
     def desEnvironment: CallHandler[String] = (mockAppConfig.desEnv _).expects()
     def mtdIdBaseUrl: CallHandler[String] = (mockAppConfig.mtdIdBaseUrl _: () => String).expects()
     def featureSwitch: CallHandler[Option[Configuration]] = (mockAppConfig.featureSwitch _: () => Option[Configuration]).expects()
+    def apiGatewayContext: CallHandler[String]            = (mockAppConfig.apiGatewayContext _: () => String).expects()
   }
 }
-
