@@ -22,13 +22,13 @@ import utils.enums.Enums
 case class Access(`type`: String, whitelistedApplicationIds: Seq[String])
 
 object Access {
-  implicit val formatAccess = Json.format[Access]
+  implicit val formatAccess: OFormat[Access] = Json.format[Access]
 }
 
 case class Parameter(name: String, required: Boolean = false)
 
 object Parameter {
-  implicit val formatParameter = Json.format[Parameter]
+  implicit val formatParameter: OFormat[Parameter] = Json.format[Parameter]
 }
 
 case class PublishingException(message: String) extends Exception(message)
@@ -55,10 +55,16 @@ object APIVersion {
   implicit val formatAPIVersion: OFormat[APIVersion] = Json.format[APIVersion]
 }
 
-case class APIDefinition(name: String, description: String, context: String, versions: Seq[APIVersion], requiresTrust: Option[Boolean]) {
+case class APIDefinition(name: String,
+                         description: String,
+                         context: String,
+                         categories: Seq[String],
+                         versions: Seq[APIVersion],
+                         requiresTrust: Option[Boolean]) {
 
   require(name.nonEmpty, "name is required")
   require(context.nonEmpty, "context is required")
+  require(categories.nonEmpty, "at least one category is required")
   require(description.nonEmpty, "description is required")
   require(versions.nonEmpty, "at least one version is required")
   require(uniqueVersions, "version numbers must be unique")

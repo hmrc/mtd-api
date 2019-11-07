@@ -55,3 +55,5 @@ object InvalidBearerTokenError extends MtdError("UNAUTHORIZED", "Bearer token is
 object  InvalidAcceptHeaderError extends MtdError("ACCEPT_HEADER_INVALID", "The accept header is missing or invalid")
 
 object  UnsupportedVersionError extends MtdError("NOT_FOUND", "The requested resource could not be found.")
+
+object InvalidBodyTypeError extends MtdError("INVALID_BODY_TYPE", "Expecting text/json or application/json body")
