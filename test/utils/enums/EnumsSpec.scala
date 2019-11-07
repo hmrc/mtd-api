@@ -18,7 +18,7 @@ package utils.enums
 
 import cats.Show
 import org.scalacheck.{Arbitrary, Gen}
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import play.api.libs.json._
 import support.UnitSpec
 
@@ -38,7 +38,7 @@ object Foo {
   implicit def fmts[A: Format]: Format[Foo[A]] = Json.format[Foo[A]]
 }
 
-class EnumsSpec extends UnitSpec with GeneratorDrivenPropertyChecks {
+class EnumsSpec extends UnitSpec with ScalaCheckDrivenPropertyChecks {
 
   import Enum._
 
@@ -50,7 +50,7 @@ class EnumsSpec extends UnitSpec with GeneratorDrivenPropertyChecks {
       `enum-two`.toString shouldBe "enum-two"
     }
 
-    def json(value: Enum) = Json.parse(s"""
+    def json(value: Enum): JsValue = Json.parse(s"""
             |{
             | "someField": "$value"
             |}
@@ -88,13 +88,13 @@ class EnumsSpec extends UnitSpec with GeneratorDrivenPropertyChecks {
 
       object Enum2 {
         case object `enum-one` extends Enum2 {
-          override def altName = "one"
+          override def altName: String = "one"
         }
         case object `enum-two` extends Enum2 {
-          override def altName = "two"
+          override def altName: String = "two"
         }
         case object `enum-three` extends Enum2 {
-          override def altName = "three"
+          override def altName: String = "three"
         }
 
         implicit val show: Show[Enum2]     = Show.show[Enum2](_.altName)
