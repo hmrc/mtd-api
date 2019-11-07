@@ -45,6 +45,7 @@ class ApiDefinitionFactory @Inject()(appConfig: AppConfig) {
         name = "#mtd-api# (MTD)",
         description = "#desc#",
         context = appConfig.apiGatewayContext,
+        categories = Seq("INCOME_TAX_MTD"),
         versions = Seq(
           APIVersion(version = VERSION_1, access = buildWhiteListingAccess(), status = buildAPIStatus(VERSION_1), endpointsEnabled = true)
           //          ,
