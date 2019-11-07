@@ -19,7 +19,7 @@ package v1.routing
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import com.typesafe.config.ConfigFactory
-import v1.mocks.MockAppConfig
+import mocks.MockAppConfig
 import org.scalamock.handlers.CallHandler1
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Inside, Matchers}

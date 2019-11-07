@@ -19,7 +19,6 @@ package v1.controllers
 import cats.data.EitherT
 import cats.implicits._
 import javax.inject.{Inject, Singleton}
-import play.api.Logger
 import play.api.http.MimeTypes
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
@@ -27,8 +26,10 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import utils.Logging
 import v1.controllers.requestParsers.SampleRequestDataParser
+import v1.hateoas.HateoasFactory
 import v1.models.audit.{AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import v1.models.auth.UserDetails
+import v1.models.domain.SampleHateoasData
 import v1.models.errors._
 import v1.models.requestData.SampleRawData
 import v1.services.{SampleService, _}
@@ -40,6 +41,7 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
                                  val lookupService: MtdIdLookupService,
                                  requestDataParser: SampleRequestDataParser,
                                  sampleService: SampleService,
+                                 hateoasFactory: HateoasFactory,
                                  auditService: AuditService,
                                  cc: ControllerComponents)(implicit ec: ExecutionContext)
   extends AuthorisedController(cc) with BaseController with Logging {
@@ -53,15 +55,17 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
       val result =
         for {
           parsedRequest <- EitherT.fromEither[Future](requestDataParser.parseRequest(rawData))
-          vendorResponse <- EitherT(sampleService.doServiceThing(parsedRequest))
+          serviceResponse <- EitherT(sampleService.doServiceThing(parsedRequest))
+          vendorResponse <- EitherT.fromEither[Future](
+            hateoasFactory.wrap(serviceResponse.responseData, SampleHateoasData(nino)).asRight[ErrorWrapper])
         } yield {
           logger.info(
             s"[${endpointLogContext.controllerName}][${endpointLogContext.endpointName}] - " +
-              s"Success response received with CorrelationId: ${vendorResponse.correlationId}")
-          auditSubmission(createAuditDetails(rawData, CREATED, vendorResponse.correlationId, request.userDetails))
+              s"Success response received with CorrelationId: ${serviceResponse.correlationId}")
+          auditSubmission(createAuditDetails(rawData, CREATED, serviceResponse.correlationId, request.userDetails))
 
-          Created(Json.toJson(vendorResponse.responseData))
-            .withApiHeaders(vendorResponse.correlationId)
+          Created(Json.toJson(vendorResponse))
+            .withApiHeaders(serviceResponse.correlationId)
             .as(MimeTypes.JSON)
         }
 

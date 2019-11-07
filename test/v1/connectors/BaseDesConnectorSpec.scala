@@ -16,8 +16,9 @@
 
 package v1.connectors
 
+import mocks.MockAppConfig
 import uk.gov.hmrc.http.HttpReads
-import v1.mocks.{MockAppConfig, MockHttpClient}
+import v1.mocks.MockHttpClient
 import v1.models.outcomes.ResponseWrapper
 
 import scala.concurrent.Future

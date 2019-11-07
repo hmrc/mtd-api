@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package utils
+package v1.models.hateoas
 
-import play.api.Logger
+import play.api.libs.json.Format
+import utils.enums.Enums
 
-trait Logging {
-  lazy val logger: Logger = Logger(this.getClass)
+sealed trait Method
+
+object Method {
+  case object GET extends Method
+  case object POST extends Method
+  case object DELETE extends Method
+
+  implicit val formats: Format[Method] = Enums.format[Method]
 }

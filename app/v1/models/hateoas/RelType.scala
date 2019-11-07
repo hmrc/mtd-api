@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package utils
+package v1.models.hateoas
 
-import play.api.Logger
+object RelType {
+  val SAMPLE_ENDPOINT_REL = "sample-rel"
 
-trait Logging {
-  lazy val logger: Logger = Logger(this.getClass)
+  val SELF = "self"
 }

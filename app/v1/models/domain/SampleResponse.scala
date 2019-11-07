@@ -16,10 +16,23 @@
 
 package v1.models.domain
 
-import play.api.libs.json.{Json, Writes}
+import config.AppConfig
+import play.api.libs.json.{Json, OWrites}
+import v1.hateoas.{HateoasLinks, HateoasLinksFactory}
+import v1.models.hateoas.{HateoasData, Link}
 
 case class SampleResponse(responseData: String)
 
-object SampleResponse {
-  implicit val writes: Writes[SampleResponse] = Json.writes[SampleResponse]
+object SampleResponse extends HateoasLinks {
+  implicit val writes: OWrites[SampleResponse] = Json.writes[SampleResponse]
+
+  implicit object AmendLinksFactory extends HateoasLinksFactory[SampleResponse, SampleHateoasData] {
+    override def links(appConfig: AppConfig, data: SampleHateoasData): Seq[Link] = {
+      import data._
+      Seq(sampleLink(appConfig, nino))
+    }
+  }
+
 }
+
+case class SampleHateoasData(nino: String) extends HateoasData

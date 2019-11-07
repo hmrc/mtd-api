@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package utils
+package v1.models.hateoas
 
-import play.api.Logger
+import play.api.libs.json.{Json, Writes}
 
-trait Logging {
-  lazy val logger: Logger = Logger(this.getClass)
+case class Link(
+    href: String,
+    method: Method,
+    rel: String
+)
+
+object Link {
+  implicit val writes: Writes[Link] = Json.writes[Link]
 }

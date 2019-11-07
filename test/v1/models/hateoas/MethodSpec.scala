@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package utils
+package v1.models.hateoas
 
-import play.api.Logger
+import support.UnitSpec
+import utils.enums.EnumJsonSpecSupport
+import v1.models.hateoas.Method._
 
-trait Logging {
-  lazy val logger: Logger = Logger(this.getClass)
+class MethodSpec extends UnitSpec with EnumJsonSpecSupport {
+  testRoundTrip[Method](("GET", GET), ("POST", POST), ("DELETE", DELETE))
 }
