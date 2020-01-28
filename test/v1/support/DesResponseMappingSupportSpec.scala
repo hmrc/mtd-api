@@ -25,7 +25,7 @@ import v1.models.outcomes.ResponseWrapper
 class DesResponseMappingSupportSpec extends UnitSpec {
 
   implicit val logContext: EndpointLogContext = EndpointLogContext("ctrl", "ep")
-  val mapping = new DesResponseMappingSupport with Logging {}
+  val mapping: DesResponseMappingSupport with Logging = new DesResponseMappingSupport with Logging {}
 
   val correlationId = "someCorrelationId"
 

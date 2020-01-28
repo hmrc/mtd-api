@@ -16,8 +16,10 @@
 
 package v1.connectors
 
+import config.AppConfig
 import mocks.MockAppConfig
 import uk.gov.hmrc.http.HttpReads
+import uk.gov.hmrc.play.bootstrap.http.HttpClient
 import v1.mocks.MockHttpClient
 import v1.models.outcomes.ResponseWrapper
 
@@ -40,8 +42,8 @@ class BaseDesConnectorSpec extends ConnectorSpec {
 
   class Test extends MockHttpClient with MockAppConfig {
     val connector: BaseDesConnector = new BaseDesConnector {
-      val http = mockHttpClient
-      val appConfig = mockAppConfig
+      val http: HttpClient = mockHttpClient
+      val appConfig: AppConfig = mockAppConfig
     }
     MockedAppConfig.desBaseUrl returns baseUrl
     MockedAppConfig.desToken returns "des-token"
