@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,6 @@ class AppConfigImpl @Inject()(config: ServicesConfig, configuration: Configurati
   val desEnv: String = config.getString("microservice.services.des.env")
   val desToken: String = config.getString("microservice.services.des.token")
   val apiGatewayContext: String = config.getString("api.gateway.context")
-  val endpointsEnabled: Boolean = config.getBoolean("api-definitions.endpoints.enabled")
 
   def apiStatus(version: String): String = config.getString(s"api.$version.status")
 
