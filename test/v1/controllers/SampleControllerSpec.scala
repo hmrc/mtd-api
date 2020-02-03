@@ -26,8 +26,8 @@ import v1.mocks.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdId
 import v1.models.audit.{AuditError, AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import v1.models.domain.{SampleHateoasData, SampleRequestBody, SampleResponse}
 import v1.models.errors._
-import v1.models.hateoas.{HateoasWrapper, Link}
 import v1.models.hateoas.Method.GET
+import v1.models.hateoas.{HateoasWrapper, Link}
 import v1.models.outcomes.ResponseWrapper
 import v1.models.requestData.{DesTaxYear, SampleRawData, SampleRequestData}
 

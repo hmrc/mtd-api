@@ -24,7 +24,7 @@ import v1.models.requestData.{SampleRawData, SampleRequestData}
 
 trait MockSampleRequestDataParser extends MockFactory {
 
-  val mockRequestDataParser = mock[SampleRequestDataParser]
+  val mockRequestDataParser: SampleRequestDataParser = mock[SampleRequestDataParser]
 
   object MockSampleRequestDataParser {
     def parse(data: SampleRawData): CallHandler[Either[ErrorWrapper, SampleRequestData]] = {

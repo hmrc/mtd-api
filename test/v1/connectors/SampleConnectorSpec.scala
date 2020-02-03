@@ -35,7 +35,7 @@ class SampleConnectorSpec extends ConnectorSpec {
   class Test extends MockHttpClient with MockAppConfig {
     val connector: SampleConnector = new SampleConnector(http = mockHttpClient, appConfig = mockAppConfig)
 
-    val desRequestHeaders = Seq("Environment" -> "des-environment", "Authorization" -> s"Bearer des-token")
+    val desRequestHeaders: Seq[(String, String)] = Seq("Environment" -> "des-environment", "Authorization" -> s"Bearer des-token")
     MockedAppConfig.desBaseUrl returns baseUrl
     MockedAppConfig.desToken returns "des-token"
     MockedAppConfig.desEnvironment returns "des-environment"
@@ -48,7 +48,11 @@ class SampleConnectorSpec extends ConnectorSpec {
       val outcome = Right(ResponseWrapper(correlationId, DesSampleResponse(calcId)))
 
       MockedHttpClient
-        .post(s"$baseUrl/income-tax/nino/${nino.nino}/taxYear/${taxYear.value}/someService", EmptyJsonBody, "Environment" -> "des-environment", "Authorization" -> s"Bearer des-token")
+        .post(
+          url = s"$baseUrl/income-tax/nino/${nino.nino}/taxYear/${taxYear.value}/someService",
+          body = EmptyJsonBody,
+          requiredHeaders ="Environment" -> "des-environment", "Authorization" -> s"Bearer des-token"
+        )
         .returns(Future.successful(outcome))
 
       await(connector.doConnectorThing(request)) shouldBe outcome
