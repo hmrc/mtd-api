@@ -24,34 +24,37 @@ class DocumentationControllerISpec extends IntegrationBaseSpec {
 
   val apiDefinitionJson: JsValue = Json.parse(
     """
-      |{
-      |  "scopes":[
-      |    {
-      |      "key":"read:self-assessment",
-      |      "name":"View your Self Assessment information",
-      |      "description":"Allow read access to self assessment data"
-      |    },
-      |    {
-      |      "key":"write:self-assessment",
-      |      "name":"Change your Self Assessment information",
-      |      "description":"Allow write access to self assessment data"
-      |    }
-      |  ],
-      |  "api":{
-      |    "name":"Self Assessment Accounts API (MTD)",
-      |    "description":"An API for retrieving accounts data for Self Assessment",
-      |    "context":"individuals/accounts/self-assessment",
-      |    "categories":["INCOME_TAX_MTD"],
-      |    "versions":[
-      |      {
-      |        "version":"1.0",
-      |        "status":"ALPHA",
-      |        "endpointsEnabled":false
-      |      }
-      |    ]
-      |  }
-      |}
-    """.stripMargin)
+    |{
+    |   "scopes":[
+    |      {
+    |         "key":"read:self-assessment",
+    |         "name":"#name#",
+    |         "description":"#desc#"
+    |      },
+    |      {
+    |         "key":"write:self-assessment",
+    |         "name":"#name#",
+    |         "description":"#desc#"
+    |      }
+    |   ],
+    |   "api":{
+    |      "name":"#mtd-api# (MTD)",
+    |      "description":"#desc#",
+    |      "context":"mtd/template",
+    |      "categories":[
+    |         "INCOME_TAX_MTD"
+    |      ],
+    |      "versions":[
+    |         {
+    |            "version":"1.0",
+    |            "status":"ALPHA",
+    |            "endpointsEnabled":false
+    |         }
+    |      ]
+    |   }
+    |}
+    """.stripMargin
+  )
 
   "GET /api/definition" should {
     "return a 200 with the correct response body" in {
