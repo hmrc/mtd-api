@@ -19,7 +19,7 @@ package v1.endpoints
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import support.IntegrationBaseSpec
 import v1.models.requestData.DesTaxYear
@@ -47,6 +47,15 @@ class AuthISpec extends IntegrationBaseSpec {
       buildRequest(s"/$nino/$taxYear/sampleEndpoint")
         .withHttpHeaders((ACCEPT, "application/vnd.hmrc.1.0+json"))
     }
+
+    def desUri: String = s"/income-tax/nino/$nino/taxYear/${DesTaxYear.fromMtd(taxYear)}/someService"
+
+    val desResponse: JsValue = Json.parse(
+      """
+        | {
+        | "responseData" : "someResponse"
+        | }
+    """.stripMargin)
   }
 
   "Calling the sample endpoint" when {
@@ -73,7 +82,7 @@ class AuthISpec extends IntegrationBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DesStub.serviceSuccess(nino, DesTaxYear.fromMtd(taxYear).toString)
+          DesStub.onSuccess(DesStub.POST, desUri, Status.OK, desResponse)
         }
 
         val response: WSResponse = await(request().post(Json.parse(requestJson)))

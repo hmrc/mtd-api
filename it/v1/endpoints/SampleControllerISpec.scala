@@ -32,7 +32,6 @@ class SampleControllerISpec extends IntegrationBaseSpec {
 
     val nino = "AA123456A"
     val taxYear = "2017-18"
-    val calcId = "041f7e4d-87b9-4d4a-a296-3cfbdf92f7e2"
     val correlationId = "X-123"
 
     val requestJson: JsValue = Json.parse(
@@ -78,6 +77,15 @@ class SampleControllerISpec extends IntegrationBaseSpec {
 
     trait SampleTest extends Test {
       def uri: String = s"/$nino/$taxYear/sampleEndpoint"
+
+      def desUri: String = s"/income-tax/nino/$nino/taxYear/${DesTaxYear.fromMtd(taxYear)}/someService"
+
+      val desResponse: JsValue = Json.parse(
+        """
+          | {
+          | "responseData" : "someResponse"
+          | }
+    """.stripMargin)
     }
 
     "return a 201 status code" when {
@@ -88,7 +96,7 @@ class SampleControllerISpec extends IntegrationBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DesStub.serviceSuccess(nino, DesTaxYear.fromMtd(taxYear).toString)
+          DesStub.onSuccess(DesStub.POST, desUri, Status.OK, desResponse)
         }
 
         val response: WSResponse = await(request().post(requestJson))
@@ -111,7 +119,6 @@ class SampleControllerISpec extends IntegrationBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DesStub.serviceSuccess(nino, DesTaxYear.fromMtd(taxYear).toString)
         }
 
         val response: WSResponse = await(request().addHttpHeaders(("Content-Type", "application/json")).post(json))
@@ -158,7 +165,7 @@ class SampleControllerISpec extends IntegrationBaseSpec {
               AuditStub.audit()
               AuthStub.authorised()
               MtdIdLookupStub.ninoFound(nino)
-              DesStub.serviceError(nino, DesTaxYear.fromMtd(taxYear).toString, desStatus, errorBody(desCode))
+              DesStub.onError(DesStub.POST, desUri, desStatus, errorBody(desCode))
             }
 
             val response: WSResponse = await(request().post(requestJson))
