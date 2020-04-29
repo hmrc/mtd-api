@@ -47,7 +47,7 @@ class SampleController @Inject()(val authService: EnrolmentsAuthService,
   extends AuthorisedController(cc) with BaseController with Logging {
 
   implicit val endpointLogContext: EndpointLogContext =
-    EndpointLogContext(controllerName = "SampleController", endpointName = "sampleEndpoint")
+    EndpointLogContext(controllerName = "SampleController", endpointName = "sample-endpoint")
 
   def handleRequest(nino: String, taxYear: String): Action[JsValue] =
     authorisedAction(nino).async(parse.json) { implicit request =>

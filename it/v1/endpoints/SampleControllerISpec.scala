@@ -76,7 +76,7 @@ class SampleControllerISpec extends IntegrationBaseSpec {
   "Calling the sample endpoint" should {
 
     trait SampleTest extends Test {
-      def uri: String = s"/$nino/$taxYear/sampleEndpoint"
+      def uri: String = s"/$nino/$taxYear/sample-endpoint"
 
       def desUri: String = s"/income-tax/nino/$nino/taxYear/${DesTaxYear.fromMtd(taxYear)}/someService"
 
