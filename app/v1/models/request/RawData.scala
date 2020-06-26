@@ -14,20 +14,6 @@
  * limitations under the License.
  */
 
-package v1.models.domain
+package v1.models.request
 
-import play.api.libs.json.Json
-import support.UnitSpec
-
-class SampleResponseSpec extends UnitSpec {
-  "writes" must {
-    "write expected JSON format" in {
-      Json.toJson(SampleResponse("someData")) shouldBe Json.parse(
-        """
-          |{
-          |  "responseData" : "someData"
-          |}
-        """.stripMargin)
-    }
-  }
-}
+trait RawData

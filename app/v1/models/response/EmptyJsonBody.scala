@@ -30,7 +30,7 @@
  * limitations under the License.
  */
 
-package v1.models.domain
+package v1.models.response
 
 import play.api.libs.json.{JsObject, Writes}
 

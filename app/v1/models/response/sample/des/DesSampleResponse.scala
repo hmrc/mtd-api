@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package v1.models.requestData
+package v1.models.response.sample.des
 
-import uk.gov.hmrc.domain.Nino
-import v1.models.domain.SampleRequestBody
+import play.api.libs.json.{Json, Reads}
 
-case class SampleRequestData(nino: Nino, desTaxYear: DesTaxYear, body: SampleRequestBody)
+case class DesSampleResponse(responseData: String)
+
+object DesSampleResponse {
+  implicit val reads: Reads[DesSampleResponse] = Json.reads[DesSampleResponse]
+}

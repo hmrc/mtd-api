@@ -14,12 +14,20 @@
  * limitations under the License.
  */
 
-package v1.models.domain
+package v1.models.response.sample
 
-import play.api.libs.json.{Json, Reads}
+import play.api.libs.json.Json
+import support.UnitSpec
 
-case class SampleRequestBody(data: String)
-
-object SampleRequestBody {
-  implicit val reads: Reads[SampleRequestBody] = Json.reads[SampleRequestBody]
+class SampleResponseSpec extends UnitSpec {
+  "writes" must {
+    "write expected JSON format" in {
+      Json.toJson(SampleResponse("someData")) shouldBe Json.parse(
+        """
+          |{
+          |  "responseData" : "someData"
+          |}
+        """.stripMargin)
+    }
+  }
 }
