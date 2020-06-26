@@ -20,10 +20,10 @@ import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.controllers.EndpointLogContext
-import v1.models.domain.SampleResponse
 import v1.models.errors.ErrorWrapper
 import v1.models.outcomes.ResponseWrapper
-import v1.models.requestData.SampleRequestData
+import v1.models.request.sample.SampleRequestData
+import v1.models.response.sample.SampleResponse
 import v1.services.SampleService
 
 import scala.concurrent.{ExecutionContext, Future}

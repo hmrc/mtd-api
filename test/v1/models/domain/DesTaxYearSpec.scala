@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package v1.mocks.validators
+package v1.models.domain
 
-import org.scalamock.handlers.CallHandler1
-import org.scalamock.scalatest.MockFactory
-import v1.controllers.requestParsers.validators.SampleValidator
-import v1.models.errors.MtdError
-import v1.models.request.sample.SampleRawData
+import support.UnitSpec
 
-class MockSampleValidator extends MockFactory {
+class DesTaxYearSpec extends UnitSpec {
+  "toString" should {
+    "return the value inside the model as a String instead of the standard case class toString" in {
+      DesTaxYear("value").toString shouldBe "value"
+    }
+  }
 
-  val mockValidator: SampleValidator = mock[SampleValidator]
-
-  object MockSampleValidator {
-
-    def validate(data: SampleRawData): CallHandler1[SampleRawData, List[MtdError]] = {
-      (mockValidator
-        .validate(_: SampleRawData))
-        .expects(data)
+  "fromMtd" should {
+    "return the DES representation of an MTD tax year (XXYY-ZZ -> XXZZ)" in {
+      DesTaxYear.fromMtd("2018-19") shouldBe DesTaxYear("2019")
     }
   }
 }

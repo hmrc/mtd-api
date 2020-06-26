@@ -19,10 +19,11 @@ package v1.connectors
 import mocks.MockAppConfig
 import uk.gov.hmrc.domain.Nino
 import v1.mocks.MockHttpClient
-import v1.models.des.DesSampleResponse
-import v1.models.domain.{EmptyJsonBody, SampleRequestBody}
+import v1.models.domain.DesTaxYear
+import v1.models.response.sample.des.DesSampleResponse
+import v1.models.response.EmptyJsonBody
 import v1.models.outcomes.ResponseWrapper
-import v1.models.requestData.{DesTaxYear, SampleRequestData}
+import v1.models.request.sample.{SampleRequestBody, SampleRequestData}
 
 import scala.concurrent.Future
 

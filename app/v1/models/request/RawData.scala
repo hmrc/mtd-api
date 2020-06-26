@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-package v1.models.des
+package v1.models.request
 
-import play.api.libs.json.{Json, Reads}
-
-case class DesSampleResponse(responseData: String)
-
-object DesSampleResponse {
-  implicit val reads: Reads[DesSampleResponse] = Json.reads[DesSampleResponse]
-}
+trait RawData

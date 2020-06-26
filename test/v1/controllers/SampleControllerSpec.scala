@@ -21,15 +21,16 @@ import play.api.mvc.Result
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.mocks.hateoas.MockHateoasFactory
-import v1.mocks.requestParsers.MockSampleRequestDataParser
+import v1.mocks.requestParsers.MockSampleRequestParser
 import v1.mocks.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService, MockSampleService}
 import v1.models.audit.{AuditError, AuditEvent, SampleAuditDetail, SampleAuditResponse}
-import v1.models.domain.{SampleHateoasData, SampleRequestBody, SampleResponse}
+import v1.models.domain.DesTaxYear
 import v1.models.errors._
 import v1.models.hateoas.Method.GET
 import v1.models.hateoas.{HateoasWrapper, Link}
 import v1.models.outcomes.ResponseWrapper
-import v1.models.requestData.{DesTaxYear, SampleRawData, SampleRequestData}
+import v1.models.request.sample.{SampleRawData, SampleRequestBody, SampleRequestData}
+import v1.models.response.sample.{SampleHateoasData, SampleResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,7 +40,7 @@ class SampleControllerSpec
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
     with MockSampleService
-    with MockSampleRequestDataParser
+    with MockSampleRequestParser
     with MockHateoasFactory
     with MockAuditService {
 

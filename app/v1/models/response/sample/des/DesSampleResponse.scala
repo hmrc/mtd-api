@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers
+package v1.models.response.sample.des
 
-import javax.inject.Inject
-import uk.gov.hmrc.domain.Nino
-import v1.controllers.requestParsers.validators.SampleValidator
-import v1.models.domain.SampleRequestBody
-import v1.models.requestData.{DesTaxYear, SampleRawData, SampleRequestData}
+import play.api.libs.json.{Json, Reads}
 
-class SampleRequestDataParser @Inject()(val validator: SampleValidator)
-  extends RequestParser[SampleRawData, SampleRequestData] {
+case class DesSampleResponse(responseData: String)
 
-  override protected def requestFor(data: SampleRawData): SampleRequestData =
-    SampleRequestData(Nino(data.nino), DesTaxYear.fromMtd(data.taxYear), data.body.as[SampleRequestBody])
-
+object DesSampleResponse {
+  implicit val reads: Reads[DesSampleResponse] = Json.reads[DesSampleResponse]
 }

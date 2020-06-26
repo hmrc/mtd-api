@@ -21,9 +21,9 @@ import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
 import v1.connectors.httpparsers.StandardDesHttpParser._
-import v1.models.des.DesSampleResponse
-import v1.models.domain.EmptyJsonBody
-import v1.models.requestData.SampleRequestData
+import v1.models.response.sample.des.DesSampleResponse
+import v1.models.request.sample.SampleRequestData
+import v1.models.response.EmptyJsonBody
 
 import scala.concurrent.{ExecutionContext, Future}
 
