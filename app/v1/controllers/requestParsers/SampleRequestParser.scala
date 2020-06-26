@@ -19,8 +19,8 @@ package v1.controllers.requestParsers
 import javax.inject.Inject
 import uk.gov.hmrc.domain.Nino
 import v1.controllers.requestParsers.validators.SampleValidator
+import v1.models.domain.DesTaxYear
 import v1.models.request.sample.{SampleRawData, SampleRequestBody, SampleRequestData}
-import v1.models.request.DesTaxYear
 
 class SampleRequestParser @Inject()(val validator: SampleValidator)
   extends RequestParser[SampleRawData, SampleRequestData] {

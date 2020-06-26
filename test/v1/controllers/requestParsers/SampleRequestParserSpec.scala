@@ -20,8 +20,8 @@ import play.api.libs.json.Json
 import support.UnitSpec
 import uk.gov.hmrc.domain.Nino
 import v1.mocks.validators.MockSampleValidator
+import v1.models.domain.DesTaxYear
 import v1.models.errors._
-import v1.models.request.DesTaxYear
 import v1.models.request.sample.{SampleRawData, SampleRequestBody, SampleRequestData}
 
 class SampleRequestParserSpec extends UnitSpec {
