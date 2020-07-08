@@ -14,28 +14,18 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers.validators.validations
+package v1.models.response.retrieveSample
 
-import v1.models.errors.{MtdError, RuleTaxYearRangeInvalidError, TaxYearFormatError}
+import play.api.libs.functional.syntax._
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
-object TaxYearValidation {
+case class RedeemableShares(customerReference: Option[String], grossAmount: BigDecimal)
 
-  val taxYearFormat = "20[1-9][0-9]\\-[1-9][0-9]"
+object RedeemableShares {
+  implicit val reads: Reads[RedeemableShares] = (
+    (JsPath \ "customerReference").readNullable[String] and
+      (JsPath \ "grossAmount").read[BigDecimal]
+    ) (RedeemableShares.apply _)
 
-  def validate(taxYear: String): List[MtdError] = {
-    if (taxYear.matches(taxYearFormat)) {
-
-      val start = taxYear.substring(2, 4).toInt
-      val end   = taxYear.substring(5, 7).toInt
-
-      if (end - start == 1) {
-        NoValidationErrors
-      } else {
-        List(RuleTaxYearRangeInvalidError)
-      }
-    } else {
-      List(TaxYearFormatError)
-    }
-  }
-
+  implicit val writes: OWrites[RedeemableShares] = Json.writes[RedeemableShares]
 }

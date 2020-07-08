@@ -28,13 +28,17 @@ object NinoFormatError extends MtdError("FORMAT_NINO", "The provided NINO is inv
 object TaxYearFormatError extends MtdError("FORMAT_TAX_YEAR", "The provided tax year is invalid")
 
 // Rule Errors
-object RuleTaxYearNotSupportedError
-    extends MtdError("RULE_TAX_YEAR_NOT_SUPPORTED", "Tax year not supported, because it precedes the earliest allowable tax year")
+object RuleTaxYearNotSupportedError extends MtdError(
+  code = "RULE_TAX_YEAR_NOT_SUPPORTED",
+  message = "Tax year not supported, because it precedes the earliest allowable tax year"
+)
+
+object RuleTaxYearRangeInvalidError extends MtdError(
+  code = "RULE_TAX_YEAR_RANGE_INVALID",
+  message = "Tax year range invalid. A tax year range of one year is required"
+)
 
 object RuleIncorrectOrEmptyBodyError extends MtdError("RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED", "An empty or non-matching body was submitted")
-
-object RuleTaxYearRangeExceededError
-    extends MtdError("RULE_TAX_YEAR_RANGE_EXCEEDED", "Tax year range exceeded. A tax year range of one year is required.")
 
 //Standard Errors
 object NotFoundError extends MtdError("MATCHING_RESOURCE_NOT_FOUND", "Matching resource not found")
