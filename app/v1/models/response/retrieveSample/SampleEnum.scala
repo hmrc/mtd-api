@@ -16,16 +16,16 @@
 
 package v1.models.response.retrieveSample
 
-import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import play.api.libs.json.Format
+import utils.enums.Enums
 
-case class StockDividend(customerReference: Option[String], grossAmount: BigDecimal)
+sealed trait SampleEnum
 
-object StockDividend {
-  implicit val reads: Reads[StockDividend] = (
-    (JsPath \ "customerReference").readNullable[String] and
-      (JsPath \ "grossAmount").read[BigDecimal]
-    ) (StockDividend.apply _)
+object SampleEnum {
+  case object Type1 extends SampleEnum
+  case object Type2 extends SampleEnum
+  case object Type3 extends SampleEnum
+  case object Type4 extends SampleEnum
 
-  implicit val writes: OWrites[StockDividend] = Json.writes[StockDividend]
+  implicit val format: Format[SampleEnum] = Enums.format[SampleEnum]
 }

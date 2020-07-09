@@ -16,16 +16,11 @@
 
 package v1.models.response.retrieveSample
 
+import play.api.libs.json.{Json, OWrites}
 import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
-case class BonusIssuesOfSecurities(customerReference: Option[String], grossAmount: BigDecimal)
+case class SampleOptionalObject ()
 
-object BonusIssuesOfSecurities {
-  implicit val reads: Reads[BonusIssuesOfSecurities] = (
-    (JsPath \ "customerReference").readNullable[String] and
-      (JsPath \ "grossAmount").read[BigDecimal]
-    ) (BonusIssuesOfSecurities.apply _)
-
-  implicit val writes: OWrites[BonusIssuesOfSecurities] = Json.writes[BonusIssuesOfSecurities]
+object SampleOptionalObject {
+  implicit val writes: OWrites[SampleOptionalObject] = Json.writes[SampleOptionalObject]
 }

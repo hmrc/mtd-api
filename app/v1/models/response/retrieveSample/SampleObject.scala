@@ -16,16 +16,11 @@
 
 package v1.models.response.retrieveSample
 
+import play.api.libs.json.{Json, OWrites}
 import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
-case class RedeemableShares(customerReference: Option[String], grossAmount: BigDecimal)
+case class SampleObject ()
 
-object RedeemableShares {
-  implicit val reads: Reads[RedeemableShares] = (
-    (JsPath \ "customerReference").readNullable[String] and
-      (JsPath \ "grossAmount").read[BigDecimal]
-    ) (RedeemableShares.apply _)
-
-  implicit val writes: OWrites[RedeemableShares] = Json.writes[RedeemableShares]
+object SampleObject {
+  implicit val writes: OWrites[SampleObject] = Json.writes[SampleObject]
 }
