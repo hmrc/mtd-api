@@ -14,28 +14,26 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers.validators.validations
+package utils
 
-import v1.models.errors.{MtdError, RuleTaxYearRangeInvalidError, TaxYearFormatError}
+import play.api.libs.json._
+import support.UnitSpec
 
-object TaxYearValidation {
+class JsonUtilsSpec extends UnitSpec with JsonUtils {
 
-  val taxYearFormat = "20[1-9][0-9]\\-[1-9][0-9]"
+  "mapEmptySeqToNone" must {
+    val reads = __.readNullable[Seq[String]].mapEmptySeqToNone
 
-  def validate(taxYear: String): List[MtdError] = {
-    if (taxYear.matches(taxYearFormat)) {
+    "map non-empty sequence to Some(non-empty sequence)" in {
+      JsArray(Seq(JsString("value0"), JsString("value1"))).as(reads) shouldBe Some(Seq("value0", "value1"))
+    }
 
-      val start = taxYear.substring(2, 4).toInt
-      val end   = taxYear.substring(5, 7).toInt
+    "map empty sequence to None" in {
+      JsArray.empty.as(reads) shouldBe None
+    }
 
-      if (end - start == 1) {
-        NoValidationErrors
-      } else {
-        List(RuleTaxYearRangeInvalidError)
-      }
-    } else {
-      List(TaxYearFormatError)
+    "map None to None" in {
+      JsNull.as(reads) shouldBe None
     }
   }
-
 }

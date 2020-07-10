@@ -14,28 +14,9 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers.validators.validations
+package v1.models.request
 
-import v1.models.errors.{MtdError, RuleTaxYearRangeInvalidError, TaxYearFormatError}
+import uk.gov.hmrc.domain.Nino
+import v1.models.domain.DesTaxYear
 
-object TaxYearValidation {
-
-  val taxYearFormat = "20[1-9][0-9]\\-[1-9][0-9]"
-
-  def validate(taxYear: String): List[MtdError] = {
-    if (taxYear.matches(taxYearFormat)) {
-
-      val start = taxYear.substring(2, 4).toInt
-      val end   = taxYear.substring(5, 7).toInt
-
-      if (end - start == 1) {
-        NoValidationErrors
-      } else {
-        List(RuleTaxYearRangeInvalidError)
-      }
-    } else {
-      List(TaxYearFormatError)
-    }
-  }
-
-}
+case class DeleteRetrieveRequest(nino: Nino, taxYear: DesTaxYear)

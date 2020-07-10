@@ -151,7 +151,8 @@ class SampleControllerISpec extends IntegrationBaseSpec {
         val input = Seq(
           ("AA1123A", "2017-18", Status.BAD_REQUEST, NinoFormatError),
           ("AA123456A", "20177", Status.BAD_REQUEST, TaxYearFormatError),
-          ("AA123456A", "2015-16", Status.BAD_REQUEST, RuleTaxYearNotSupportedError))
+          ("AA123456A", "2015-16", Status.BAD_REQUEST, RuleTaxYearNotSupportedError),
+          ("AA123456A", "2015-17", Status.BAD_REQUEST, RuleTaxYearRangeInvalidError))
 
 
         input.foreach(args => (validationErrorTest _).tupled(args))

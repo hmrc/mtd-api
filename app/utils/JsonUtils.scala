@@ -14,28 +14,23 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers.validators.validations
+package utils
 
-import v1.models.errors.{MtdError, RuleTaxYearRangeInvalidError, TaxYearFormatError}
+import play.api.libs.json.Reads
 
-object TaxYearValidation {
+trait JsonUtils {
 
-  val taxYearFormat = "20[1-9][0-9]\\-[1-9][0-9]"
-
-  def validate(taxYear: String): List[MtdError] = {
-    if (taxYear.matches(taxYearFormat)) {
-
-      val start = taxYear.substring(2, 4).toInt
-      val end   = taxYear.substring(5, 7).toInt
-
-      if (end - start == 1) {
-        NoValidationErrors
-      } else {
-        List(RuleTaxYearRangeInvalidError)
+  /**
+    * Extension methods for reads of a optional sequence
+    */
+  implicit class OptSeqReadsOps[A](reads: Reads[Option[Seq[A]]]) {
+    /**
+      * Returns a Reads that maps the sequence to itself unless it is empty
+      */
+    def mapEmptySeqToNone: Reads[Option[Seq[A]]] =
+      reads.map {
+        case Some(Nil) => None
+        case other => other
       }
-    } else {
-      List(TaxYearFormatError)
-    }
   }
-
 }

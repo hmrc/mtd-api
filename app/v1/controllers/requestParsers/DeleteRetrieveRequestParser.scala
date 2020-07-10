@@ -14,28 +14,17 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers.validators.validations
+package v1.controllers.requestParsers
 
-import v1.models.errors.{MtdError, RuleTaxYearRangeInvalidError, TaxYearFormatError}
+import javax.inject.Inject
+import uk.gov.hmrc.domain.Nino
+import v1.controllers.requestParsers.validators.DeleteRetrieveValidator
+import v1.models.domain.DesTaxYear
+import v1.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
 
-object TaxYearValidation {
+class DeleteRetrieveRequestParser @Inject()(val validator: DeleteRetrieveValidator)
+  extends RequestParser[DeleteRetrieveRawData, DeleteRetrieveRequest] {
 
-  val taxYearFormat = "20[1-9][0-9]\\-[1-9][0-9]"
-
-  def validate(taxYear: String): List[MtdError] = {
-    if (taxYear.matches(taxYearFormat)) {
-
-      val start = taxYear.substring(2, 4).toInt
-      val end   = taxYear.substring(5, 7).toInt
-
-      if (end - start == 1) {
-        NoValidationErrors
-      } else {
-        List(RuleTaxYearRangeInvalidError)
-      }
-    } else {
-      List(TaxYearFormatError)
-    }
-  }
-
+  override protected def requestFor(data: DeleteRetrieveRawData): DeleteRetrieveRequest =
+    DeleteRetrieveRequest(Nino(data.nino), DesTaxYear.fromMtd(data.taxYear))
 }
