@@ -14,18 +14,34 @@
  * limitations under the License.
  */
 
-package v1.models.response.retrieveSample
+package v1.models.domain
 
 import play.api.libs.json.Format
 import utils.enums.Enums
 
-sealed trait SampleEnum
-
-object SampleEnum {
-  case object Type1 extends SampleEnum
-  case object Type2 extends SampleEnum
-  case object Type3 extends SampleEnum
-  case object Type4 extends SampleEnum
-
-  implicit val format: Format[SampleEnum] = Enums.format[SampleEnum]
+sealed trait SampleMtdEnum {
+  def toDesEnum: SampleDesEnum
 }
+
+object SampleMtdEnum {
+
+  case object One extends SampleMtdEnum {
+    override def toDesEnum: SampleDesEnum = SampleDesEnum.Type1
+  }
+
+  case object Two extends SampleMtdEnum {
+    override def toDesEnum: SampleDesEnum = SampleDesEnum.Type2
+  }
+
+  case object Three extends SampleMtdEnum {
+    override def toDesEnum: SampleDesEnum = SampleDesEnum.Type3
+  }
+
+  case object Four extends SampleMtdEnum {
+    override def toDesEnum: SampleDesEnum = SampleDesEnum.Type4
+  }
+
+  implicit val format: Format[SampleMtdEnum] = Enums.format[SampleMtdEnum]
+}
+
+

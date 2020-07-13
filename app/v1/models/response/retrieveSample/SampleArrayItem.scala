@@ -19,16 +19,22 @@ package v1.models.response.retrieveSample
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import play.api.libs.functional.syntax._
 import utils.JsonUtils
-import v1.models.domain.DesTaxYear
+import v1.models.domain.{DesTaxYear, SampleDesEnum, SampleMtdEnum}
 
-case class SampleArrayItem(id: String, itemType: Option[SampleEnum], value: Option[BigDecimal], taxYear: String, finalised: Boolean)
+case class SampleArrayItem(id: String,
+                           declaredAmount: Option[BigDecimal],
+                           taxableAmount: Option[BigDecimal],
+                           itemType: SampleMtdEnum,
+                           taxYear: String,
+                           finalised: Boolean)
 
 object SampleArrayItem extends JsonUtils {
 
   implicit val reads: Reads[SampleArrayItem] = (
     (JsPath \ "itemId").read[String] and
-      (JsPath \ "typeOfItem").readNullable[SampleEnum] and
+      (JsPath \ "submittedAmount").readNullable[BigDecimal] and
       (JsPath \ "itemDetail" \ "taxableAmount").readNestedNullable[BigDecimal] and
+      (JsPath \ "typeOfItem").read[SampleDesEnum].map(_.toMtdEnum) and
       (JsPath \ "taxYear").read[String].map(DesTaxYear.fromDes(_).value) and
       (JsPath \ "isFinalised").readWithDefault(defaultValue = false)[Boolean]
     ) (SampleArrayItem.apply _)

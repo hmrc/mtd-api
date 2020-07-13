@@ -23,20 +23,26 @@ import utils.JsonUtils
 import v1.hateoas.{HateoasLinks, HateoasLinksFactory}
 import v1.models.hateoas.{HateoasData, Link}
 
-case class RetrieveSampleResponse(optionalArray: Option[Seq[SampleArrayItem]],
-                                  nestedObject: Option[SampleObject],
-                                  allOptionalObject: Option[SampleOptionalObject],
-                                  filteredArray: Option[Seq[SampleArrayItem]])
+case class RetrieveSampleResponse(completedItems: Option[Seq[SampleArrayItem]],
+                                  dueItems: Option[SampleObject],
+                                  availableCharitableDeductions: Option[SampleOptionalObject],
+                                  broughtForwardItems: Option[Seq[SampleOptionalObject]])
 
 object RetrieveSampleResponse extends HateoasLinks with JsonUtils {
 
-  //val empty: RetrieveSampleResponse = RetrieveSampleResponse(None, None, None, None)
+  val empty: RetrieveSampleResponse = RetrieveSampleResponse(None, None, None, None)
 
   implicit val reads: Reads[RetrieveSampleResponse] = (
-    (JsPath \ "historicSubmissions").readNullable[Seq[SampleArrayItem]].mapEmptySeqToNone and
-      (JsPath \ "dividendIncomeReceivedWhilstAbroad").readNullable[SampleObject] and
-      (JsPath \ "stockDividend").readNullable[SampleOptionalObject] and
-      (JsPath \ "finalisedSubmissions").readNullable[Seq[SampleArrayItem]]
+    (JsPath \ "closedIncomeSubmissions").readNullable[Seq[SampleArrayItem]].mapEmptySeqToNone and
+      (JsPath \ "openIncomeSubmissions").readNullable[SampleObject] and
+      (JsPath \ "charitableContributions").readNullable[SampleOptionalObject].map{
+        case Some(SampleOptionalObject.empty) => None
+        case other => other
+      } and
+      (JsPath \ "broughtForwardSubmissions").readNullable[Seq[SampleOptionalObject]]
+        (filteredArrayReads("typeOfItem", "Type4"))
+        .map(_.map(_.filterNot(_ == SampleOptionalObject.empty)))
+        .mapEmptySeqToNone
     ) (RetrieveSampleResponse.apply _)
 
   implicit val writes: OWrites[RetrieveSampleResponse] = Json.writes[RetrieveSampleResponse]

@@ -16,11 +16,28 @@
 
 package v1.models.response.retrieveSample
 
-import play.api.libs.json.{Json, OWrites}
-import play.api.libs.functional.syntax._
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import utils.JsonUtils
+import v1.models.domain.{SampleDesEnum, SampleMtdEnum}
 
-case class SampleOptionalObject ()
+case class SampleOptionalObject (itemIdentifier: Option[String], itemType: Option[SampleMtdEnum], deductibleAmount: Option[BigDecimal])
 
-object SampleOptionalObject {
+object SampleOptionalObject extends JsonUtils {
+  val empty: SampleOptionalObject = SampleOptionalObject(None, None, None)
+
+  implicit val reads: Reads[SampleOptionalObject] = for {
+    submittedId <- (JsPath \ "requestedItemId").readNullable[String]
+    generatedId <- (JsPath \ "generatedItemId").readNullable[String]
+    itemType <- (JsPath \ "typeOfItem").readNullable[SampleDesEnum].map(_.map(_.toMtdEnum))
+    amount <- (JsPath \ "paymentAmount").readNullable[BigDecimal]
+  } yield {
+    if (submittedId.nonEmpty) {
+      SampleOptionalObject(submittedId, itemType, amount)
+    }
+    else {
+      SampleOptionalObject(generatedId, itemType, amount)
+    }
+  }
+
   implicit val writes: OWrites[SampleOptionalObject] = Json.writes[SampleOptionalObject]
 }
