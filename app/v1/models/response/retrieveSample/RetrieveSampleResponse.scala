@@ -24,18 +24,18 @@ import v1.hateoas.{HateoasLinks, HateoasLinksFactory}
 import v1.models.hateoas.{HateoasData, Link}
 
 case class RetrieveSampleResponse(completedItems: Option[Seq[SampleArrayItem]],
-                                  dueItems: Option[SampleObject],
-                                  availableCharitableDeductions: Option[SampleOptionalObject],
-                                  broughtForwardItems: Option[Seq[SampleOptionalObject]])
+                                  taxableForeignIncome :Option[SampleObject],
+                                  availableCharitableDeduction: Option[SampleOptionalObject],
+                                  broughtForwardLosses: Option[Seq[SampleOptionalObject]])
 
 object RetrieveSampleResponse extends HateoasLinks with JsonUtils {
 
   val empty: RetrieveSampleResponse = RetrieveSampleResponse(None, None, None, None)
 
   implicit val reads: Reads[RetrieveSampleResponse] = (
-    (JsPath \ "closedIncomeSubmissions").readNullable[Seq[SampleArrayItem]].mapEmptySeqToNone and
-      (JsPath \ "openIncomeSubmissions").readNullable[SampleObject] and
-      (JsPath \ "charitableContributions").readNullable[SampleOptionalObject].map{
+    (JsPath \ "historicalIncomeSubmissions").readNullable[Seq[SampleArrayItem]].mapEmptySeqToNone and
+      (JsPath \ "currentIncomeSubmission").readNullable[SampleObject] and
+      (JsPath \ "totalCharitableContribution").readNullable[SampleOptionalObject].map{
         case Some(SampleOptionalObject.empty) => None
         case other => other
       } and
