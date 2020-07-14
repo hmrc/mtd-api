@@ -20,7 +20,9 @@ import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import utils.JsonUtils
 import v1.models.domain.{SampleDesEnum, SampleMtdEnum}
 
-case class SampleOptionalObject (itemIdentifier: Option[String], itemType: Option[SampleMtdEnum], deductibleAmount: Option[BigDecimal])
+case class SampleOptionalObject(itemIdentifier: Option[String],
+                                itemType: Option[SampleMtdEnum],
+                                deductibleAmount: Option[BigDecimal])
 
 object SampleOptionalObject extends JsonUtils {
   val empty: SampleOptionalObject = SampleOptionalObject(None, None, None)

@@ -24,7 +24,7 @@ import v1.hateoas.{HateoasLinks, HateoasLinksFactory}
 import v1.models.hateoas.{HateoasData, Link}
 
 case class RetrieveSampleResponse(completedItems: Option[Seq[SampleArrayItem]],
-                                  taxableForeignIncome :Option[SampleObject],
+                                  taxableForeignIncome: Option[SampleObject],
                                   availableCharitableDeduction: Option[SampleOptionalObject],
                                   broughtForwardLosses: Option[Seq[SampleOptionalObject]])
 
@@ -34,15 +34,16 @@ object RetrieveSampleResponse extends HateoasLinks with JsonUtils {
 
   implicit val reads: Reads[RetrieveSampleResponse] = (
     (JsPath \ "historicalIncomeSubmissions").readNullable[Seq[SampleArrayItem]].mapEmptySeqToNone and
-      (JsPath \ "currentIncomeSubmission").readNullable[SampleObject] and
+      (JsPath \ "currentIncomeSubmission").readNullable[SampleObject].map {
+        case Some(SampleObject(_, None)) => None
+        case other => other
+      } and
       (JsPath \ "totalCharitableContribution").readNullable[SampleOptionalObject].map{
         case Some(SampleOptionalObject.empty) => None
         case other => other
       } and
       (JsPath \ "broughtForwardSubmissions").readNullable[Seq[SampleOptionalObject]]
-        (filteredArrayReads("typeOfItem", "Type4"))
-        .map(_.map(_.filterNot(_ == SampleOptionalObject.empty)))
-        .mapEmptySeqToNone
+        (filteredArrayReads("typeOfItem", "Type4")).mapEmptySeqToNone
     ) (RetrieveSampleResponse.apply _)
 
   implicit val writes: OWrites[RetrieveSampleResponse] = Json.writes[RetrieveSampleResponse]

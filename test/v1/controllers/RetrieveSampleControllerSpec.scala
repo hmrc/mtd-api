@@ -25,7 +25,7 @@ import v1.hateoas.HateoasLinks
 import v1.mocks.hateoas.MockHateoasFactory
 import v1.mocks.requestParsers.MockDeleteRetrieveRequestParser
 import v1.mocks.services.{MockDeleteRetrieveService, MockEnrolmentsAuthService, MockMtdIdLookupService}
-import v1.models.domain.DesTaxYear
+import v1.models.domain.{DesTaxYear, SampleMtdEnum}
 import v1.models.errors._
 import v1.models.hateoas.Method.{DELETE, GET, PUT}
 import v1.models.hateoas.RelType.{AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, SELF}
@@ -34,19 +34,20 @@ import v1.models.outcomes.ResponseWrapper
 import v1.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
 import v1.models.response.retrieveSample._
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-class RetrieveSampleControllerSpec extends ControllerBaseSpec
-  with MockEnrolmentsAuthService
-  with MockMtdIdLookupService
-  with MockDeleteRetrieveService
-  with MockHateoasFactory
-  with MockDeleteRetrieveRequestParser
-  with HateoasLinks {
+class RetrieveSampleControllerSpec
+    extends ControllerBaseSpec
+    with MockEnrolmentsAuthService
+    with MockMtdIdLookupService
+    with MockDeleteRetrieveService
+    with MockHateoasFactory
+    with MockDeleteRetrieveRequestParser
+    with HateoasLinks {
 
-  val nino: String = "AA123456A"
-  val taxYear: String = "2017-18"
+  val nino: String          = "AA123456A"
+  val taxYear: String       = "2017-18"
   val correlationId: String = "X-123"
 
   val rawData: DeleteRetrieveRawData = DeleteRetrieveRawData(
@@ -80,71 +81,46 @@ class RetrieveSampleControllerSpec extends ControllerBaseSpec
       rel = DELETE_SAMPLE_REL
     )
 
-  private val foreignDividendItemModel = Seq(
-    ForeignDividendItem(
-      countryCode = "DEU",
-      amountBeforeTax = Some(1232.22),
-      taxTakenOff = Some(22.22),
-      specialWithholdingTax = Some(27.35),
-      foreignTaxCreditRelief = true,
-      taxableAmount = 2321.22
-    ),
-    ForeignDividendItem(
-      countryCode = "FRA",
-      amountBeforeTax = Some(1350.55),
-      taxTakenOff = Some(25.27),
-      specialWithholdingTax = Some(30.59),
-      foreignTaxCreditRelief = false,
-      taxableAmount = 2500.99
-    )
+  val arrayItemModel1: SampleArrayItem = SampleArrayItem(
+    id = "AAA123",
+    declaredAmount = Some(200.11),
+    taxableAmount = Some(100.14),
+    itemType = SampleMtdEnum.One,
+    taxYear = "2018-19",
+    finalised = true
   )
 
-  private val dividendIncomeReceivedWhilstAbroadItemModel = Seq(
-    DividendIncomeReceivedWhilstAbroadItem(
-      countryCode = "DEU",
-      amountBeforeTax = Some(1232.22),
-      taxTakenOff = Some(22.22),
-      specialWithholdingTax = Some(27.35),
-      foreignTaxCreditRelief = true,
-      taxableAmount = 2321.22
-    ),
-    DividendIncomeReceivedWhilstAbroadItem(
-      countryCode = "FRA",
-      amountBeforeTax = Some(1350.55),
-      taxTakenOff = Some(25.27),
-      specialWithholdingTax = Some(30.59),
-      foreignTaxCreditRelief = false,
-      taxableAmount = 2500.99
-    )
+  val arrayItemModel2: SampleArrayItem = SampleArrayItem(
+    id = "AAA123",
+    declaredAmount = Some(200.11),
+    taxableAmount = Some(100.14),
+    itemType = SampleMtdEnum.One,
+    taxYear = "2018-19",
+    finalised = true
   )
 
-  private val stockDividendModel = StockDividend(
-    customerReference = Some("my divs"),
-    grossAmount = 12321.22
+  val sampleObjectModel: SampleObject = SampleObject(
+    dateSubmitted = "01-01-2019",
+    submissionItem = Some(arrayItemModel2)
   )
 
-  private val redeemableSharesModel = RedeemableShares(
-    customerReference = Some("my shares"),
-    grossAmount = 12345.75
+  val sampleOptionalModel1: SampleOptionalObject = SampleOptionalObject(
+    itemIdentifier = Some("anId1"),
+    itemType = Some(SampleMtdEnum.One),
+    deductibleAmount = Some(300.54)
   )
 
-  private val bonusIssuesOfSecuritiesModel = BonusIssuesOfSecurities(
-    customerReference = Some("my secs"),
-    grossAmount = 12500.89
+  val sampleOptionalModel2: SampleOptionalObject = SampleOptionalObject(
+    itemIdentifier = Some("anId2"),
+    itemType = Some(SampleMtdEnum.Four),
+    deductibleAmount = Some(400.54)
   )
 
-  private val closeCompanyLoansWrittenOffModel = CloseCompanyLoansWrittenOff(
-    customerReference = Some("write off"),
-    grossAmount = 13700.55
-  )
-
-  private val retrieveSampleResponseModel = RetrieveSampleResponse(
-    Some(foreignDividendItemModel),
-    Some(dividendIncomeReceivedWhilstAbroadItemModel),
-    Some(stockDividendModel),
-    Some(redeemableSharesModel),
-    Some(bonusIssuesOfSecuritiesModel),
-    Some(closeCompanyLoansWrittenOffModel)
+  val retrieveSampleResponseModel: RetrieveSampleResponse = RetrieveSampleResponse(
+    Some(Seq(arrayItemModel1)),
+    Some(sampleObjectModel),
+    Some(sampleOptionalModel1),
+    Some(Seq(sampleOptionalModel2))
   )
 
   private val mtdResponse = RetrieveSampleControllerFixture.mtdResponseWithHateoas(nino, taxYear)
@@ -169,6 +145,15 @@ class RetrieveSampleControllerSpec extends ControllerBaseSpec
     "return OK" when {
       "happy path" in new Test {
 
+        val wrappedResponse: HateoasWrapper[RetrieveSampleResponse] = HateoasWrapper(
+          payload = retrieveSampleResponseModel,
+          links = Seq(
+            amendSampleLink,
+            retrieveSampleLink,
+            deleteSampleLink
+          )
+        )
+
         MockDeleteRetrieveRequestParser
           .parse(rawData)
           .returns(Right(requestData))
@@ -179,18 +164,12 @@ class RetrieveSampleControllerSpec extends ControllerBaseSpec
 
         MockHateoasFactory
           .wrap(retrieveSampleResponseModel, RetrieveSampleHateoasData(nino, taxYear))
-          .returns(HateoasWrapper(retrieveSampleResponseModel,
-            Seq(
-              amendSampleLink,
-              retrieveSampleLink,
-              deleteSampleLink
-            )
-          ))
+          .returns(wrappedResponse)
 
         val result: Future[Result] = controller.retrieveSample(nino, taxYear)(fakeGetRequest)
 
         status(result) shouldBe OK
-        contentAsJson(result) shouldBe mtdResponse.as[JsObject] ++ mtdResponse.as[JsObject]
+        contentAsJson(result) shouldBe mtdResponse.as[JsObject]
         header("X-CorrelationId", result) shouldBe Some(correlationId)
       }
     }

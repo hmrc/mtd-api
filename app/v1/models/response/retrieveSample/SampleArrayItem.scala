@@ -36,7 +36,7 @@ object SampleArrayItem extends JsonUtils {
       (JsPath \ "itemDetail" \ "taxableAmount").readNestedNullable[BigDecimal] and
       (JsPath \ "typeOfItem").read[SampleDesEnum].map(_.toMtdEnum) and
       (JsPath \ "taxYear").read[String].map(DesTaxYear.fromDes(_).value) and
-      (JsPath \ "isFinalised").readWithDefault(defaultValue = false)[Boolean]
+      (JsPath \ "isFinalised").readWithDefault(defaultValue = false)
     ) (SampleArrayItem.apply _)
 
   implicit val writes: OWrites[SampleArrayItem] = Json.writes[SampleArrayItem]

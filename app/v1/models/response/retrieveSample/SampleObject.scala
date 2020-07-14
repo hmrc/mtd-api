@@ -26,8 +26,8 @@ object SampleObject extends JsonUtils {
 
   implicit val reads: Reads[SampleObject] = (
     (JsPath \ "dateSubmitted").read[String] and
-      (JsPath \ "submittedItems" \ "income").readNestedNullableOpt[Seq[SampleArrayItem]](
-        filteredArrayValueReads(None, "typeOfItem", "Type1")
+      (JsPath \ "submittedItems" \ "income").readNestedNullable[Seq[SampleArrayItem]](
+        filteredArrayReads("typeOfItem", "Type1")
       ).mapHeadOption
     ) (SampleObject.apply _)
 

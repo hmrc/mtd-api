@@ -23,58 +23,39 @@ object RetrieveSampleControllerFixture {
   val fullRetrieveSampleResponse: JsValue = Json.parse(
     """
       |{
-      |   "foreignDividend": [
-      |      {
-      |        "countryCode": "DEU",
-      |        "amountBeforeTax": 1232.22,
-      |        "taxTakenOff": 22.22,
-      |        "specialWithholdingTax": 27.35,
-      |        "foreignTaxCreditRelief": true,
-      |        "taxableAmount": 2321.22
-      |      },
-      |      {
-      |        "countryCode": "FRA",
-      |        "amountBeforeTax": 1350.55,
-      |        "taxTakenOff": 25.27,
-      |        "specialWithholdingTax": 30.59,
-      |        "foreignTaxCreditRelief": false,
-      |        "taxableAmount": 2500.99
-      |      }
-      |   ],
-      |   "dividendIncomeReceivedWhilstAbroad": [
-      |      {
-      |        "countryCode": "DEU",
-      |        "amountBeforeTax": 1232.22,
-      |        "taxTakenOff": 22.22,
-      |        "specialWithholdingTax": 27.35,
-      |        "foreignTaxCreditRelief": true,
-      |        "taxableAmount": 2321.22
-      |      },
-      |      {
-      |        "countryCode": "FRA",
-      |        "amountBeforeTax": 1350.55,
-      |        "taxTakenOff": 25.27,
-      |        "specialWithholdingTax": 30.59,
-      |        "foreignTaxCreditRelief": false,
-      |        "taxableAmount": 2500.99
-      |       }
-      |   ],
-      |   "stockDividend": {
-      |      "customerReference": "my divs",
-      |      "grossAmount": 12321.22
-      |   },
-      |   "redeemableShares": {
-      |      "customerReference": "my shares",
-      |      "grossAmount": 12345.75
-      |   },
-      |   "bonusIssuesOfSecurities": {
-      |      "customerReference": "my secs",
-      |      "grossAmount": 12500.89
-      |   },
-      |   "closeCompanyLoansWrittenOff": {
-      |      "customerReference": "write off",
-      |      "grossAmount": 13700.55
-      |   }
+      |  "availableCharitableDeduction": {
+      |    "deductibleAmount": 300.54,
+      |    "itemIdentifier": "anId1",
+      |    "itemType": "One"
+      |  },
+      |  "broughtForwardLosses": [
+      |    {
+      |      "deductibleAmount": 400.54,
+      |      "itemIdentifier": "anId2",
+      |      "itemType": "Four"
+      |    }
+      |  ],
+      |  "completedItems": [
+      |    {
+      |      "declaredAmount": 200.11,
+      |      "finalised": true,
+      |      "id": "AAA123",
+      |      "itemType": "One",
+      |      "taxableAmount": 100.14,
+      |      "taxYear": "2018-19"
+      |    }
+      |  ],
+      |  "taxableForeignIncome": {
+      |    "dateSubmitted": "01-01-2019",
+      |    "submissionItem": {
+      |        "declaredAmount": 200.11,
+      |        "finalised": true,
+      |        "id": "AAA123",
+      |        "itemType": "One",
+      |        "taxableAmount": 100.14,
+      |        "taxYear": "2018-19"
+      |    }
+      |  }
       |}
     """.stripMargin
   )
