@@ -20,7 +20,70 @@ import play.api.libs.json.{JsObject, JsValue, Json}
 
 object RetrieveSampleControllerFixture {
 
-  val fullRetrieveSampleResponse: JsValue = Json.parse(
+  val desJson: JsValue = Json.parse(
+    """
+      |{
+      |  "historicalIncomeSubmissions": [
+      |    {
+      |      "itemId": "AAA123",
+      |      "submittedAmount": 200.11,
+      |      "itemDetail": {
+      |        "taxableAmount": 100.14
+      |      },
+      |      "typeOfItem": "Type1",
+      |      "taxYear": "2019",
+      |      "isFinalised": true
+      |    }
+      |  ],
+      |  "currentIncomeSubmission": {
+      |    "dateSubmitted": "01-01-2019",
+      |    "submittedItems": {
+      |      "income": [
+      |        {
+      |          "itemId": "AAA123",
+      |          "submittedAmount": 200.11,
+      |          "itemDetail": {
+      |            "taxableAmount": 100.14
+      |          },
+      |          "typeOfItem": "Type1",
+      |          "taxYear": "2019",
+      |          "isFinalised": true
+      |        },
+      |        {
+      |          "itemId": "AAA123",
+      |          "submittedAmount": 200.11,
+      |          "itemDetail": {
+      |            "taxableAmount": 100.14
+      |          },
+      |          "typeOfItem": "Type2",
+      |          "taxYear": "2019",
+      |          "isFinalised": true
+      |        }
+      |      ]
+      |    }
+      |  },
+      |  "totalCharitableContribution": {
+      |    "requestedItemId": "anId1",
+      |    "typeOfItem": "Type1",
+      |    "paymentAmount": 300.54
+      |  },
+      |  "broughtForwardSubmissions": [
+      |    {
+      |      "requestedItemId": "anId2",
+      |      "typeOfItem": "Type4",
+      |      "paymentAmount": 400.54
+      |    },
+      |    {
+      |      "requestedItemId": "anId",
+      |      "typeOfItem": "Type2",
+      |      "paymentAmount": 300.54
+      |    }
+      |  ]
+      |}
+          """.stripMargin
+  )
+
+  val mtdJson: JsValue = Json.parse(
     """
       |{
       |  "availableCharitableDeduction": {
@@ -60,7 +123,7 @@ object RetrieveSampleControllerFixture {
     """.stripMargin
   )
 
-  def mtdResponseWithHateoas(nino: String, taxYear: String): JsObject = fullRetrieveSampleResponse.as[JsObject] ++ Json.parse(
+  def mtdResponseWithHateoas(nino: String, taxYear: String): JsObject = mtdJson.as[JsObject] ++ Json.parse(
     s"""
        |{
        |   "links":[
