@@ -16,16 +16,20 @@
 
 package v1.models.response.retrieveSample
 
-import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import play.api.libs.functional.syntax._
+import utils.JsonUtils
 
-case class StockDividend(customerReference: Option[String], grossAmount: BigDecimal)
+case class SampleObject (dateSubmitted: String, submissionItem: Option[SampleArrayItem])
 
-object StockDividend {
-  implicit val reads: Reads[StockDividend] = (
-    (JsPath \ "customerReference").readNullable[String] and
-      (JsPath \ "grossAmount").read[BigDecimal]
-    ) (StockDividend.apply _)
+object SampleObject extends JsonUtils {
 
-  implicit val writes: OWrites[StockDividend] = Json.writes[StockDividend]
+  implicit val reads: Reads[SampleObject] = (
+    (JsPath \ "dateSubmitted").read[String] and
+      (JsPath \ "submittedItems" \ "income").readNestedNullable[Seq[SampleArrayItem]](
+        filteredArrayReads("typeOfItem", "Type1")
+      ).mapHeadOption
+    ) (SampleObject.apply _)
+
+  implicit val writes: OWrites[SampleObject] = Json.writes[SampleObject]
 }

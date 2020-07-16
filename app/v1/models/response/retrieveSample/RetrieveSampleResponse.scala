@@ -23,28 +23,27 @@ import utils.JsonUtils
 import v1.hateoas.{HateoasLinks, HateoasLinksFactory}
 import v1.models.hateoas.{HateoasData, Link}
 
-// This is based on the 'Retrieve Dividends Income' endpoint on the individuals-income-received-api
-// https://github.com/hmrc/individuals-income-received-api
-// https://confluence.tools.tax.service.gov.uk/display/MTE/Retrieve+dividends+income+-+Technical+Specs
-
-case class RetrieveSampleResponse(foreignDividend: Option[Seq[ForeignDividendItem]],
-                                  dividendIncomeReceivedWhilstAbroad: Option[Seq[DividendIncomeReceivedWhilstAbroadItem]],
-                                  stockDividend: Option[StockDividend],
-                                  redeemableShares: Option[RedeemableShares],
-                                  bonusIssuesOfSecurities: Option[BonusIssuesOfSecurities],
-                                  closeCompanyLoansWrittenOff: Option[CloseCompanyLoansWrittenOff])
+case class RetrieveSampleResponse(completedItems: Option[Seq[SampleArrayItem]],
+                                  taxableForeignIncome: Option[SampleObject],
+                                  availableCharitableDeduction: Option[SampleOptionalObject],
+                                  broughtForwardLosses: Option[Seq[SampleOptionalObject]])
 
 object RetrieveSampleResponse extends HateoasLinks with JsonUtils {
 
-  val empty: RetrieveSampleResponse = RetrieveSampleResponse(None, None, None, None, None, None)
+  val empty: RetrieveSampleResponse = RetrieveSampleResponse(None, None, None, None)
 
   implicit val reads: Reads[RetrieveSampleResponse] = (
-    (JsPath \ "foreignDividend").readNullable[Seq[ForeignDividendItem]].mapEmptySeqToNone and
-      (JsPath \ "dividendIncomeReceivedWhilstAbroad").readNullable[Seq[DividendIncomeReceivedWhilstAbroadItem]].mapEmptySeqToNone and
-      (JsPath \ "stockDividend").readNullable[StockDividend] and
-      (JsPath \ "redeemableShares").readNullable[RedeemableShares] and
-      (JsPath \ "bonusIssuesOfSecurities").readNullable[BonusIssuesOfSecurities] and
-      (JsPath \ "closeCompanyLoansWrittenOff").readNullable[CloseCompanyLoansWrittenOff]
+    (JsPath \ "historicalIncomeSubmissions").readNullable[Seq[SampleArrayItem]].mapEmptySeqToNone and
+      (JsPath \ "currentIncomeSubmission").readNullable[SampleObject].map {
+        case Some(SampleObject(_, None)) => None
+        case other => other
+      } and
+      (JsPath \ "totalCharitableContribution").readNullable[SampleOptionalObject].map{
+        case Some(SampleOptionalObject.empty) => None
+        case other => other
+      } and
+      (JsPath \ "broughtForwardSubmissions").readNullable[Seq[SampleOptionalObject]]
+        (filteredArrayReads("typeOfItem", "Type4")).mapEmptySeqToNone
     ) (RetrieveSampleResponse.apply _)
 
   implicit val writes: OWrites[RetrieveSampleResponse] = Json.writes[RetrieveSampleResponse]
