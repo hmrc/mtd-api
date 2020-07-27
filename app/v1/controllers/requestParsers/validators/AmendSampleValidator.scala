@@ -20,7 +20,7 @@ import v1.controllers.requestParsers.validators.validations._
 import v1.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError}
 import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequestBody}
 
-class SampleValidator extends Validator[AmendSampleRawData] {
+class AmendSampleValidator extends Validator[AmendSampleRawData] {
 
   private val validationSet = List(parameterFormatValidation, parameterRuleValidation)
 

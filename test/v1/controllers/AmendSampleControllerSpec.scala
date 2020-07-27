@@ -21,7 +21,7 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.mocks.requestParsers.MockSampleRequestParser
+import v1.mocks.requestParsers.MockAmendSampleRequestParser
 import v1.mocks.services.{MockAmendSampleService, MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
 import v1.models.audit.{AuditError, AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import v1.models.domain.DesTaxYear
@@ -40,7 +40,7 @@ class AmendSampleControllerSpec
     with MockMtdIdLookupService
     with MockAppConfig
     with MockAmendSampleService
-    with MockSampleRequestParser
+    with MockAmendSampleRequestParser
     with MockAuditService {
 
   val nino: String = "AA123456A"
@@ -78,7 +78,7 @@ class AmendSampleControllerSpec
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       appConfig = mockAppConfig,
-      requestParser = mockRequestDataParser,
+      requestParser = mockAmendSampleRequestParser,
       service = mockAmendSampleService,
       auditService = mockAuditService,
       cc = cc
@@ -118,7 +118,7 @@ class AmendSampleControllerSpec
     "return OK" when {
       "happy path" in new Test {
 
-        MockSampleRequestDataParser
+        MockAmendSampleRequestParser
           .parse(rawData)
           .returns(Right(requestData))
 
@@ -161,7 +161,7 @@ class AmendSampleControllerSpec
         def errorsFromParserTester(error: MtdError, expectedStatus: Int): Unit = {
           s"a ${error.code} error is returned from the parser" in new Test {
 
-            MockSampleRequestDataParser
+            MockAmendSampleRequestParser
               .parse(rawData)
               .returns(Left(ErrorWrapper(Some(correlationId), error, None)))
 
@@ -212,7 +212,7 @@ class AmendSampleControllerSpec
         def serviceErrors(mtdError: MtdError, expectedStatus: Int): Unit = {
           s"a $mtdError error is returned from the service" in new Test {
 
-            MockSampleRequestDataParser
+            MockAmendSampleRequestParser
               .parse(rawData)
               .returns(Right(requestData))
 

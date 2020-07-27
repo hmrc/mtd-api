@@ -26,7 +26,7 @@ import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import utils.Logging
-import v1.controllers.requestParsers.SampleRequestParser
+import v1.controllers.requestParsers.AmendSampleRequestParser
 import v1.hateoas.AmendHateoasBodies
 import v1.models.audit.{AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import v1.models.auth.UserDetails
@@ -40,7 +40,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
                                       val lookupService: MtdIdLookupService,
                                       appConfig: AppConfig,
-                                      requestParser: SampleRequestParser,
+                                      requestParser: AmendSampleRequestParser,
                                       service: AmendSampleService,
                                       auditService: AuditService,
                                       cc: ControllerComponents)(implicit ec: ExecutionContext)

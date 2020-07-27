@@ -18,14 +18,13 @@ package v1.controllers.requestParsers
 
 import javax.inject.Inject
 import uk.gov.hmrc.domain.Nino
-import v1.controllers.requestParsers.validators.SampleValidator
+import v1.controllers.requestParsers.validators.AmendSampleValidator
 import v1.models.domain.DesTaxYear
 import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 
-class SampleRequestParser @Inject()(val validator: SampleValidator)
+class AmendSampleRequestParser @Inject()(val validator: AmendSampleValidator)
   extends RequestParser[AmendSampleRawData, AmendSampleRequest] {
 
   override protected def requestFor(data: AmendSampleRawData): AmendSampleRequest =
     AmendSampleRequest(Nino(data.nino), DesTaxYear.fromMtd(data.taxYear), data.body.as[AmendSampleRequestBody])
-
 }

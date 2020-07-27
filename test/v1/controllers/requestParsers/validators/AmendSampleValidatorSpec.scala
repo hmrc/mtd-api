@@ -21,7 +21,7 @@ import support.UnitSpec
 import v1.models.errors._
 import v1.models.request.amendSample.AmendSampleRawData
 
-class SampleValidatorSpec extends UnitSpec {
+class AmendSampleValidatorSpec extends UnitSpec {
 
   private val validNino = "AA123456A"
   private val validTaxYear = "2018-19"
@@ -31,7 +31,7 @@ class SampleValidatorSpec extends UnitSpec {
       |}
     """.stripMargin)
 
-  val validator = new SampleValidator()
+  val validator = new AmendSampleValidator()
 
   "running a validation" should {
     "return no errors" when {

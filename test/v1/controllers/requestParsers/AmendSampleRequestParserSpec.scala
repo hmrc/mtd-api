@@ -19,12 +19,12 @@ package v1.controllers.requestParsers
 import play.api.libs.json.Json
 import support.UnitSpec
 import uk.gov.hmrc.domain.Nino
-import v1.mocks.validators.MockSampleValidator
+import v1.mocks.validators.MockAmendSampleValidator
 import v1.models.domain.DesTaxYear
 import v1.models.errors._
 import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 
-class SampleRequestParserSpec extends UnitSpec {
+class AmendSampleRequestParserSpec extends UnitSpec {
   val nino = "AA123456B"
   val taxYear = "2017-18"
   val calcId = "someCalcId"
@@ -38,15 +38,15 @@ class SampleRequestParserSpec extends UnitSpec {
   val inputData =
     AmendSampleRawData(nino, taxYear, requestBodyJson)
 
-  trait Test extends MockSampleValidator {
-    lazy val parser = new SampleRequestParser(mockValidator)
+  trait Test extends MockAmendSampleValidator {
+    lazy val parser = new AmendSampleRequestParser(mockAmendSampleValidator)
   }
 
   "parse" should {
 
     "return a request object" when {
       "valid request data is supplied" in new Test {
-        MockSampleValidator.validate(inputData).returns(Nil)
+        MockAmendSampleValidator.validate(inputData).returns(Nil)
 
         parser.parseRequest(inputData) shouldBe
           Right(AmendSampleRequest(Nino(nino), DesTaxYear("2018"), AmendSampleRequestBody("someData")))
@@ -56,7 +56,7 @@ class SampleRequestParserSpec extends UnitSpec {
     "return an ErrorWrapper" when {
 
       "a single validation error occurs" in new Test {
-        MockSampleValidator.validate(inputData)
+        MockAmendSampleValidator.validate(inputData)
           .returns(List(NinoFormatError))
 
         parser.parseRequest(inputData) shouldBe
@@ -64,7 +64,7 @@ class SampleRequestParserSpec extends UnitSpec {
       }
 
       "multiple validation errors occur" in new Test {
-        MockSampleValidator.validate(inputData)
+        MockAmendSampleValidator.validate(inputData)
           .returns(List(NinoFormatError, TaxYearFormatError))
 
         parser.parseRequest(inputData) shouldBe
