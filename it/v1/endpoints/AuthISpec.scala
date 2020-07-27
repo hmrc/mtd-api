@@ -18,7 +18,7 @@ package v1.endpoints
 
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status
+import play.api.http.Status._
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import support.IntegrationBaseSpec
@@ -28,40 +28,39 @@ import v1.stubs.{AuditStub, AuthStub, DesStub, MtdIdLookupStub}
 class AuthISpec extends IntegrationBaseSpec {
 
   private trait Test {
-    val nino          = "AA123456A"
-    val taxYear       = "2017-18"
-    val data        = "someData"
-    val correlationId = "X-123"
+    val nino: String = "AA123456A"
+    val taxYear: String = "2017-18"
+    val data: String = "someData"
+    val correlationId: String = "X-123"
 
     val requestJson: String =
       s"""
          |{
          |"data": "$data"
          |}
-    """.stripMargin
+        """.stripMargin
 
     def setupStubs(): StubMapping
 
     def request(): WSRequest = {
       setupStubs()
-      buildRequest(s"/$nino/$taxYear/sample-endpoint")
+      buildRequest(s"/sample/$nino/$taxYear")
         .withHttpHeaders((ACCEPT, "application/vnd.hmrc.1.0+json"))
     }
 
-    def desUri: String = s"/income-tax/nino/$nino/taxYear/${DesTaxYear.fromMtd(taxYear)}/someService"
+    def desUri: String = s"/some-placeholder/template/$nino/${DesTaxYear.fromMtd(taxYear)}"
 
     val desResponse: JsValue = Json.parse(
       """
-        | {
-        | "responseData" : "someResponse"
-        | }
-    """.stripMargin)
+        |{
+        |  "responseData" : "someResponse"
+        |}
+      """.stripMargin
+    )
   }
 
   "Calling the sample endpoint" when {
-
     "the NINO cannot be converted to a MTD ID" should {
-
       "return 500" in new Test {
         override val nino: String = "AA123456A"
 
@@ -70,28 +69,26 @@ class AuthISpec extends IntegrationBaseSpec {
           MtdIdLookupStub.internalServerError(nino)
         }
 
-        val response: WSResponse = await(request().post(Json.parse(requestJson)))
-        response.status shouldBe Status.INTERNAL_SERVER_ERROR
+        val response: WSResponse = await(request().put(Json.parse(requestJson)))
+        response.status shouldBe INTERNAL_SERVER_ERROR
       }
     }
 
     "an MTD ID is successfully retrieve from the NINO and the user is authorised" should {
-
-      "return 201" in new Test {
+      "return 200" in new Test {
         override def setupStubs(): StubMapping = {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DesStub.onSuccess(DesStub.POST, desUri, Status.OK, desResponse)
+          DesStub.onSuccess(DesStub.PUT, desUri, NO_CONTENT)
         }
 
-        val response: WSResponse = await(request().post(Json.parse(requestJson)))
-        response.status shouldBe Status.CREATED
+        val response: WSResponse = await(request().put(Json.parse(requestJson)))
+        response.status shouldBe OK
       }
     }
 
     "an MTD ID is successfully retrieve from the NINO and the user is NOT logged in" should {
-
       "return 403" in new Test {
         override val nino: String = "AA123456A"
 
@@ -101,13 +98,12 @@ class AuthISpec extends IntegrationBaseSpec {
           AuthStub.unauthorisedNotLoggedIn()
         }
 
-        val response: WSResponse = await(request().post(Json.parse(requestJson)))
-        response.status shouldBe Status.FORBIDDEN
+        val response: WSResponse = await(request().put(Json.parse(requestJson)))
+        response.status shouldBe FORBIDDEN
       }
     }
 
     "an MTD ID is successfully retrieve from the NINO and the user is NOT authorised" should {
-
       "return 403" in new Test {
         override val nino: String = "AA123456A"
 
@@ -117,8 +113,8 @@ class AuthISpec extends IntegrationBaseSpec {
           AuthStub.unauthorisedOther()
         }
 
-        val response: WSResponse = await(request().post(Json.parse(requestJson)))
-        response.status shouldBe Status.FORBIDDEN
+        val response: WSResponse = await(request().put(Json.parse(requestJson)))
+        response.status shouldBe FORBIDDEN
       }
     }
 

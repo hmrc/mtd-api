@@ -75,7 +75,7 @@ class DeleteSampleControllerSpec
           .returns(Right(requestData))
 
         MockDeleteRetrieveService
-          .delete(requestData)
+          .delete()
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
         val result: Future[Result] = controller.deleteSample(nino, taxYear)(fakeDeleteRequest)
@@ -122,7 +122,7 @@ class DeleteSampleControllerSpec
               .returns(Right(requestData))
 
             MockDeleteRetrieveService
-              .delete(requestData)
+              .delete()
               .returns(Future.successful(Left(ErrorWrapper(Some(correlationId), mtdError))))
 
             val result: Future[Result] = controller.deleteSample(nino, taxYear)(fakeDeleteRequest)

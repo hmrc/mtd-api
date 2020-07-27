@@ -62,8 +62,8 @@ class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
 
       val result =
         for {
-          parsedRequest <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
-          serviceResponse <- EitherT(service.retrieve[RetrieveSampleResponse](parsedRequest))
+          _ <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
+          serviceResponse <- EitherT(service.retrieve[RetrieveSampleResponse]())
           vendorResponse <- EitherT.fromEither[Future](
             hateoasFactory
               .wrap(serviceResponse.responseData, RetrieveSampleHateoasData(nino, taxYear))

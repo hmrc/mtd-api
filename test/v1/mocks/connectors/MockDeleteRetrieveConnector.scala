@@ -31,16 +31,16 @@ trait MockDeleteRetrieveConnector extends MockFactory {
 
   object MockDeleteRetrieveConnector {
 
-    def delete(request: DeleteRetrieveRequest): CallHandler[Future[DesOutcome[Unit]]] = {
+    def delete(): CallHandler[Future[DesOutcome[Unit]]] = {
       (mockDeleteRetrieveConnector
-        .delete(_: DeleteRetrieveRequest)(_: HeaderCarrier, _: ExecutionContext, _: DesUri[Unit]))
-        .expects(request, *, *, *)
+        .delete()(_: HeaderCarrier, _: ExecutionContext, _: DesUri[Unit]))
+        .expects(*, *, *)
     }
 
-    def retrieve[Resp: Reads](request: DeleteRetrieveRequest): CallHandler[Future[DesOutcome[Resp]]] = {
+    def retrieve[Resp: Reads](): CallHandler[Future[DesOutcome[Resp]]] = {
       (mockDeleteRetrieveConnector
-        .retrieve[Resp](_: DeleteRetrieveRequest)(_: Reads[Resp], _: HeaderCarrier, _: ExecutionContext, _: DesUri[Resp]))
-        .expects(request, *, *, *, *)
+        .retrieve[Resp]()(_: Reads[Resp], _: HeaderCarrier, _: ExecutionContext, _: DesUri[Resp]))
+        .expects(*, *, *, *)
     }
   }
 

@@ -31,11 +31,6 @@ class DeleteRetrieveConnectorSpec extends ConnectorSpec {
   val nino: String = "AA111111A"
   val taxYear: String = "2019"
 
-  val deleteRetrieveRequest: DeleteRetrieveRequest = DeleteRetrieveRequest(
-    nino = Nino(nino),
-    taxYear = DesTaxYear(taxYear)
-  )
-
   class Test extends MockHttpClient with MockAppConfig {
 
     val connector: DeleteRetrieveConnector = new DeleteRetrieveConnector(
@@ -67,7 +62,7 @@ class DeleteRetrieveConnectorSpec extends ConnectorSpec {
           )
           .returns(Future.successful(outcome))
 
-        await(connector.delete(deleteRetrieveRequest)) shouldBe outcome
+        await(connector.delete()) shouldBe outcome
       }
     }
 
@@ -90,7 +85,7 @@ class DeleteRetrieveConnectorSpec extends ConnectorSpec {
           )
           .returns(Future.successful(outcome))
 
-        await(connector.retrieve[Data](deleteRetrieveRequest)) shouldBe outcome
+        await(connector.retrieve[Data]()) shouldBe outcome
       }
     }
   }

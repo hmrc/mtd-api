@@ -29,7 +29,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class DeleteRetrieveConnector @Inject()(val http: HttpClient,
                                         val appConfig: AppConfig) extends BaseDesConnector {
 
-  def delete(request: DeleteRetrieveRequest)(
+  def delete()(
     implicit hc: HeaderCarrier,
     ec: ExecutionContext,
     desUri: DesUri[Unit]): Future[DesOutcome[Unit]] = {
@@ -39,7 +39,7 @@ class DeleteRetrieveConnector @Inject()(val http: HttpClient,
     delete(uri = desUri)
   }
 
-  def retrieve[Resp: Reads](request: DeleteRetrieveRequest)(
+  def retrieve[Resp: Reads]()(
     implicit hc: HeaderCarrier,
     ec: ExecutionContext,
     desUri: DesUri[Resp]): Future[DesOutcome[Resp]] = {
