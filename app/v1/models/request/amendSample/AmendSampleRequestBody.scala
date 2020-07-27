@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package v1.models.request.sample
+package v1.models.request.amendSample
 
-import play.api.libs.json.{Json, Reads}
+import play.api.libs.json.{Json, OFormat}
 
-case class SampleRequestBody(data: String)
+case class AmendSampleRequestBody(data: String)
 
-object SampleRequestBody {
-  implicit val reads: Reads[SampleRequestBody] = Json.reads[SampleRequestBody]
+object AmendSampleRequestBody {
+  implicit val format: OFormat[AmendSampleRequestBody] = Json.format[AmendSampleRequestBody]
 }

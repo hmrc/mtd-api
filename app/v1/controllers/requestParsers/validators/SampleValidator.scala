@@ -18,27 +18,27 @@ package v1.controllers.requestParsers.validators
 
 import v1.controllers.requestParsers.validators.validations._
 import v1.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError, RuleTaxYearNotSupportedError}
-import v1.models.request.sample.{SampleRawData, SampleRequestBody}
+import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequestBody}
 
-class SampleValidator extends Validator[SampleRawData] {
+class SampleValidator extends Validator[AmendSampleRawData] {
 
   private val validationSet = List(parameterFormatValidation, parameterRuleValidation)
 
-  private def parameterFormatValidation: SampleRawData => List[List[MtdError]] = (data: SampleRawData) => {
+  private def parameterFormatValidation: AmendSampleRawData => List[List[MtdError]] = (data: AmendSampleRawData) => {
     List(
       NinoValidation.validate(data.nino),
       TaxYearValidation.validate(data.taxYear),
-      JsonFormatValidation.validate[SampleRequestBody](data.body, RuleIncorrectOrEmptyBodyError)
+      JsonFormatValidation.validate[AmendSampleRequestBody](data.body, RuleIncorrectOrEmptyBodyError)
     )
   }
 
-  private def parameterRuleValidation: SampleRawData => List[List[MtdError]] = { data =>
+  private def parameterRuleValidation: AmendSampleRawData => List[List[MtdError]] = { data =>
     List(
       MtdTaxYearValidation.validate(data.taxYear, RuleTaxYearNotSupportedError)
     )
   }
 
-  override def validate(data: SampleRawData): List[MtdError] = {
+  override def validate(data: AmendSampleRawData): List[MtdError] = {
     run(validationSet, data).distinct
   }
 }

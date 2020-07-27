@@ -20,24 +20,26 @@ import config.AppConfig
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.HttpClient
-import v1.connectors.httpparsers.StandardDesHttpParser._
-import v1.models.response.sample.des.DesSampleResponse
-import v1.models.request.sample.SampleRequestData
-import v1.models.response.EmptyJsonBody
+import v1.models.request.amendSample.AmendSampleRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SampleConnector @Inject()(val http: HttpClient,
-                                val appConfig: AppConfig) extends BaseDesConnector {
+class AmendSampleConnector @Inject()(val http: HttpClient,
+                                     val appConfig: AppConfig) extends BaseDesConnector {
 
-  def doConnectorThing(request: SampleRequestData)(
+  def amendSample(request: AmendSampleRequest)(
     implicit hc: HeaderCarrier,
-    ec: ExecutionContext): Future[DesOutcome[DesSampleResponse]] = {
+    ec: ExecutionContext): Future[DesOutcome[Unit]] = {
 
-    post(
-      body = EmptyJsonBody,
-      DesUri[DesSampleResponse](s"income-tax/nino/${request.nino}/taxYear/${request.desTaxYear}/someService")
+    import v1.connectors.httpparsers.StandardDesHttpParser._
+
+    val nino = request.nino.nino
+    val taxYear = request.desTaxYear
+
+    put(
+      body = request.body,
+      DesUri[Unit](s"some-placeholder/template/$nino/$taxYear")
     )
   }
 }

@@ -30,11 +30,11 @@ import scala.concurrent.Future
 
 class DeleteRetrieveServiceSpec extends ServiceSpec {
 
-  private val nino = "AA112233A"
-  private val taxYear = "2019"
-  private val correlationId = "X-corr"
+  val nino: String = "AA112233A"
+  val taxYear: String = "2019"
+  val correlationId: String = "X-corr"
 
-  private val deleteRetrieveRequest = DeleteRetrieveRequest(
+  val deleteRetrieveRequest: DeleteRetrieveRequest = DeleteRetrieveRequest(
     nino = Nino(nino),
     taxYear = DesTaxYear(taxYear)
   )

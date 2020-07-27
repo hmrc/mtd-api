@@ -61,12 +61,11 @@ class DeleteRetrieveService @Inject()(connector: DeleteRetrieveConnector) extend
     result.value
   }
 
-  private def desErrorMap: Map[String, MtdError] =
-    Map(
-      "INVALID_NINO" -> NinoFormatError,
-      "INVALID_TAX_YEAR" -> TaxYearFormatError,
-      "NOT_FOUND" -> NotFoundError,
-      "SERVER_ERROR" -> DownstreamError,
-      "SERVICE_UNAVAILABLE" -> DownstreamError
-    )
+  private def desErrorMap: Map[String, MtdError] = Map(
+    "INVALID_NINO" -> NinoFormatError,
+    "INVALID_TAX_YEAR" -> TaxYearFormatError,
+    "NOT_FOUND" -> NotFoundError,
+    "SERVER_ERROR" -> DownstreamError,
+    "SERVICE_UNAVAILABLE" -> DownstreamError
+  )
 }

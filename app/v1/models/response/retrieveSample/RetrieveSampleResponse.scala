@@ -53,7 +53,7 @@ object RetrieveSampleResponse extends HateoasLinks with JsonUtils {
       import data._
       Seq(
         amendSample(appConfig, nino, taxYear),
-        retrieveSample(appConfig, nino, taxYear),
+        retrieveSample(appConfig, nino, taxYear, isSelf = true),
         deleteSample(appConfig, nino, taxYear)
       )
     }

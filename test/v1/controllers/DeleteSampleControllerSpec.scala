@@ -67,7 +67,7 @@ class DeleteSampleControllerSpec
   }
 
   "DeleteSampleController" should {
-    "return NO_content" when {
+    "return NO_CONTENT" when {
       "happy path" in new Test {
 
         MockDeleteRetrieveRequestParser

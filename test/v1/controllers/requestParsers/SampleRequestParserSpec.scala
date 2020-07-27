@@ -22,7 +22,7 @@ import uk.gov.hmrc.domain.Nino
 import v1.mocks.validators.MockSampleValidator
 import v1.models.domain.DesTaxYear
 import v1.models.errors._
-import v1.models.request.sample.{SampleRawData, SampleRequestBody, SampleRequestData}
+import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 
 class SampleRequestParserSpec extends UnitSpec {
   val nino = "AA123456B"
@@ -36,7 +36,7 @@ class SampleRequestParserSpec extends UnitSpec {
     """.stripMargin)
 
   val inputData =
-    SampleRawData(nino, taxYear, requestBodyJson)
+    AmendSampleRawData(nino, taxYear, requestBodyJson)
 
   trait Test extends MockSampleValidator {
     lazy val parser = new SampleRequestParser(mockValidator)
@@ -49,7 +49,7 @@ class SampleRequestParserSpec extends UnitSpec {
         MockSampleValidator.validate(inputData).returns(Nil)
 
         parser.parseRequest(inputData) shouldBe
-          Right(SampleRequestData(Nino(nino), DesTaxYear("2018"), SampleRequestBody("someData")))
+          Right(AmendSampleRequest(Nino(nino), DesTaxYear("2018"), AmendSampleRequestBody("someData")))
       }
     }
 

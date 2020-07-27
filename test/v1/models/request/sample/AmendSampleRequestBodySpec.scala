@@ -18,9 +18,10 @@ package v1.models.request.sample
 
 import play.api.libs.json._
 import support.UnitSpec
+import v1.models.request.amendSample.AmendSampleRequestBody
 import v1.models.utils.JsonErrorValidators
 
-class SampleRequestBodySpec extends UnitSpec with JsonErrorValidators {
+class AmendSampleRequestBodySpec extends UnitSpec with JsonErrorValidators {
   "reads" when {
     "passed valid JSON" should {
       val inputJson = Json.parse(
@@ -32,12 +33,12 @@ class SampleRequestBodySpec extends UnitSpec with JsonErrorValidators {
       )
 
       "return a valid model" in {
-        SampleRequestBody("someData") shouldBe inputJson.as[SampleRequestBody]
+        AmendSampleRequestBody("someData") shouldBe inputJson.as[AmendSampleRequestBody]
       }
 
-      testMandatoryProperty[SampleRequestBody](inputJson)("/data")
+      testMandatoryProperty[AmendSampleRequestBody](inputJson)("/data")
 
-      testPropertyType[SampleRequestBody](inputJson)(
+      testPropertyType[AmendSampleRequestBody](inputJson)(
         path = "/data",
         replacement = 12344.toJson,
         expectedError = JsonError.STRING_FORMAT_EXCEPTION

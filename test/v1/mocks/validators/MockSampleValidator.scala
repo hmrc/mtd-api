@@ -20,7 +20,7 @@ import org.scalamock.handlers.CallHandler1
 import org.scalamock.scalatest.MockFactory
 import v1.controllers.requestParsers.validators.SampleValidator
 import v1.models.errors.MtdError
-import v1.models.request.sample.SampleRawData
+import v1.models.request.amendSample.AmendSampleRawData
 
 class MockSampleValidator extends MockFactory {
 
@@ -28,9 +28,9 @@ class MockSampleValidator extends MockFactory {
 
   object MockSampleValidator {
 
-    def validate(data: SampleRawData): CallHandler1[SampleRawData, List[MtdError]] = {
+    def validate(data: AmendSampleRawData): CallHandler1[AmendSampleRawData, List[MtdError]] = {
       (mockValidator
-        .validate(_: SampleRawData))
+        .validate(_: AmendSampleRawData))
         .expects(data)
     }
   }

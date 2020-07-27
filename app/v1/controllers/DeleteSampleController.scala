@@ -40,11 +40,10 @@ class DeleteSampleController @Inject()(val authService: EnrolmentsAuthService,
                                        cc: ControllerComponents)(implicit ec: ExecutionContext)
   extends AuthorisedController(cc) with BaseController with Logging {
 
-  implicit val endpointLogContext: EndpointLogContext =
-    EndpointLogContext(
-      controllerName = "DeleteSampleController",
-      endpointName = "deleteSample"
-    )
+  implicit val endpointLogContext: EndpointLogContext = EndpointLogContext(
+    controllerName = "DeleteSampleController",
+    endpointName = "deleteSample"
+  )
 
   def deleteSample(nino: String, taxYear: String): Action[AnyContent] =
     authorisedAction(nino).async { implicit request =>
