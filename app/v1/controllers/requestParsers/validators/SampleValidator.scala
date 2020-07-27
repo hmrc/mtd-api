@@ -17,7 +17,7 @@
 package v1.controllers.requestParsers.validators
 
 import v1.controllers.requestParsers.validators.validations._
-import v1.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError, RuleTaxYearNotSupportedError}
+import v1.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError}
 import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequestBody}
 
 class SampleValidator extends Validator[AmendSampleRawData] {
@@ -34,7 +34,7 @@ class SampleValidator extends Validator[AmendSampleRawData] {
 
   private def parameterRuleValidation: AmendSampleRawData => List[List[MtdError]] = { data =>
     List(
-      MtdTaxYearValidation.validate(data.taxYear, RuleTaxYearNotSupportedError)
+      MtdTaxYearValidation.validate(data.taxYear)
     )
   }
 

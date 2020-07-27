@@ -48,6 +48,20 @@ class DeleteRetrieveValidatorSpec extends UnitSpec {
       }
     }
 
+    "return RuleTaxYearRangeInvalidError" when {
+      "an invalid tax year is supplied" in {
+        validator.validate(DeleteRetrieveRawData(validNino, "2017-19")) shouldBe
+          List(RuleTaxYearRangeInvalidError)
+      }
+    }
+
+    "return RuleTaxYearNotSupportedError" when {
+      "an invalid tax year is supplied" in {
+        validator.validate(DeleteRetrieveRawData(validNino, "2016-17")) shouldBe
+          List(RuleTaxYearNotSupportedError)
+      }
+    }
+
     "return multiple errors" when {
       "request supplied has multiple errors" in {
         validator.validate(DeleteRetrieveRawData("A12344A", "20178")) shouldBe
