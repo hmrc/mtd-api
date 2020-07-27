@@ -117,7 +117,5 @@ class AuthISpec extends IntegrationBaseSpec {
         response.status shouldBe FORBIDDEN
       }
     }
-
   }
-
 }
