@@ -16,17 +16,19 @@
 
 package v1.controllers.requestParsers.validators.validations
 
+import play.api.Logger
 import play.api.libs.json._
 import v1.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError}
 
 object JsonFormatValidation {
 
   def validate[A: OFormat](data: JsValue): List[MtdError] = {
-    if (data == JsObject.empty) List(RuleIncorrectOrEmptyBodyError) else
+    if (data == JsObject.empty) List(RuleIncorrectOrEmptyBodyError) else {
       data.validate[A] match {
         case JsSuccess(body, _) => if (Json.toJson(body) == JsObject.empty) List(RuleIncorrectOrEmptyBodyError) else NoValidationErrors
         case JsError(errors: Seq[(JsPath, Seq[JsonValidationError])]) => handleErrors(errors)
       }
+    }
   }
 
   private def handleErrors(errors: Seq[(JsPath, Seq[JsonValidationError])]): List[MtdError] = {
@@ -40,7 +42,8 @@ object JsonFormatValidation {
       .values.map(failure => s"${failure.head.failureReason}: " + s"${failure.map(_.fromJsPath)}")
       .toString().dropRight(1).drop(5)
 
-    //Logger.warn(s"[JsonFormatValidation][validate] - Request body failed validation with errors - $logString")
+    val logger: Logger = Logger(this.getClass)
+    logger.warn(s"[JsonFormatValidation][validate] - Request body failed validation with errors - $logString")
     List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(failures.map(_.fromJsPath))))
   }
 
