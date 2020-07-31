@@ -16,7 +16,7 @@
 
 package v1.controllers.requestParsers.validators
 
-import v1.controllers.requestParsers.validators.validations.{MtdTaxYearValidation, NinoValidation, TaxYearValidation}
+import v1.controllers.requestParsers.validators.validations.{NinoValidation, TaxYearNotSupportedValidation, TaxYearValidation}
 import v1.models.errors.MtdError
 import v1.models.request.DeleteRetrieveRawData
 
@@ -37,7 +37,7 @@ class DeleteRetrieveValidator extends Validator[DeleteRetrieveRawData] {
 
   private def parameterRuleValidation: DeleteRetrieveRawData => List[List[MtdError]] = (data: DeleteRetrieveRawData) => {
     List(
-      MtdTaxYearValidation.validate(data.taxYear)
+      TaxYearNotSupportedValidation.validate(data.taxYear)
     )
   }
 }

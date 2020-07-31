@@ -20,7 +20,7 @@ import config.FixedConfig
 import v1.models.domain.DesTaxYear
 import v1.models.errors.{MtdError, RuleTaxYearNotSupportedError}
 
-object MtdTaxYearValidation extends FixedConfig {
+object TaxYearNotSupportedValidation extends FixedConfig {
 
   // @param taxYear In format YYYY-YY
   def validate(taxYear: String): List[MtdError] = {

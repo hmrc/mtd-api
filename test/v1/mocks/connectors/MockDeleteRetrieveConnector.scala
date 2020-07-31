@@ -21,7 +21,6 @@ import org.scalamock.scalatest.MockFactory
 import play.api.libs.json.Reads
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.connectors.{DeleteRetrieveConnector, DesOutcome, DesUri}
-import v1.models.request.DeleteRetrieveRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 

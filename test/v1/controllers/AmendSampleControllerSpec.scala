@@ -26,8 +26,6 @@ import v1.mocks.services.{MockAmendSampleService, MockAuditService, MockEnrolmen
 import v1.models.audit.{AuditError, AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import v1.models.domain.DesTaxYear
 import v1.models.errors._
-import v1.models.hateoas.Link
-import v1.models.hateoas.Method.GET
 import v1.models.outcomes.ResponseWrapper
 import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 
