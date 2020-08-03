@@ -14,30 +14,26 @@
  * limitations under the License.
  */
 
-package v1.mocks.services
+package v1.mocks.connectors
 
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.controllers.EndpointLogContext
-import v1.models.errors.ErrorWrapper
-import v1.models.outcomes.ResponseWrapper
-import v1.models.request.sample.SampleRequestData
-import v1.models.response.sample.SampleResponse
-import v1.services.SampleService
+import v1.connectors.{AmendSampleConnector, DesOutcome}
+import v1.models.request.amendSample.AmendSampleRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockSampleService extends MockFactory {
+trait MockAmendSampleConnector extends MockFactory {
 
-  val mockSampleService: SampleService = mock[SampleService]
+  val mockAmendSampleConnector: AmendSampleConnector = mock[AmendSampleConnector]
 
-  object MockSampleService {
+  object MockAmendSampleConnector {
 
-    def doServiceThing(requestData: SampleRequestData): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[SampleResponse]]]] = {
-      (mockSampleService
-        .doServiceThing(_: SampleRequestData)(_: HeaderCarrier, _: ExecutionContext, _: EndpointLogContext))
-        .expects(requestData, *, *, *)
+    def amendSample(requestData: AmendSampleRequest): CallHandler[Future[DesOutcome[Unit]]] = {
+      (mockAmendSampleConnector
+        .amendSample(_: AmendSampleRequest)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(requestData, *, *)
     }
   }
 

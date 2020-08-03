@@ -43,11 +43,10 @@ class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
                                          cc: ControllerComponents)(implicit ec: ExecutionContext)
   extends AuthorisedController(cc) with BaseController with Logging {
 
-  implicit val endpointLogContext: EndpointLogContext =
-    EndpointLogContext(
-      controllerName = "RetrieveSampleController",
-      endpointName = "retrieveSample"
-    )
+  implicit val endpointLogContext: EndpointLogContext = EndpointLogContext(
+    controllerName = "RetrieveSampleController",
+    endpointName = "retrieveSample"
+  )
 
   def retrieveSample(nino: String, taxYear: String): Action[AnyContent] =
     authorisedAction(nino).async { implicit request =>
@@ -63,12 +62,13 @@ class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
 
       val result =
         for {
-          parsedRequest <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
-          serviceResponse <- EitherT(service.retrieve[RetrieveSampleResponse](parsedRequest))
+          _ <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
+          serviceResponse <- EitherT(service.retrieve[RetrieveSampleResponse]())
           vendorResponse <- EitherT.fromEither[Future](
             hateoasFactory
               .wrap(serviceResponse.responseData, RetrieveSampleHateoasData(nino, taxYear))
-              .asRight[ErrorWrapper])
+              .asRight[ErrorWrapper]
+          )
         } yield {
           logger.info(
             message = s"[${endpointLogContext.controllerName}][${endpointLogContext.endpointName}] - " +
@@ -90,7 +90,8 @@ class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
   private def errorResult(errorWrapper: ErrorWrapper) = {
     (errorWrapper.error: @unchecked) match {
       case BadRequestError | NinoFormatError | TaxYearFormatError |
-           RuleTaxYearRangeInvalidError => BadRequest(Json.toJson(errorWrapper))
+           RuleTaxYearRangeInvalidError | RuleTaxYearNotSupportedError
+      => BadRequest(Json.toJson(errorWrapper))
       case NotFoundError => NotFound(Json.toJson(errorWrapper))
       case DownstreamError => InternalServerError(Json.toJson(errorWrapper))
     }

@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package v1.models.response.sample.des
+package v1.hateoas
 
-import play.api.libs.json.{Json, Reads}
+import config.AppConfig
+import play.api.libs.json.{JsValue, Json}
 
-case class DesSampleResponse(responseData: String)
+trait AmendHateoasBodies extends HateoasLinks {
 
-object DesSampleResponse {
-  implicit val reads: Reads[DesSampleResponse] = Json.reads[DesSampleResponse]
+  def amendSampleHateoasBody(appConfig: AppConfig, nino: String, taxYear: String): JsValue = {
+
+    val links = Seq(
+      amendSample(appConfig, nino, taxYear),
+      retrieveSample(appConfig, nino, taxYear, isSelf = true),
+      deleteSample(appConfig, nino, taxYear)
+    )
+
+    Json.obj("links" -> links)
+  }
 }

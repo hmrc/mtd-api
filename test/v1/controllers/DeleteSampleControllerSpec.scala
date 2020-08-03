@@ -27,8 +27,8 @@ import v1.models.errors._
 import v1.models.outcomes.ResponseWrapper
 import v1.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class DeleteSampleControllerSpec
   extends ControllerBaseSpec
@@ -67,7 +67,7 @@ class DeleteSampleControllerSpec
   }
 
   "DeleteSampleController" should {
-    "return NO_content" when {
+    "return NO_CONTENT" when {
       "happy path" in new Test {
 
         MockDeleteRetrieveRequestParser
@@ -75,7 +75,7 @@ class DeleteSampleControllerSpec
           .returns(Right(requestData))
 
         MockDeleteRetrieveService
-          .delete(requestData)
+          .delete()
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
         val result: Future[Result] = controller.deleteSample(nino, taxYear)(fakeDeleteRequest)
@@ -107,7 +107,8 @@ class DeleteSampleControllerSpec
           (BadRequestError, BAD_REQUEST),
           (NinoFormatError, BAD_REQUEST),
           (TaxYearFormatError, BAD_REQUEST),
-          (RuleTaxYearRangeInvalidError, BAD_REQUEST)
+          (RuleTaxYearRangeInvalidError, BAD_REQUEST),
+          (RuleTaxYearNotSupportedError, BAD_REQUEST)
         )
 
         input.foreach(args => (errorsFromParserTester _).tupled(args))
@@ -122,7 +123,7 @@ class DeleteSampleControllerSpec
               .returns(Right(requestData))
 
             MockDeleteRetrieveService
-              .delete(requestData)
+              .delete()
               .returns(Future.successful(Left(ErrorWrapper(Some(correlationId), mtdError))))
 
             val result: Future[Result] = controller.deleteSample(nino, taxYear)(fakeDeleteRequest)

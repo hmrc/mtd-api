@@ -19,9 +19,9 @@ package v1.controllers.requestParsers.validators
 import play.api.libs.json.Json
 import support.UnitSpec
 import v1.models.errors._
-import v1.models.request.sample.SampleRawData
+import v1.models.request.amendSample.AmendSampleRawData
 
-class SampleValidatorSpec extends UnitSpec {
+class AmendSampleValidatorSpec extends UnitSpec {
 
   private val validNino = "AA123456A"
   private val validTaxYear = "2018-19"
@@ -31,25 +31,25 @@ class SampleValidatorSpec extends UnitSpec {
       |}
     """.stripMargin)
 
-  val validator = new SampleValidator()
+  val validator = new AmendSampleValidator()
 
   "running a validation" should {
     "return no errors" when {
       "a valid request is supplied" in {
-        validator.validate(SampleRawData(validNino, validTaxYear, requestBodyJson)) shouldBe Nil
+        validator.validate(AmendSampleRawData(validNino, validTaxYear, requestBodyJson)) shouldBe Nil
       }
     }
 
     "return NinoFormatError error" when {
       "an invalid nino is supplied" in {
-        validator.validate(SampleRawData("A12344A", validTaxYear, requestBodyJson)) shouldBe
+        validator.validate(AmendSampleRawData("A12344A", validTaxYear, requestBodyJson)) shouldBe
           List(NinoFormatError)
       }
     }
 
     "return TaxYearFormatError error" when {
       "an invalid tax year is supplied" in {
-        validator.validate(SampleRawData(validNino, "20178", requestBodyJson)) shouldBe
+        validator.validate(AmendSampleRawData(validNino, "20178", requestBodyJson)) shouldBe
           List(TaxYearFormatError)
       }
     }
@@ -57,14 +57,14 @@ class SampleValidatorSpec extends UnitSpec {
     "return RuleTaxYearNotSupportedError error" when {
       "an out of range tax year is supplied" in {
         validator.validate(
-          SampleRawData(validNino, "2016-17", requestBodyJson)) shouldBe
+          AmendSampleRawData(validNino, "2016-17", requestBodyJson)) shouldBe
           List(RuleTaxYearNotSupportedError)
       }
     }
 
     "return multiple errors" when {
       "request supplied has multiple errors" in {
-        validator.validate(SampleRawData("A12344A", "20178", requestBodyJson)) shouldBe
+        validator.validate(AmendSampleRawData("A12344A", "20178", requestBodyJson)) shouldBe
           List(NinoFormatError, TaxYearFormatError)
       }
     }

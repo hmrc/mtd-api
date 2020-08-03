@@ -40,11 +40,10 @@ class DeleteSampleController @Inject()(val authService: EnrolmentsAuthService,
                                        cc: ControllerComponents)(implicit ec: ExecutionContext)
   extends AuthorisedController(cc) with BaseController with Logging {
 
-  implicit val endpointLogContext: EndpointLogContext =
-    EndpointLogContext(
-      controllerName = "DeleteSampleController",
-      endpointName = "deleteSample"
-    )
+  implicit val endpointLogContext: EndpointLogContext = EndpointLogContext(
+    controllerName = "DeleteSampleController",
+    endpointName = "deleteSample"
+  )
 
   def deleteSample(nino: String, taxYear: String): Action[AnyContent] =
     authorisedAction(nino).async { implicit request =>
@@ -60,8 +59,8 @@ class DeleteSampleController @Inject()(val authService: EnrolmentsAuthService,
 
       val result =
         for {
-          parsedRequest <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
-          serviceResponse <- EitherT(service.delete(parsedRequest))
+          _ <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
+          serviceResponse <- EitherT(service.delete())
         } yield {
           logger.info(
             message = s"[${endpointLogContext.controllerName}][${endpointLogContext.endpointName}] - " +
@@ -83,7 +82,8 @@ class DeleteSampleController @Inject()(val authService: EnrolmentsAuthService,
   private def errorResult(errorWrapper: ErrorWrapper) = {
     (errorWrapper.error: @unchecked) match {
       case BadRequestError | NinoFormatError | TaxYearFormatError |
-           RuleTaxYearRangeInvalidError => BadRequest(Json.toJson(errorWrapper))
+           RuleTaxYearRangeInvalidError | RuleTaxYearNotSupportedError
+      => BadRequest(Json.toJson(errorWrapper))
       case NotFoundError => NotFound(Json.toJson(errorWrapper))
       case DownstreamError => InternalServerError(Json.toJson(errorWrapper))
     }

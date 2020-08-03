@@ -21,35 +21,35 @@ import cats.implicits._
 import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Logging
-import v1.connectors.SampleConnector
+import v1.connectors.AmendSampleConnector
 import v1.controllers.EndpointLogContext
-import v1.models.errors.{DownstreamError, ErrorWrapper, NotFoundError}
+import v1.models.errors._
 import v1.models.outcomes.ResponseWrapper
-import v1.models.request.sample.SampleRequestData
-import v1.models.response.sample.SampleResponse
+import v1.models.request.amendSample.AmendSampleRequest
 import v1.support.DesResponseMappingSupport
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SampleService @Inject()(sampleConnector: SampleConnector) extends DesResponseMappingSupport with Logging {
+class AmendSampleService @Inject()(connector: AmendSampleConnector) extends DesResponseMappingSupport with Logging {
 
-  def doServiceThing(request: SampleRequestData)(
+  def amendSample(request: AmendSampleRequest)(
     implicit hc: HeaderCarrier,
     ec: ExecutionContext,
-    logContext: EndpointLogContext): Future[Either[ErrorWrapper, ResponseWrapper[SampleResponse]]] = {
+    logContext: EndpointLogContext): Future[Either[ErrorWrapper, ResponseWrapper[Unit]]] = {
 
     val result = for {
-      desResponseWrapper <- EitherT(sampleConnector.doConnectorThing(request)).leftMap(mapDesErrors(desErrorMap))
-    } yield desResponseWrapper.map(des => SampleResponse(des.responseData)) // *If* need to convert to Mtd
+      desResponseWrapper <- EitherT(connector.amendSample(request)).leftMap(mapDesErrors(desErrorMap))
+    } yield desResponseWrapper.map(des => des) // For any additional mapping
 
     result.value
   }
 
-  private def desErrorMap =
-    Map(
-      "NOT_FOUND" -> NotFoundError,
-      "SERVER_ERROR" -> DownstreamError,
-      "SERVICE_UNAVAILABLE" -> DownstreamError
-    )
+  private def desErrorMap: Map[String, MtdError] = Map(
+    "INVALID_NINO" -> NinoFormatError,
+    "INVALID_TAX_YEAR" -> TaxYearFormatError,
+    "NOT_FOUND" -> NotFoundError,
+    "SERVER_ERROR" -> DownstreamError,
+    "SERVICE_UNAVAILABLE" -> DownstreamError
+  )
 }

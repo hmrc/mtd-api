@@ -87,7 +87,6 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
     }
 
     "return error according to spec" when {
-
       "validation error" when {
         def validationErrorTest(requestNino: String, requestTaxYear: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
           s"validation fails with ${expectedBody.code} error" in new Test {
@@ -111,7 +110,9 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
         val input = Seq(
           ("AA1123A", "2017-18", BAD_REQUEST, NinoFormatError),
           ("AA123456A", "20177", BAD_REQUEST, TaxYearFormatError),
-          ("AA123456A", "2015-17", BAD_REQUEST, RuleTaxYearRangeInvalidError))
+          ("AA123456A", "2015-17", BAD_REQUEST, RuleTaxYearRangeInvalidError),
+          ("AA123456A", "2015-16", BAD_REQUEST, RuleTaxYearNotSupportedError)
+        )
 
         input.foreach(args => (validationErrorTest _).tupled(args))
       }
@@ -147,7 +148,8 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
           (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
           (NOT_FOUND, "NOT_FOUND", NOT_FOUND, NotFoundError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, DownstreamError),
-          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, DownstreamError))
+          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, DownstreamError)
+        )
 
         input.foreach(args => (serviceErrorTest _).tupled(args))
       }

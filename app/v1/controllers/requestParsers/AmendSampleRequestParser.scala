@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers.validators.validations
+package v1.controllers.requestParsers
 
-import config.FixedConfig
+import javax.inject.Inject
+import uk.gov.hmrc.domain.Nino
+import v1.controllers.requestParsers.validators.AmendSampleValidator
 import v1.models.domain.DesTaxYear
-import v1.models.errors.MtdError
+import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 
-object MtdTaxYearValidation extends FixedConfig {
+class AmendSampleRequestParser @Inject()(val validator: AmendSampleValidator)
+  extends RequestParser[AmendSampleRawData, AmendSampleRequest] {
 
-  // @param taxYear In format YYYY-YY
-  def validate(taxYear: String, error: MtdError): List[MtdError] = {
-
-    val desTaxYear = Integer.parseInt(DesTaxYear.fromMtd(taxYear).value)
-
-    if (desTaxYear >= minimumTaxYear) NoValidationErrors else List(error)
-  }
+  override protected def requestFor(data: AmendSampleRawData): AmendSampleRequest =
+    AmendSampleRequest(Nino(data.nino), DesTaxYear.fromMtd(data.taxYear), data.body.as[AmendSampleRequestBody])
 }

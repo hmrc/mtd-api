@@ -159,7 +159,7 @@ class RetrieveSampleControllerSpec
           .returns(Right(requestData))
 
         MockDeleteRetrieveService
-          .retrieve[RetrieveSampleResponse](requestData)
+          .retrieve[RetrieveSampleResponse]()
           .returns(Future.successful(Right(ResponseWrapper(correlationId, retrieveSampleResponseModel))))
 
         MockHateoasFactory
@@ -195,7 +195,8 @@ class RetrieveSampleControllerSpec
           (BadRequestError, BAD_REQUEST),
           (NinoFormatError, BAD_REQUEST),
           (TaxYearFormatError, BAD_REQUEST),
-          (RuleTaxYearRangeInvalidError, BAD_REQUEST)
+          (RuleTaxYearRangeInvalidError, BAD_REQUEST),
+          (RuleTaxYearNotSupportedError, BAD_REQUEST)
         )
 
         input.foreach(args => (errorsFromParserTester _).tupled(args))
@@ -210,7 +211,7 @@ class RetrieveSampleControllerSpec
               .returns(Right(requestData))
 
             MockDeleteRetrieveService
-              .retrieve[RetrieveSampleResponse](requestData)
+              .retrieve[RetrieveSampleResponse]()
               .returns(Future.successful(Left(ErrorWrapper(Some(correlationId), mtdError))))
 
             val result: Future[Result] = controller.retrieveSample(nino, taxYear)(fakeGetRequest)

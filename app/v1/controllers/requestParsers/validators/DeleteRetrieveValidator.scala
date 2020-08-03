@@ -16,13 +16,13 @@
 
 package v1.controllers.requestParsers.validators
 
-import v1.controllers.requestParsers.validators.validations.{NinoValidation, TaxYearValidation}
+import v1.controllers.requestParsers.validators.validations.{NinoValidation, TaxYearNotSupportedValidation, TaxYearValidation}
 import v1.models.errors.MtdError
 import v1.models.request.DeleteRetrieveRawData
 
 class DeleteRetrieveValidator extends Validator[DeleteRetrieveRawData] {
 
-  private val validationSet = List(parameterFormatValidation)
+  private val validationSet = List(parameterFormatValidation, parameterRuleValidation)
 
   override def validate(data: DeleteRetrieveRawData): List[MtdError] = {
     run(validationSet, data).distinct
@@ -32,6 +32,12 @@ class DeleteRetrieveValidator extends Validator[DeleteRetrieveRawData] {
     List(
       NinoValidation.validate(data.nino),
       TaxYearValidation.validate(data.taxYear)
+    )
+  }
+
+  private def parameterRuleValidation: DeleteRetrieveRawData => List[List[MtdError]] = (data: DeleteRetrieveRawData) => {
+    List(
+      TaxYearNotSupportedValidation.validate(data.taxYear)
     )
   }
 }

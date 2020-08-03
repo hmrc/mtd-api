@@ -18,19 +18,19 @@ package v1.mocks.validators
 
 import org.scalamock.handlers.CallHandler1
 import org.scalamock.scalatest.MockFactory
-import v1.controllers.requestParsers.validators.SampleValidator
+import v1.controllers.requestParsers.validators.AmendSampleValidator
 import v1.models.errors.MtdError
-import v1.models.request.sample.SampleRawData
+import v1.models.request.amendSample.AmendSampleRawData
 
-class MockSampleValidator extends MockFactory {
+trait MockAmendSampleValidator extends MockFactory {
 
-  val mockValidator: SampleValidator = mock[SampleValidator]
+  val mockAmendSampleValidator: AmendSampleValidator = mock[AmendSampleValidator]
 
-  object MockSampleValidator {
+  object MockAmendSampleValidator {
 
-    def validate(data: SampleRawData): CallHandler1[SampleRawData, List[MtdError]] = {
-      (mockValidator
-        .validate(_: SampleRawData))
+    def validate(data: AmendSampleRawData): CallHandler1[AmendSampleRawData, List[MtdError]] = {
+      (mockAmendSampleValidator
+        .validate(_: AmendSampleRawData))
         .expects(data)
     }
   }
