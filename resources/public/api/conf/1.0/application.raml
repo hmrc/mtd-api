@@ -30,21 +30,18 @@ uses:
   headers: headers.raml
 
 '/mtd/template':
-  /{nino}:
-    uriParameters:
-      nino:
-        description: National Insurance number, in the format AA999999A.
-        type: string
-        example: TC663795B
-    /{taxYear}:
+  /sample:
+    /{nino}:
       uriParameters:
-        taxYear:
-          description: 'The tax year the data applies to, for example, 2019-20. The start year and end year must not span two tax years. No gaps are allowed, for example, 2019-21 is not valid.'
-          example: "2017-18"
-      /sample-endpoint:
-        (annotations.group):
-          name: Sample Endpoint
-          description: This is a sample endpoint
-        post: !include endpoints/sample_post.raml
-        delete: !include endpoints/sample_delete.raml
+        nino:
+          description: National Insurance number, in the format AA999999A.
+          type: string
+          example: TC663795B
+      /{taxYear}:
+        uriParameters:
+          taxYear:
+            description: 'The tax year the data applies to, for example, 2019-20. The start year and end year must not span two tax years. No gaps are allowed, for example, 2019-21 is not valid.'
+            example: "2017-18"
         get: !include endpoints/sample_retrieve.raml
+        put: !include endpoints/sample_put.raml
+        delete: !include endpoints/sample_delete.raml
