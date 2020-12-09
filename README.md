@@ -1,6 +1,6 @@
 API Example Microservice
 ========================
-**Add overview documentation here**
+**Add overview documentation here and use the title of the API and not the URL e.g. "Business details API" and not "business-details-api"**
 
 ## Requirements 
 - Scala 2.12.x
@@ -14,13 +14,13 @@ Run from the console using: `sbt run` (starts on port XXXX by default)
   
 Start the service manager profile: `sm --start MTDFB_XX`
 
-# Run tests
+# Running tests
 ```
 sbt test
 sbt it:test
 ```
 
-## To view the RAML
+## Viewing RAML
 
 To view documentation locally ensure the **add api name** API is running, and run api-documentation-frontend:
 `./run_local_with_dependencies.sh`
