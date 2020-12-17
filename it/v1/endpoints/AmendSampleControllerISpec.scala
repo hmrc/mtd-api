@@ -31,7 +31,7 @@ class AmendSampleControllerISpec extends IntegrationBaseSpec {
   private trait Test {
 
     val nino = "AA123456A"
-    val taxYear = "2017-18"
+    val taxYear = "2020-21"
     val correlationId = "X-123"
 
     def uri: String = s"/sample/$nino/$taxYear"
@@ -60,17 +60,17 @@ class AmendSampleControllerISpec extends IntegrationBaseSpec {
       |{
       |  "links": [
       |    {
-      |      "href": "/mtd/template/sample/AA123456A/2017-18",
+      |      "href": "/mtd/template/sample/AA123456A/2020-21",
       |      "method": "PUT",
       |      "rel": "amend-sample-rel"
       |    },
       |    {
-      |      "href": "/mtd/template/sample/AA123456A/2017-18",
+      |      "href": "/mtd/template/sample/AA123456A/2020-21",
       |      "method": "GET",
       |      "rel": "self"
       |    },
       |    {
-      |      "href": "/mtd/template/sample/AA123456A/2017-18",
+      |      "href": "/mtd/template/sample/AA123456A/2020-21",
       |      "method": "DELETE",
       |      "rel": "delete-sample-rel"
       |    }
