@@ -31,7 +31,7 @@ class DeleteSampleControllerISpec extends IntegrationBaseSpec {
   private trait Test {
 
     val nino: String = "AA123456A"
-    val taxYear: String = "2017-18"
+    val taxYear: String = "2020-21"
     val correlationId: String = "X-123"
 
     def uri: String = s"/sample/$nino/$taxYear"
