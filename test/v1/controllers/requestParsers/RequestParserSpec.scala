@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 package v1.controllers.requestParsers
 
 import support.UnitSpec
-import uk.gov.hmrc.domain.Nino
 import v1.controllers.requestParsers.validators.Validator
+import v1.models.domain.Nino
 import v1.models.errors.{BadRequestError, ErrorWrapper, NinoFormatError, RuleIncorrectOrEmptyBodyError}
 import v1.models.request.RawData
 
@@ -36,7 +36,7 @@ class RequestParserSpec extends UnitSpec {
     val parser: RequestParser[Raw, Request] = new RequestParser[Raw, Request] {
       val validator: Validator[Raw] = test.validator
 
-      protected def requestFor(data: Raw) = Request(Nino(data.nino))
+      protected def requestFor(data: Raw): Request = Request(Nino(data.nino))
     }
   }
 

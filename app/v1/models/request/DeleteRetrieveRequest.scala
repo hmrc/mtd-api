@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package v1.models.request
 
-import uk.gov.hmrc.domain.Nino
-import v1.models.domain.DesTaxYear
+import v1.models.domain.{DesTaxYear, Nino}
 
 case class DeleteRetrieveRequest(nino: Nino, taxYear: DesTaxYear)

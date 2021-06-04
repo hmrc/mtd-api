@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ trait MockAuditService extends MockFactory {
 
   val mockAuditService: AuditService = stub[AuditService]
 
-  object MockedAuditService {
+  object MockAuditService {
     def verifyAuditEvent[T](event: AuditEvent[T]): CallHandler[Future[AuditResult]] = {
       (mockAuditService.auditEvent(_: AuditEvent[T])(_: HeaderCarrier, _: ExecutionContext, _: Writes[T]))
         .verify(event, *, *, *)

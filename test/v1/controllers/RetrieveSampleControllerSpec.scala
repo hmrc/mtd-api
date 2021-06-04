@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,13 @@ package v1.controllers
 
 import play.api.libs.json.{JsObject, Json}
 import play.api.mvc.Result
-import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.fixtures.RetrieveSampleControllerFixture
 import v1.hateoas.HateoasLinks
 import v1.mocks.hateoas.MockHateoasFactory
 import v1.mocks.requestParsers.MockDeleteRetrieveRequestParser
 import v1.mocks.services.{MockDeleteRetrieveService, MockEnrolmentsAuthService, MockMtdIdLookupService}
-import v1.models.domain.{DesTaxYear, SampleMtdEnum}
+import v1.models.domain.{DesTaxYear, Nino, SampleMtdEnum}
 import v1.models.errors._
 import v1.models.hateoas.Method.{DELETE, GET, PUT}
 import v1.models.hateoas.RelType.{AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, SELF}
@@ -38,7 +37,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RetrieveSampleControllerSpec
-    extends ControllerBaseSpec
+  extends ControllerBaseSpec
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
     with MockDeleteRetrieveService
@@ -126,7 +125,7 @@ class RetrieveSampleControllerSpec
   private val mtdResponse = RetrieveSampleControllerFixture.mtdResponseWithHateoas(nino, taxYear)
 
   trait Test {
-    val hc = HeaderCarrier()
+    val hc: HeaderCarrier = HeaderCarrier()
 
     val controller = new RetrieveSampleController(
       authService = mockEnrolmentsAuthService,
@@ -137,8 +136,8 @@ class RetrieveSampleControllerSpec
       cc = cc
     )
 
-    MockedMtdIdLookupService.lookup(nino).returns(Future.successful(Right("test-mtd-id")))
-    MockedEnrolmentsAuthService.authoriseUser()
+    MockMtdIdLookupService.lookup(nino).returns(Future.successful(Right("test-mtd-id")))
+    MockEnrolmentsAuthService.authoriseUser()
   }
 
   "RetrieveSampleController" should {

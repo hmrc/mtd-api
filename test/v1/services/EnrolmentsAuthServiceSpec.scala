@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class EnrolmentsAuthServiceSpec extends ServiceSpec {
 
     val authRetrievals: Retrieval[Option[AffinityGroup] ~ Enrolments] = affinityGroup and authorisedEnrolments
 
-    object MockedAuthConnector {
+    object MockAuthConnector {
       def authorised[A](predicate: Predicate, retrievals: Retrieval[A]): CallHandler[Future[A]] = {
         (mockAuthConnector.authorise[A](_: Predicate, _: Retrieval[A])(_: HeaderCarrier, _: ExecutionContext))
           .expects(predicate, retrievals, *, *)
@@ -53,7 +53,7 @@ class EnrolmentsAuthServiceSpec extends ServiceSpec {
         val retrievalsResult = new ~(Some(Individual), Enrolments(Set.empty))
         val expected = Right(UserDetails("", "Individual", None))
 
-        MockedAuthConnector.authorised(EmptyPredicate, authRetrievals)
+        MockAuthConnector.authorised(EmptyPredicate, authRetrievals)
           .returns(Future.successful(retrievalsResult))
 
         private val result = await(target.authorised(EmptyPredicate))
@@ -68,7 +68,7 @@ class EnrolmentsAuthServiceSpec extends ServiceSpec {
         val retrievalsResult = new ~(Some(Organisation), Enrolments(Set.empty))
         val expected = Right(UserDetails("", "Organisation", None))
 
-        MockedAuthConnector.authorised(EmptyPredicate, authRetrievals)
+        MockAuthConnector.authorised(EmptyPredicate, authRetrievals)
           .returns(Future.successful(retrievalsResult))
 
         private val result = await(target.authorised(EmptyPredicate))
@@ -95,7 +95,7 @@ class EnrolmentsAuthServiceSpec extends ServiceSpec {
 
         val expected = Left(DownstreamError)
 
-        MockedAuthConnector.authorised(EmptyPredicate, authRetrievals)
+        MockAuthConnector.authorised(EmptyPredicate, authRetrievals)
           .returns(Future.successful(retrievalsResult))
 
         private val result = await(target.authorised(EmptyPredicate))
@@ -109,7 +109,7 @@ class EnrolmentsAuthServiceSpec extends ServiceSpec {
 
         val expected = Left(UnauthorisedError)
 
-        MockedAuthConnector.authorised(EmptyPredicate, authRetrievals)
+        MockAuthConnector.authorised(EmptyPredicate, authRetrievals)
           .returns(Future.failed(MissingBearerToken()))
 
         private val result = await(target.authorised(EmptyPredicate))
@@ -123,7 +123,7 @@ class EnrolmentsAuthServiceSpec extends ServiceSpec {
 
         val expected = Left(UnauthorisedError)
 
-        MockedAuthConnector.authorised(EmptyPredicate, authRetrievals)
+        MockAuthConnector.authorised(EmptyPredicate, authRetrievals)
           .returns(Future.failed(InsufficientEnrolments()))
 
         private val result = await(target.authorised(EmptyPredicate))

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,16 @@ package config
 import controllers.Assets
 import definition.ApiDefinitionFactory
 import javax.inject.{Inject, Singleton}
-import play.api.http.HttpErrorHandler
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 
 @Singleton
 class DocumentationController @Inject()(selfAssessmentApiDefinition: ApiDefinitionFactory,
-                                        cc: ControllerComponents, assets: Assets, errorHandler: HttpErrorHandler)
-  extends HmrcDocumentationController(cc,assets , errorHandler ) {
+                                        cc: ControllerComponents, assets: Assets)
+  extends BackendController(cc) {
 
-  override def definition(): Action[AnyContent] = Action {
+  def definition(): Action[AnyContent] = Action {
     Ok(Json.toJson(selfAssessmentApiDefinition.definition))
   }
 

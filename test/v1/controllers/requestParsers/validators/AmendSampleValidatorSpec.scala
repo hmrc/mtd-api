@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,8 @@ class AmendSampleValidatorSpec extends UnitSpec {
     """{
       |  "data" : "someData"
       |}
-    """.stripMargin)
+    """.stripMargin
+  )
 
   class Test extends MockAppConfig {
 
@@ -42,7 +43,7 @@ class AmendSampleValidatorSpec extends UnitSpec {
 
     val validator = new AmendSampleValidator()
 
-    MockedAppConfig.minimumPermittedTaxYear
+    MockAppConfig.minimumPermittedTaxYear
       .returns(2021)
   }
 

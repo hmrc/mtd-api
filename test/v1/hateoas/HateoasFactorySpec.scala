@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,10 +33,10 @@ class HateoasFactorySpec extends UnitSpec with MockAppConfig {
   case class Data1(id: String) extends HateoasData
   case class Data2(id: String) extends HateoasData
 
-  val response = Response("X")
+  val response: Response = Response("X")
 
   class Test {
-    MockedAppConfig.apiGatewayContext.returns("context").anyNumberOfTimes
+    MockAppConfig.apiGatewayContext.returns("context").anyNumberOfTimes
   }
 
   "wrap" should {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ class ErrorHandlerSpec extends UnitSpec with GuiceOneAppPerSuite {
 
     val eventTags: Map[String, String] = Map("transactionName" -> "event.transactionName")
 
-    val dataEvent = DataEvent(
+    val dataEvent: DataEvent = DataEvent(
       auditSource = "auditSource",
       auditType = "event.auditType",
       eventId = "",
@@ -68,7 +68,7 @@ class ErrorHandlerSpec extends UnitSpec with GuiceOneAppPerSuite {
     (auditConnector.sendEvent(_ : DataEvent)(_: HeaderCarrier, _: ExecutionContext)).expects(*, *, *)
       .returns(Future.successful(Success))
 
-    val configuration = Configuration(
+    val configuration: Configuration = Configuration(
       "appName" -> "myApp",
       "bootstrap.errorHandler.warnOnly.statusCodes" -> List.empty
     )
@@ -162,4 +162,3 @@ class ErrorHandlerSpec extends UnitSpec with GuiceOneAppPerSuite {
     }
   }
 }
-

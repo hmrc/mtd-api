@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,9 @@
 
 package definition
 
-import com.typesafe.config.ConfigFactory
 import definition.APIStatus.{ALPHA, BETA}
 import definition.Versions.VERSION_1
 import mocks.MockAppConfig
-import play.api.Configuration
 import support.UnitSpec
 import v1.mocks.MockHttpClient
 
@@ -28,15 +26,15 @@ class ApiDefinitionFactorySpec extends UnitSpec {
 
   class Test extends MockHttpClient with MockAppConfig {
     val apiDefinitionFactory = new ApiDefinitionFactory(mockAppConfig)
-    MockedAppConfig.apiGatewayContext returns "mtd/template"
+    MockAppConfig.apiGatewayContext returns "mtd/template"
   }
 
   "definition" when {
     "called" should {
       "return a valid Definition case class" in new Test {
-        MockedAppConfig.featureSwitch returns None
-        MockedAppConfig.apiStatus returns "1.0"
-        MockedAppConfig.endpointsEnabled returns true
+        MockAppConfig.featureSwitch returns None
+        MockAppConfig.apiStatus returns "1.0"
+        MockAppConfig.endpointsEnabled returns true
 
         private val readScope = "read:self-assessment"
         private val writeScope = "write:self-assessment"
@@ -63,7 +61,6 @@ class ApiDefinitionFactorySpec extends UnitSpec {
               versions = Seq(
                 APIVersion(
                   version = VERSION_1,
-                  access = None,
                   status = ALPHA,
                   endpointsEnabled = true
                 )
@@ -78,49 +75,16 @@ class ApiDefinitionFactorySpec extends UnitSpec {
   "buildAPIStatus" when {
     "the 'apiStatus' parameter is present and valid" should {
       "return the correct status" in new Test {
-        MockedAppConfig.apiStatus returns "BETA"
-        apiDefinitionFactory.buildAPIStatus("1.0") shouldBe BETA
+        MockAppConfig.apiStatus returns "BETA"
+        apiDefinitionFactory.buildAPIStatus(version = "1.0") shouldBe BETA
       }
     }
 
     "the 'apiStatus' parameter is present and invalid" should {
       "default to alpha" in new Test {
-        MockedAppConfig.apiStatus returns "ALPHO"
-        apiDefinitionFactory.buildAPIStatus("1.0") shouldBe ALPHA
+        MockAppConfig.apiStatus returns "ALPHO"
+        apiDefinitionFactory.buildAPIStatus(version = "1.0") shouldBe ALPHA
       }
     }
   }
-
-  "buildWhiteListingAccess" when {
-    "the 'featureSwitch' parameter is not present" should {
-      "return None" in new Test {
-        MockedAppConfig.featureSwitch returns None
-        apiDefinitionFactory.buildWhiteListingAccess() shouldBe None
-      }
-    }
-
-    "the 'featureSwitch' parameter is present and white listing is enabled" should {
-      "return the correct Access object" in new Test {
-
-        private val someString =
-          """
-            |{
-            |   white-list.enabled = true
-            |   white-list.applicationIds = ["anId"]
-            |}
-          """.stripMargin
-
-        MockedAppConfig.featureSwitch returns Some(Configuration(ConfigFactory.parseString(someString)))
-        apiDefinitionFactory.buildWhiteListingAccess() shouldBe Some(Access("PRIVATE", Seq("anId")))
-      }
-    }
-
-    "the 'featureSwitch' parameter is present and white listing is not enabled" should {
-      "return None" in new Test {
-        MockedAppConfig.featureSwitch returns Some(Configuration(ConfigFactory.parseString("""white-list.enabled = false""")))
-        apiDefinitionFactory.buildWhiteListingAccess() shouldBe None
-      }
-    }
-  }
-
 }

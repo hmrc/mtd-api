@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ trait MockMtdIdLookupService extends MockFactory {
 
   val mockMtdIdLookupService: MtdIdLookupService = mock[MtdIdLookupService]
 
-  object MockedMtdIdLookupService {
+  object MockMtdIdLookupService {
     def lookup(nino: String): CallHandler[Future[MtdIdLookupOutcome]] = {
       (mockMtdIdLookupService.lookup(_: String)(_: HeaderCarrier, _: ExecutionContext))
         .expects(nino, *, *)
