@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ class MtdIdLookupConnectorSpec extends ConnectorSpec {
       http = mockHttpClient,
       appConfig = mockAppConfig
     )
-    MockedAppConfig.mtdIdBaseUrl returns baseUrl
+    MockAppConfig.mtdIdBaseUrl returns baseUrl
   }
 
   val nino = "test-nino"
@@ -38,8 +38,10 @@ class MtdIdLookupConnectorSpec extends ConnectorSpec {
   "getMtdId" should {
     "return an MtdId" when {
       "the http client returns a mtd id" in new Test {
-        MockedHttpClient.get[MtdIdLookupOutcome](s"$baseUrl/mtd-identifier-lookup/nino/$nino")
-          .returns(Future.successful(Right(mtdId)))
+        MockHttpClient.get[MtdIdLookupOutcome](
+          url = s"$baseUrl/mtd-identifier-lookup/nino/$nino",
+          config = dummyDesHeaderCarrierConfig
+        ).returns(Future.successful(Right(mtdId)))
 
         val result: MtdIdLookupOutcome = await(connector.getMtdId(nino))
         result shouldBe Right(mtdId)
@@ -48,8 +50,10 @@ class MtdIdLookupConnectorSpec extends ConnectorSpec {
 
     "return a DownstreamError" when {
       "the http client returns a DownstreamError" in new Test {
-        MockedHttpClient.get[MtdIdLookupOutcome](s"$baseUrl/mtd-identifier-lookup/nino/$nino")
-          .returns(Future.successful(Left(DownstreamError)))
+        MockHttpClient.get[MtdIdLookupOutcome](
+          url = s"$baseUrl/mtd-identifier-lookup/nino/$nino",
+          config = dummyDesHeaderCarrierConfig
+        ).returns(Future.successful(Left(DownstreamError)))
 
         val result: MtdIdLookupOutcome = await(connector.getMtdId(nino))
         result shouldBe Left(DownstreamError)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,14 @@
 
 package v1.connectors.httpparsers
 
-import play.api.Logger
 import play.api.libs.json._
 import uk.gov.hmrc.http.HttpResponse
+import utils.Logging
 import v1.models.errors._
 
 import scala.util.{Success, Try}
 
-trait HttpParser {
-
-  private val logger: Logger = Logger(this.getClass)
+trait HttpParser extends Logging {
 
   implicit class KnownJsonResponse(response: HttpResponse) {
 

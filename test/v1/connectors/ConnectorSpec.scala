@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +27,37 @@ trait ConnectorSpec extends UnitSpec
   with MimeTypes
   with HeaderNames {
 
-  lazy val baseUrl = "test-BaseUrl"
-  val correlationId = "a1e8057e-fbbc-47a8-a8b4-78d9f015c253"
+  lazy val baseUrl = "http://test-BaseUrl"
+  val correlationId: String = "a1e8057e-fbbc-47a8-a8b4-78d9f015c253"
 
-  implicit val hc: HeaderCarrier = HeaderCarrier()
+  val otherHeaders: Seq[(String, String)] = Seq(
+    "Gov-Test-Scenario" -> "DEFAULT",
+    "AnotherHeader" -> "HeaderValue"
+  )
+
+  implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders)
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global
+
+  val dummyDesHeaderCarrierConfig: HeaderCarrier.Config =
+    HeaderCarrier.Config(
+      Seq("^not-test-BaseUrl?$".r),
+      Seq.empty[String],
+      Some("mtd-api")
+    )
+
+  val requiredDesHeaders: Seq[(String, String)] = Seq(
+    "Authorization" -> "Bearer des-token",
+    "Environment" -> "des-environment",
+    "User-Agent" -> "mtd-api",
+    "Gov-Test-Scenario" -> "DEFAULT"
+  )
+
+  val allowedDesHeaders: Seq[String] = Seq(
+    "Accept",
+    "Gov-Test-Scenario",
+    "Content-Type",
+    "Location",
+    "X-Request-Timestamp",
+    "X-Session-Id"
+  )
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,14 +35,10 @@ class DeleteRetrieveConnectorSpec extends ConnectorSpec {
       appConfig = mockAppConfig
     )
 
-    val desRequestHeaders: Seq[(String, String)] = Seq(
-      "Environment" -> "des-environment",
-      "Authorization" -> s"Bearer des-token"
-    )
-
-    MockedAppConfig.desBaseUrl returns baseUrl
-    MockedAppConfig.desToken returns "des-token"
-    MockedAppConfig.desEnvironment returns "des-environment"
+    MockAppConfig.desBaseUrl returns baseUrl
+    MockAppConfig.desToken returns "des-token"
+    MockAppConfig.desEnvironment returns "des-environment"
+    MockAppConfig.desEnvironmentHeaders returns Some(allowedDesHeaders)
   }
 
   "DeleteRetrieveConnector" when {
@@ -52,12 +48,13 @@ class DeleteRetrieveConnectorSpec extends ConnectorSpec {
         val outcome = Right(ResponseWrapper(correlationId, ()))
         implicit val desUri: DesUri[Unit] = DesUri[Unit](s"some-placeholder/savings/$nino/$taxYear")
 
-        MockedHttpClient
+        MockHttpClient
           .delete(
             url = s"$baseUrl/some-placeholder/savings/$nino/$taxYear",
-            requiredHeaders = desRequestHeaders: _*
-          )
-          .returns(Future.successful(outcome))
+            config = dummyDesHeaderCarrierConfig,
+            requiredHeaders = requiredDesHeaders,
+            excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
+          ).returns(Future.successful(outcome))
 
         await(connector.delete()) shouldBe outcome
       }
@@ -75,12 +72,13 @@ class DeleteRetrieveConnectorSpec extends ConnectorSpec {
         val outcome = Right(ResponseWrapper(correlationId, Data("value")))
         implicit val desUri: DesUri[Data] = DesUri[Data](s"some-placeholder/savings/$nino/$taxYear")
 
-        MockedHttpClient
+        MockHttpClient
           .get(
             url = s"$baseUrl/some-placeholder/savings/$nino/$taxYear",
-            requiredHeaders = desRequestHeaders: _*
-          )
-          .returns(Future.successful(outcome))
+            config = dummyDesHeaderCarrierConfig,
+            requiredHeaders = requiredDesHeaders,
+            excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
+          ).returns(Future.successful(outcome))
 
         await(connector.retrieve[Data]()) shouldBe outcome
       }

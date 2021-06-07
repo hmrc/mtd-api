@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,25 +18,25 @@ package v1.controllers.requestParsers
 
 import play.api.libs.json.Json
 import support.UnitSpec
-import uk.gov.hmrc.domain.Nino
 import v1.mocks.validators.MockAmendSampleValidator
-import v1.models.domain.DesTaxYear
+import v1.models.domain.{DesTaxYear, Nino}
 import v1.models.errors._
-import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
+import v1.models.request.amendSample._
 
 class AmendSampleRequestParserSpec extends UnitSpec {
-  val nino = "AA123456B"
-  val taxYear = "2017-18"
-  val calcId = "someCalcId"
+
+  val nino: String = "AA123456B"
+  val taxYear: String = "2017-18"
+  val calcId: String = "someCalcId"
 
   private val requestBodyJson = Json.parse(
     """{
       |  "data" : "someData"
       |}
-    """.stripMargin)
+    """.stripMargin
+  )
 
-  val inputData =
-    AmendSampleRawData(nino, taxYear, requestBodyJson)
+  val inputData: AmendSampleRawData = AmendSampleRawData(nino, taxYear, requestBodyJson)
 
   trait Test extends MockAmendSampleValidator {
     lazy val parser = new AmendSampleRequestParser(mockAmendSampleValidator)

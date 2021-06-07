@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,11 @@ package v1.controllers
 import mocks.MockAppConfig
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
-import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.mocks.requestParsers.MockAmendSampleRequestParser
 import v1.mocks.services.{MockAmendSampleService, MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
 import v1.models.audit.{AuditError, AuditEvent, SampleAuditDetail, SampleAuditResponse}
-import v1.models.domain.DesTaxYear
+import v1.models.domain.{DesTaxYear, Nino}
 import v1.models.errors._
 import v1.models.outcomes.ResponseWrapper
 import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
@@ -63,14 +62,14 @@ class AmendSampleControllerSpec
     data = "someData"
   )
 
-  val requestData = AmendSampleRequest(
+  val requestData: AmendSampleRequest = AmendSampleRequest(
     nino = Nino(nino),
     desTaxYear = DesTaxYear.fromMtd(taxYear),
     body = requestBody
   )
 
   trait Test {
-    val hc = HeaderCarrier()
+    val hc: HeaderCarrier = HeaderCarrier()
 
     val controller = new AmendSampleController(
       authService = mockEnrolmentsAuthService,
@@ -82,11 +81,10 @@ class AmendSampleControllerSpec
       cc = cc
     )
 
-    MockedMtdIdLookupService.lookup(nino).returns(Future.successful(Right("test-mtd-id")))
-    MockedEnrolmentsAuthService.authoriseUser()
-    MockedAppConfig.apiGatewayContext.returns("baseUrl").anyNumberOfTimes()
+    MockMtdIdLookupService.lookup(nino).returns(Future.successful(Right("test-mtd-id")))
+    MockEnrolmentsAuthService.authoriseUser()
+    MockAppConfig.apiGatewayContext.returns("baseUrl").anyNumberOfTimes()
   }
-
 
   val responseBody: JsValue = Json.parse(
     """
@@ -150,7 +148,7 @@ class AmendSampleControllerSpec
           detail = detail
         )
 
-        MockedAuditService.verifyAuditEvent(event).once
+        MockAuditService.verifyAuditEvent(event).once
       }
     }
 
@@ -189,7 +187,7 @@ class AmendSampleControllerSpec
               detail = detail
             )
 
-            MockedAuditService.verifyAuditEvent(event).once
+            MockAuditService.verifyAuditEvent(event).once
           }
         }
 
@@ -244,7 +242,7 @@ class AmendSampleControllerSpec
               detail = detail
             )
 
-            MockedAuditService.verifyAuditEvent(event).once
+            MockAuditService.verifyAuditEvent(event).once
           }
         }
 

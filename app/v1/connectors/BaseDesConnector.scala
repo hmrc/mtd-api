@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,27 @@
 package v1.connectors
 
 import config.AppConfig
-import play.api.Logger
 import play.api.libs.json.Writes
-import uk.gov.hmrc.http.logging.Authorization
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads}
+import utils.Logging
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait BaseDesConnector {
+trait BaseDesConnector extends Logging {
   val http: HttpClient
   val appConfig: AppConfig
 
-  val logger = Logger(this.getClass)
-
-  private[connectors] def desHeaderCarrier(implicit hc: HeaderCarrier): HeaderCarrier =
-    hc.copy(authorization = Some(Authorization(s"Bearer ${appConfig.desToken}")))
-      .withExtraHeaders("Environment" -> appConfig.desEnv)
+  private def desHeaderCarrier(additionalHeaders: Seq[String] = Seq.empty)(implicit hc: HeaderCarrier): HeaderCarrier =
+    HeaderCarrier(
+      extraHeaders = hc.extraHeaders ++
+        // Contract headers
+        Seq(
+          "Authorization" -> s"Bearer ${appConfig.desToken}",
+          "Environment" -> appConfig.desEnv
+        ) ++
+        // Other headers (i.e Gov-Test-Scenario, Content-Type)
+        hc.headers(additionalHeaders ++ appConfig.desEnvironmentHeaders.getOrElse(Seq.empty))
+    )
 
   def post[Body: Writes, Resp](body: Body, uri: DesUri[Resp])(implicit ec: ExecutionContext,
                                                               hc: HeaderCarrier,
@@ -42,7 +47,7 @@ trait BaseDesConnector {
       http.POST(s"${appConfig.desBaseUrl}/${uri.value}", body)
     }
 
-    doPost(desHeaderCarrier(hc))
+    doPost(desHeaderCarrier(Seq("Content-Type")))
   }
 
   def get[Resp](uri: DesUri[Resp])(implicit ec: ExecutionContext,
@@ -52,7 +57,7 @@ trait BaseDesConnector {
     def doGet(implicit hc: HeaderCarrier): Future[DesOutcome[Resp]] =
       http.GET(s"${appConfig.desBaseUrl}/${uri.value}")
 
-    doGet(desHeaderCarrier(hc))
+    doGet(desHeaderCarrier())
   }
 
   def delete[Resp](uri: DesUri[Resp])(implicit ec: ExecutionContext,
@@ -63,7 +68,7 @@ trait BaseDesConnector {
       http.DELETE(s"${appConfig.desBaseUrl}/${uri.value}")
     }
 
-    doDelete(desHeaderCarrier(hc))
+    doDelete(desHeaderCarrier())
   }
 
   def put[Body: Writes, Resp](body: Body, uri: DesUri[Resp])(implicit ec: ExecutionContext,
@@ -74,6 +79,6 @@ trait BaseDesConnector {
       http.PUT(s"${appConfig.desBaseUrl}/${uri.value}", body)
     }
 
-    doPut(desHeaderCarrier(hc))
+    doPut(desHeaderCarrier(Seq("Content-Type")))
   }
 }

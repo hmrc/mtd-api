@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package utils
 
+import definition.Versions
 import javax.inject._
 import play.api._
 import play.api.http.Status._
@@ -24,31 +25,31 @@ import play.api.mvc.Results._
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthorisationException
 import uk.gov.hmrc.http._
-import uk.gov.hmrc.play.HeaderCarrierConverter
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.bootstrap.backend.http.JsonErrorHandler
 import uk.gov.hmrc.play.bootstrap.config.HttpAuditEvent
+import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import v1.models.errors._
 
 import scala.concurrent._
 
 @Singleton
-class ErrorHandler @Inject()(
-                              config: Configuration,
-                              auditConnector: AuditConnector,
-                              httpAuditEvent: HttpAuditEvent
-                            )(implicit ec: ExecutionContext) extends JsonErrorHandler(auditConnector, httpAuditEvent, config) {
+class ErrorHandler @Inject()(config: Configuration,
+                             auditConnector: AuditConnector,
+                             httpAuditEvent: HttpAuditEvent)(implicit ec: ExecutionContext)
+  extends JsonErrorHandler(auditConnector, httpAuditEvent, config) with Logging {
 
   import httpAuditEvent.dataEvent
 
-  private val logger: Logger = Logger(this.getClass)
-
   override def onClientError(request: RequestHeader, statusCode: Int, message: String): Future[Result] = {
+    implicit val headerCarrier: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    implicit val headerCarrier: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
-
-    logger.warn(s"[ErrorHandler][onClientError] error in version 1, for (${request.method}) [${request.uri}] with status:" +
-      s" $statusCode and message: $message")
+    logger.warn(
+      message =
+        s"[ErrorHandler][onClientError] error in version " +
+          s"${Versions.getFromRequest(request).getOrElse("<unspecified>")}, " +
+          s"for (${request.method}) [${request.uri}] with status: " +
+          s"$statusCode and message: $message")
     statusCode match {
       case BAD_REQUEST =>
         auditConnector.sendEvent(dataEvent("ServerValidationError",
@@ -79,9 +80,15 @@ class ErrorHandler @Inject()(
   }
 
   override def onServerError(request: RequestHeader, ex: Throwable): Future[Result] = {
-    implicit val headerCarrier: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+    implicit val headerCarrier: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    logger.warn(s"[ErrorHandler][onServerError] Internal server error in version 1, for (${request.method}) [${request.uri}] -> ", ex)
+    logger.warn(
+      message =
+        s"[ErrorHandler][onServerError] Internal server error in version " +
+          s"${Versions.getFromRequest(request).getOrElse("<unspecified>")}, " +
+          s"for (${request.method}) [${request.uri}] -> ",
+      ex
+    )
 
     val (status, errorCode, eventType) = ex match {
       case _: NotFoundException => (NOT_FOUND, NotFoundError, "ResourceNotFound")
@@ -104,4 +111,3 @@ class ErrorHandler @Inject()(
     Future.successful(Status(status)(Json.toJson(errorCode)))
   }
 }
-

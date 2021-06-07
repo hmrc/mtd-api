@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,23 +21,6 @@ import play.api.Configuration
 case class FeatureSwitch(value: Option[Configuration]) {
 
   private val versionRegex = """(\d)\.\d""".r
-
-  def isWhiteListingEnabled: Boolean = {
-    value match {
-      case Some(config) => config.getOptional[Boolean]("white-list.enabled").getOrElse(false)
-      case None         => false
-    }
-  }
-
-  def whiteListedApplicationIds: Seq[String] = {
-    value match {
-      case Some(config) =>
-        config
-          .getOptional[Seq[String]]("white-list.applicationIds")
-          .getOrElse(throw new RuntimeException(s"feature-switch.white-list.applicationIds is not configured"))
-      case None => Seq()
-    }
-  }
 
   def isVersionEnabled(version: String): Boolean = {
     val versionNoIfPresent: Option[String] =

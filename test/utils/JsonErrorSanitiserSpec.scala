@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class JsonErrorSanitiserSpec extends UnitSpec {
       JsonErrorSanitiser.sanitise("Invalid Json: sensitive information  ") shouldBe "Invalid Json"
     }
 
-    "return a non-sentitive prefix" in {
+    "return a non-sensitive prefix" in {
       JsonErrorSanitiser.sanitise("Some not sensitive message. Invalid Json: sensitive information") shouldBe
         "Some not sensitive message."
     }
