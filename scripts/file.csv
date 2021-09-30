@@ -1,0 +1,901 @@
+repo_name,microservice_version,has_paths,error_name,error_code,error_message
+business-details-api,v1,False,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+business-details-api,v1,False,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+business-details-api,v1,False,BusinessIdFormatError,FORMAT_BUSINESS_ID,The provided Business ID is invalid
+business-details-api,v1,False,NoBusinessFoundError,NO_BUSINESS_FOUND,No business found for given NINO and Business ID
+business-details-api,v1,False,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+business-details-api,v1,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+business-details-api,v1,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+business-details-api,v1,False,BadRequestError,INVALID_REQUEST,Invalid request
+business-details-api,v1,False,BVRError,BUSINESS_ERROR,Business validation error
+business-details-api,v1,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+business-details-api,v1,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+business-details-api,v1,False,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+business-details-api,v1,False,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+business-details-api,v1,False,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+business-details-api,v1,False,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+cis-deductions-api,v1,False,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+cis-deductions-api,v1,False,SubmissionIdFormatError,FORMAT_SUBMISSION_ID,The provided submission ID is invalid
+cis-deductions-api,v1,False,EmployerRefFormatError,FORMAT_EMPLOYER_REFERENCE,The format of the Employer Reference number is invalid
+cis-deductions-api,v1,False,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+cis-deductions-api,v1,False,FromDateFormatError,FORMAT_FROM_DATE,The provided From date is invalid
+cis-deductions-api,v1,False,ToDateFormatError,FORMAT_TO_DATE,The provided To date is invalid
+cis-deductions-api,v1,False,DeductionFromDateFormatError,FORMAT_DEDUCTIONS_FROM_DATE,The provided deductions From date is invalid
+cis-deductions-api,v1,False,DeductionToDateFormatError,FORMAT_DEDUCTIONS_TO_DATE,The provided deductions To date is invalid
+cis-deductions-api,v1,False,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+cis-deductions-api,v1,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+cis-deductions-api,v1,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+cis-deductions-api,v1,False,BadRequestError,INVALID_REQUEST,Invalid request
+cis-deductions-api,v1,False,BVRError,BUSINESS_ERROR,Business validation error
+cis-deductions-api,v1,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+cis-deductions-api,v1,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+cis-deductions-api,v1,False,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+cis-deductions-api,v1,False,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+cis-deductions-api,v1,False,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+cis-deductions-api,v1,False,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individual-calculations,v1,False,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individual-calculations,v1,False,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individual-calculations,v1,False,CalculationIdFormatError,FORMAT_CALC_ID,The provided Calculation ID is invalid
+individual-calculations,v1,False,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individual-calculations,v1,False,RuleNoIncomeSubmissionsExistError,RULE_NO_INCOME_SUBMISSIONS_EXIST,No income submissions exist for the tax year
+individual-calculations,v1,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individual-calculations,v1,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individual-calculations,v1,False,BadRequestError,INVALID_REQUEST,Invalid request
+individual-calculations,v1,False,BVRError,BUSINESS_ERROR,Business validation error
+individual-calculations,v1,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individual-calculations,v1,False,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individual-calculations,v1,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individual-calculations,v1,False,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individual-calculations,v1,False,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individual-calculations,v1,False,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individual-calculations,v2,False,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individual-calculations,v2,False,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individual-calculations,v2,False,CalculationIdFormatError,FORMAT_CALC_ID,The provided Calculation ID is invalid
+individual-calculations,v2,False,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individual-calculations,v2,False,RuleNoIncomeSubmissionsExistError,RULE_NO_INCOME_SUBMISSIONS_EXIST,No income submissions exist for the tax year
+individual-calculations,v2,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individual-calculations,v2,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individual-calculations,v2,False,BadRequestError,INVALID_REQUEST,Invalid request
+individual-calculations,v2,False,BVRError,BUSINESS_ERROR,Business validation error
+individual-calculations,v2,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individual-calculations,v2,False,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individual-calculations,v2,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individual-calculations,v2,False,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individual-calculations,v2,False,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individual-calculations,v2,False,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individual-calculations-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individual-calculations-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individual-calculations-api,v1,True,CalculationIdFormatError,FORMAT_CALC_ID,The provided Calculation ID is invalid
+individual-calculations-api,v1,True,TypeFormatError,FORMAT_TYPE,The provided type value is invalid
+individual-calculations-api,v1,True,NoMessagesExistError,NO_MESSAGES_PRESENT,No messages present
+individual-calculations-api,v1,True,EndOfYearEstimateNotPresentError,END_OF_YEAR_ESTIMATE_NOT_PRESENT,End of year estimate data will only be returned for an in-year calculation
+individual-calculations-api,v1,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"Tax year not supported, because it precedes the earliest allowable tax year"
+individual-calculations-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individual-calculations-api,v1,True,RuleNoIncomeSubmissionsExistError,RULE_NO_INCOME_SUBMISSIONS_EXIST,No income submissions exist for the tax year
+individual-calculations-api,v1,True,RuleCalculationErrorMessagesExist,RULE_CALCULATION_ERROR_MESSAGES_EXIST,Calculation error messages exist for the supplied calculation ID
+individual-calculations-api,v1,True,NoAllowancesDeductionsAndReliefsExist,NO_ALLOWANCES_DEDUCTIONS_RELIEFS_EXIST,"No allowances, deductions and reliefs data exists"
+individual-calculations-api,v1,True,RuleNoSubmissionsExistError,RULE_NO_SUBMISSIONS_EXIST,No periodic or annual income data has been submitted
+individual-calculations-api,v1,True,RuleFinalDeclarationReceivedError,RULE_FINAL_DECLARATION_RECEIVED,Crystallisation declaration has already been received
+individual-calculations-api,v1,True,RuleIncomeSourcesChangedError,RULE_INCOME_SOURCES_CHANGED,Income sources data has changed. Perform intent to crystallise
+individual-calculations-api,v1,True,RuleRecentSubmissionsExistError,RULE_RECENT_SUBMISSIONS_EXIST,More recent submissions exist. Perform intent to crystallise
+individual-calculations-api,v1,True,RuleResidencyChangedError,RULE_RESIDENCY_CHANGED,Residency has changed. Perform intent to crystallise
+individual-calculations-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individual-calculations-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individual-calculations-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+individual-calculations-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+individual-calculations-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individual-calculations-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individual-calculations-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individual-calculations-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individual-calculations-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individual-calculations-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individual-calculations-api,v2,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individual-calculations-api,v2,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individual-calculations-api,v2,True,CalculationIdFormatError,FORMAT_CALC_ID,The provided Calculation ID is invalid
+individual-calculations-api,v2,True,TypeFormatError,FORMAT_TYPE,The provided type value is invalid
+individual-calculations-api,v2,True,NoMessagesExistError,NO_MESSAGES_PRESENT,No messages present
+individual-calculations-api,v2,True,EndOfYearEstimateNotPresentError,END_OF_YEAR_ESTIMATE_NOT_PRESENT,End of year estimate data will only be returned for an in-year calculation
+individual-calculations-api,v2,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"Tax year not supported, because it precedes the earliest allowable tax year"
+individual-calculations-api,v2,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individual-calculations-api,v2,True,RuleNoIncomeSubmissionsExistError,RULE_NO_INCOME_SUBMISSIONS_EXIST,No income submissions exist for the tax year
+individual-calculations-api,v2,True,RuleCalculationErrorMessagesExist,RULE_CALCULATION_ERROR_MESSAGES_EXIST,Calculation error messages exist for the supplied calculation ID
+individual-calculations-api,v2,True,NoAllowancesDeductionsAndReliefsExist,NO_ALLOWANCES_DEDUCTIONS_RELIEFS_EXIST,"No allowances, deductions and reliefs data exists"
+individual-calculations-api,v2,True,RuleNoSubmissionsExistError,RULE_NO_SUBMISSIONS_EXIST,No periodic or annual income data has been submitted
+individual-calculations-api,v2,True,RuleSubmissionFailed,RULE_SUBMISSION_FAILED,The submission cannot be completed due to validation failures
+individual-calculations-api,v2,True,RuleFinalDeclarationReceivedError,RULE_FINAL_DECLARATION_RECEIVED,Crystallisation declaration has already been received
+individual-calculations-api,v2,True,RuleIncomeSourcesChangedError,RULE_INCOME_SOURCES_CHANGED,Income sources data has changed. Perform intent to crystallise
+individual-calculations-api,v2,True,RuleIncomeSourcesInvalid,RULE_INCOME_SOURCES_INVALID,No valid income sources could be found
+individual-calculations-api,v2,True,RuleRecentSubmissionsExistError,RULE_RECENT_SUBMISSIONS_EXIST,More recent submissions exist. Perform intent to crystallise
+individual-calculations-api,v2,True,RuleResidencyChangedError,RULE_RESIDENCY_CHANGED,Residency has changed. Perform intent to crystallise
+individual-calculations-api,v2,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individual-calculations-api,v2,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individual-calculations-api,v2,True,BadRequestError,INVALID_REQUEST,Invalid request
+individual-calculations-api,v2,True,BVRError,BUSINESS_ERROR,Business validation error
+individual-calculations-api,v2,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individual-calculations-api,v2,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individual-calculations-api,v2,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individual-calculations-api,v2,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individual-calculations-api,v2,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individual-calculations-api,v2,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individual-losses-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individual-losses-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individual-losses-api,v1,True,AmountFormatError,FORMAT_LOSS_AMOUNT,The format of the loss amount is invalid
+individual-losses-api,v1,True,LossIdFormatError,FORMAT_LOSS_ID,The provided loss ID is invalid
+individual-losses-api,v1,True,ClaimIdFormatError,FORMAT_CLAIM_ID,The provided claim ID is invalid
+individual-losses-api,v1,True,SelfEmploymentIdFormatError,FORMAT_SELF_EMPLOYMENT_ID,The supplied self-employment ID format is invalid
+individual-losses-api,v1,True,TypeOfLossFormatError,FORMAT_TYPE_OF_LOSS,The supplied type of loss format is invalid
+individual-losses-api,v1,True,TypeOfClaimFormatError,FORMAT_TYPE_OF_CLAIM,The supplied type of claim format is invalid or the type of claim is not recognised
+individual-losses-api,v1,True,ClaimTypeFormatError,FORMAT_CLAIM_TYPE,The provided claim type is invalid
+individual-losses-api,v1,True,SequenceFormatError,FORMAT_SEQUENCE,The provided sequence number is invalid
+individual-losses-api,v1,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"Tax year not supported, because it precedes the earliest allowable tax year"
+individual-losses-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individual-losses-api,v1,True,RuleTaxYearRangeInvalid,RULE_TAX_YEAR_RANGE_INVALID,Tax year range invalid. A tax year range of one year is required
+individual-losses-api,v1,True,RuleTaxYearNotEndedError,RULE_TAX_YEAR_NOT_ENDED,The tax year for this brought forward loss has not yet ended
+individual-losses-api,v1,True,RuleSelfEmploymentId,RULE_SELF_EMPLOYMENT_ID,A self-employment ID can only be supplied for a self-employment business type
+individual-losses-api,v1,True,RuleInvalidLossAmount,RULE_LOSS_AMOUNT,Amount should be a positive number less than 99999999999.99 with up to 2 decimal places
+individual-losses-api,v1,True,RuleDuplicateSubmissionError,RULE_DUPLICATE_SUBMISSION,A brought forward loss already exists for this income source
+individual-losses-api,v1,True,RuleDuplicateClaimSubmissionError,RULE_DUPLICATE_SUBMISSION,This claim matches a previous submission
+individual-losses-api,v1,True,RuleDeleteAfterCrystallisationError,RULE_DELETE_AFTER_CRYSTALLISATION,This loss cannot be deleted after crystallisation
+individual-losses-api,v1,True,RuleTypeOfClaimInvalid,RULE_TYPE_OF_CLAIM_INVALID,The claim type selected is not available for this type of loss
+individual-losses-api,v1,True,RuleClaimTypeNotChanged,RULE_ALREADY_EXISTS,The type of claim has already been requested in this tax year for this income source
+individual-losses-api,v1,True,RulePeriodNotEnded,RULE_PERIOD_NOT_ENDED,The relevant accounting period has not yet ended
+individual-losses-api,v1,True,RuleLossAmountNotChanged,RULE_NO_CHANGE,The brought forward loss amount has not changed
+individual-losses-api,v1,True,RuleNoAccountingPeriod,RULE_NO_ACCOUNTING_PERIOD,For the year of the claim there is no accounting period
+individual-losses-api,v1,True,RuleInvalidSequenceStart,RULE_INVALID_SEQUENCE_START,The sequence does not begin with 1
+individual-losses-api,v1,True,RuleSequenceOrderBroken,RULE_SEQUENCE_ORDER_BROKEN,The sequence is not continuous
+individual-losses-api,v1,True,RuleLossClaimsMissing,RULE_LOSS_CLAIMS_MISSING,One or more loss claims missing from this request
+individual-losses-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individual-losses-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individual-losses-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+individual-losses-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+individual-losses-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individual-losses-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individual-losses-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individual-losses-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individual-losses-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individual-losses-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individual-losses-api,v2,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individual-losses-api,v2,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided Tax year is invalid
+individual-losses-api,v2,True,AmountFormatError,FORMAT_LOSS_AMOUNT,The provided Loss amount is invalid
+individual-losses-api,v2,True,LossIdFormatError,FORMAT_LOSS_ID,The provided loss ID is invalid
+individual-losses-api,v2,True,ClaimIdFormatError,FORMAT_CLAIM_ID,The provided claim ID is invalid
+individual-losses-api,v2,True,BusinessIdFormatError,FORMAT_BUSINESS_ID,The provided Business ID is invalid
+individual-losses-api,v2,True,TypeOfLossFormatError,FORMAT_TYPE_OF_LOSS,The provided Type of Loss is invalid
+individual-losses-api,v2,True,TypeOfClaimFormatError,FORMAT_TYPE_OF_CLAIM,The provided Type of claim is invalid
+individual-losses-api,v2,True,ClaimTypeFormatError,FORMAT_CLAIM_TYPE,The provided claim type is invalid
+individual-losses-api,v2,True,SequenceFormatError,FORMAT_SEQUENCE,The provided sequence number is invalid
+individual-losses-api,v2,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"Tax year not supported, because it precedes the earliest allowable tax year"
+individual-losses-api,v2,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individual-losses-api,v2,True,RuleTaxYearRangeInvalid,RULE_TAX_YEAR_RANGE_INVALID,Tax year range invalid. A tax year range of one year is required
+individual-losses-api,v2,True,RuleTaxYearNotEndedError,RULE_TAX_YEAR_NOT_ENDED,The tax year for this brought forward loss has not yet ended
+individual-losses-api,v2,True,RuleBusinessId,RULE_BUSINESS_ID,A Business ID must be supplied for a self-employment or a foreign property business type.
+individual-losses-api,v2,True,RuleInvalidLossAmount,RULE_LOSS_AMOUNT,Amount should be a positive number less than 99999999999.99 with up to 2 decimal places
+individual-losses-api,v2,True,RuleDuplicateSubmissionError,RULE_DUPLICATE_SUBMISSION,A brought forward loss already exists for this income source
+individual-losses-api,v2,True,RuleDuplicateClaimSubmissionError,RULE_DUPLICATE_SUBMISSION,This claim matches a previous submission
+individual-losses-api,v2,True,RuleDeleteAfterCrystallisationError,RULE_DELETE_AFTER_CRYSTALLISATION,This loss cannot be deleted after crystallisation
+individual-losses-api,v2,True,RuleTypeOfClaimInvalid,RULE_TYPE_OF_CLAIM_INVALID,The claim type selected is not available for this type of loss
+individual-losses-api,v2,True,RuleClaimTypeNotChanged,RULE_ALREADY_EXISTS,The type of claim has already been requested in this tax year for this income source
+individual-losses-api,v2,True,RulePeriodNotEnded,RULE_PERIOD_NOT_ENDED,The relevant accounting period has not yet ended
+individual-losses-api,v2,True,RuleLossAmountNotChanged,RULE_NO_CHANGE,The brought forward loss amount has not changed
+individual-losses-api,v2,True,RuleNoAccountingPeriod,RULE_NO_ACCOUNTING_PERIOD,For the year of the claim there is no accounting period
+individual-losses-api,v2,True,RuleInvalidSequenceStart,RULE_INVALID_SEQUENCE_START,The sequence does not begin with 1
+individual-losses-api,v2,True,RuleSequenceOrderBroken,RULE_SEQUENCE_ORDER_BROKEN,The sequence is not continuous
+individual-losses-api,v2,True,RuleLossClaimsMissing,RULE_LOSS_CLAIMS_MISSING,One or more loss claims missing from this request
+individual-losses-api,v2,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individual-losses-api,v2,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individual-losses-api,v2,True,BadRequestError,INVALID_REQUEST,Invalid request
+individual-losses-api,v2,True,BVRError,BUSINESS_ERROR,Business validation error
+individual-losses-api,v2,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individual-losses-api,v2,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individual-losses-api,v2,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client or agent is not authorised
+individual-losses-api,v2,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individual-losses-api,v2,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individual-losses-api,v2,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-business-eops-api,v1,True,RuleTaxYearRangeInvalid,RULE_TAX_YEAR_RANGE_INVALID,Tax year range invalid. A tax year range of one year is required
+individuals-business-eops-api,v1,True,TypeOfBusinessFormatError,FORMAT_TYPE_OF_BUSINESS,The provided type of business is invalid
+individuals-business-eops-api,v1,True,BusinessIdFormatError,FORMAT_BUSINESS_ID,The provided Business ID is invalid
+individuals-business-eops-api,v1,True,StartDateFormatError,FORMAT_START_DATE,The provided Start date is invalid
+individuals-business-eops-api,v1,True,EndDateFormatError,FORMAT_END_DATE,The provided End date is invalid
+individuals-business-eops-api,v1,True,FinalisedFormatError,FORMAT_FINALISED,The provided Finalised value is invalid
+individuals-business-eops-api,v1,True,RangeEndDateBeforeStartDateError,RANGE_END_DATE_BEFORE_START_DATE,The End date must be after the Start date
+individuals-business-eops-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individuals-business-eops-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individuals-business-eops-api,v1,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"Tax year not supported, because it precedes the earliest allowable tax year"
+individuals-business-eops-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individuals-business-eops-api,v1,True,RuleNotFinalisedError,RULE_NOT_FINALISED,Finalised must be set to true
+individuals-business-eops-api,v1,True,RuleAlreadySubmittedError,RULE_ALREADY_SUBMITTED,An End of Period Statement already exists for this business' accounting period.
+individuals-business-eops-api,v1,True,RuleEarlySubmissionError,RULE_EARLY_SUBMISSION,An End Of Period Statement cannot be submitted before the end of the accounting period.
+individuals-business-eops-api,v1,True,RuleLateSubmissionError,RULE_LATE_SUBMISSION,The period to finalise has passed
+individuals-business-eops-api,v1,True,RuleNonMatchingPeriodError,RULE_NON_MATCHING_PERIOD,An End of Period Statement without a matching accounting period cannot be submitted
+individuals-business-eops-api,v1,True,RuleConsolidatedExpensesError,RULE_CONSOLIDATED_EXPENSES,"Consolidated expenses not allowed, threshold exceeded"
+individuals-business-eops-api,v1,True,RuleMismatchedStartDateError,RULE_MISMATCHED_START_DATE,The period submission start date must match the accounting period start date
+individuals-business-eops-api,v1,True,RuleMismatchedEndDateError,RULE_MISMATCHED_END_DATE,The period submission end date must match the accounting period end date
+individuals-business-eops-api,v1,True,RuleFHLPrivateUseAdjustment,RULE_FHL_PRIVATE_USE_ADJUSTMENT,"For UK Furnished Holiday Lettings, the private use adjustment must not exceed the total allowable expenses"
+individuals-business-eops-api,v1,True,RuleNonFHLPrivateUseAdjustment,RULE_NON_FHL_PRIVATE_USE_ADJUSTMENT,"For UK non-Furnished Holiday Lettings, the private use adjustment must not exceed the total allowable expenses"
+individuals-business-eops-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individuals-business-eops-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individuals-business-eops-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+individuals-business-eops-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+individuals-business-eops-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individuals-business-eops-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individuals-business-eops-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individuals-business-eops-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individuals-business-eops-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-business-eops-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individuals-charges-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individuals-charges-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individuals-charges-api,v1,True,AmountFormatError,FORMAT_LOSS_AMOUNT,The format of the loss amount is invalid
+individuals-charges-api,v1,True,LossIdFormatError,FORMAT_LOSS_ID,The provided loss ID is invalid
+individuals-charges-api,v1,True,ClaimIdFormatError,FORMAT_CLAIM_ID,The provided claim ID is invalid
+individuals-charges-api,v1,True,SelfEmploymentIdFormatError,FORMAT_SELF_EMPLOYMENT_ID,The supplied self-employment ID format is invalid
+individuals-charges-api,v1,True,TypeOfLossFormatError,FORMAT_TYPE_OF_LOSS,The supplied type of loss format is invalid
+individuals-charges-api,v1,True,TypeOfClaimFormatError,FORMAT_TYPE_OF_CLAIM,The supplied type of claim format is invalid or the type of claim is not recognised
+individuals-charges-api,v1,True,ClaimTypeFormatError,FORMAT_CLAIM_TYPE,The provided claim type is invalid
+individuals-charges-api,v1,True,SequenceFormatError,FORMAT_SEQUENCE,The provided sequence number is invalid
+individuals-charges-api,v1,True,CountryCodeFormatError,FORMAT_COUNTRY_CODE,The format of the country code is invalid
+individuals-charges-api,v1,True,ProviderNameFormatError,FORMAT_PROVIDER_NAME,The provided name is invalid
+individuals-charges-api,v1,True,ProviderAddressFormatError,FORMAT_PROVIDERS_ADDRESS,The provided address is invalid
+individuals-charges-api,v1,True,QOPSRefFormatError,FORMAT_QOPS_REF,The provided QOPS reference number is invalid
+individuals-charges-api,v1,True,PensionSchemeTaxRefFormatError,FORMAT_PENSION_SCHEME_TAX_REFERENCE,The provided pension scheme tax reference is invalid
+individuals-charges-api,v1,True,ValueFormatError,FORMAT_VALUE,The field should be between 0 and 99999999999.99
+individuals-charges-api,v1,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"Tax year not supported, because it precedes the earliest allowable tax year"
+individuals-charges-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individuals-charges-api,v1,True,RuleTaxYearRangeInvalid,RULE_TAX_YEAR_RANGE_INVALID,Tax year range invalid. A tax year range of one year is required
+individuals-charges-api,v1,True,RuleTaxYearNotEndedError,RULE_TAX_YEAR_NOT_ENDED,The tax year for this brought forward loss has not yet ended
+individuals-charges-api,v1,True,RuleSelfEmploymentId,RULE_SELF_EMPLOYMENT_ID,A self-employment ID can only be supplied for a self-employment business type
+individuals-charges-api,v1,True,RuleInvalidLossAmount,RULE_LOSS_AMOUNT,Amount should be a positive number less than 99999999999.99 with up to 2 decimal places
+individuals-charges-api,v1,True,RuleDuplicateSubmissionError,RULE_DUPLICATE_SUBMISSION,A brought forward loss already exists for this income source
+individuals-charges-api,v1,True,RuleDuplicateClaimSubmissionError,RULE_DUPLICATE_SUBMISSION,This claim matches a previous submission
+individuals-charges-api,v1,True,RuleDeleteAfterCrystallisationError,RULE_DELETE_AFTER_CRYSTALLISATION,This loss cannot be deleted after crystallisation
+individuals-charges-api,v1,True,RuleTypeOfClaimInvalid,RULE_TYPE_OF_CLAIM_INVALID,The claim type selected is not available for this type of loss
+individuals-charges-api,v1,True,RuleClaimTypeNotChanged,RULE_ALREADY_EXISTS,The type of claim has already been requested in this tax year for this income source
+individuals-charges-api,v1,True,RulePeriodNotEnded,RULE_PERIOD_NOT_ENDED,The relevant accounting period has not yet ended
+individuals-charges-api,v1,True,RuleLossAmountNotChanged,RULE_NO_CHANGE,The brought forward loss amount has not changed
+individuals-charges-api,v1,True,RuleNoAccountingPeriod,RULE_NO_ACCOUNTING_PERIOD,For the year of the claim there is no accounting period
+individuals-charges-api,v1,True,RuleInvalidSequenceStart,RULE_INVALID_SEQUENCE_START,The sequence does not begin with 1
+individuals-charges-api,v1,True,RuleSequenceOrderBroken,RULE_SEQUENCE_ORDER_BROKEN,The sequence is not continuous
+individuals-charges-api,v1,True,RuleLossClaimsMissing,RULE_LOSS_CLAIMS_MISSING,One or more loss claims missing from this request
+individuals-charges-api,v1,True,RuleCountryCodeError,RULE_COUNTRY_CODE,The country code is not a valid ISO 3166-1 alpha-3 country code
+individuals-charges-api,v1,True,RuleIsAnnualAllowanceReducedError,RULE_IS_ANNUAL_ALLOWANCE_REDUCED,Tapered annual allowance or money purchased allowance has not been provided
+individuals-charges-api,v1,True,RuleBenefitExcessesError,RULE_BENEFIT,You can only provide Lump sum benefit taken in excess of lifetime allowance or Benefit in excess of lifetime allowance not both
+individuals-charges-api,v1,True,RulePensionReferenceError,RULE_PENSION_REFERENCE,You can only provide qualifying recognised Overseas Pension Scheme reference or pension scheme tax reference not both
+individuals-charges-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individuals-charges-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individuals-charges-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+individuals-charges-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+individuals-charges-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individuals-charges-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individuals-charges-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individuals-charges-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individuals-charges-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individuals-charges-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-charges-api,v1r6,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individuals-charges-api,v1r6,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individuals-charges-api,v1r6,True,AmountFormatError,FORMAT_LOSS_AMOUNT,The format of the loss amount is invalid
+individuals-charges-api,v1r6,True,LossIdFormatError,FORMAT_LOSS_ID,The provided loss ID is invalid
+individuals-charges-api,v1r6,True,ClaimIdFormatError,FORMAT_CLAIM_ID,The provided claim ID is invalid
+individuals-charges-api,v1r6,True,SelfEmploymentIdFormatError,FORMAT_SELF_EMPLOYMENT_ID,The supplied self-employment ID format is invalid
+individuals-charges-api,v1r6,True,TypeOfLossFormatError,FORMAT_TYPE_OF_LOSS,The supplied type of loss format is invalid
+individuals-charges-api,v1r6,True,TypeOfClaimFormatError,FORMAT_TYPE_OF_CLAIM,The supplied type of claim format is invalid or the type of claim is not recognised
+individuals-charges-api,v1r6,True,ClaimTypeFormatError,FORMAT_CLAIM_TYPE,The provided claim type is invalid
+individuals-charges-api,v1r6,True,SequenceFormatError,FORMAT_SEQUENCE,The provided sequence number is invalid
+individuals-charges-api,v1r6,True,CountryCodeFormatError,FORMAT_COUNTRY_CODE,The format of the country code is invalid
+individuals-charges-api,v1r6,True,ProviderNameFormatError,FORMAT_PROVIDER_NAME,The provided name is invalid
+individuals-charges-api,v1r6,True,ProviderAddressFormatError,FORMAT_PROVIDERS_ADDRESS,The provided address is invalid
+individuals-charges-api,v1r6,True,QOPSRefFormatError,FORMAT_QOPS_REF,The provided QOPS reference number is invalid
+individuals-charges-api,v1r6,True,PensionSchemeTaxRefFormatError,FORMAT_PENSION_SCHEME_TAX_REFERENCE,The provided pension scheme tax reference is invalid
+individuals-charges-api,v1r6,True,ValueFormatError,FORMAT_VALUE,The field should be between 0 and 99999999999.99
+individuals-charges-api,v1r6,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"Tax year not supported, because it precedes the earliest allowable tax year"
+individuals-charges-api,v1r6,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individuals-charges-api,v1r6,True,RuleTaxYearRangeInvalid,RULE_TAX_YEAR_RANGE_INVALID,Tax year range invalid. A tax year range of one year is required
+individuals-charges-api,v1r6,True,RuleTaxYearNotEndedError,RULE_TAX_YEAR_NOT_ENDED,The tax year for this brought forward loss has not yet ended
+individuals-charges-api,v1r6,True,RuleSelfEmploymentId,RULE_SELF_EMPLOYMENT_ID,A self-employment ID can only be supplied for a self-employment business type
+individuals-charges-api,v1r6,True,RuleInvalidLossAmount,RULE_LOSS_AMOUNT,Amount should be a positive number less than 99999999999.99 with up to 2 decimal places
+individuals-charges-api,v1r6,True,RuleDuplicateSubmissionError,RULE_DUPLICATE_SUBMISSION,A brought forward loss already exists for this income source
+individuals-charges-api,v1r6,True,RuleDuplicateClaimSubmissionError,RULE_DUPLICATE_SUBMISSION,This claim matches a previous submission
+individuals-charges-api,v1r6,True,RuleDeleteAfterCrystallisationError,RULE_DELETE_AFTER_CRYSTALLISATION,This loss cannot be deleted after crystallisation
+individuals-charges-api,v1r6,True,RuleTypeOfClaimInvalid,RULE_TYPE_OF_CLAIM_INVALID,The claim type selected is not available for this type of loss
+individuals-charges-api,v1r6,True,RuleClaimTypeNotChanged,RULE_ALREADY_EXISTS,The type of claim has already been requested in this tax year for this income source
+individuals-charges-api,v1r6,True,RulePeriodNotEnded,RULE_PERIOD_NOT_ENDED,The relevant accounting period has not yet ended
+individuals-charges-api,v1r6,True,RuleLossAmountNotChanged,RULE_NO_CHANGE,The brought forward loss amount has not changed
+individuals-charges-api,v1r6,True,RuleNoAccountingPeriod,RULE_NO_ACCOUNTING_PERIOD,For the year of the claim there is no accounting period
+individuals-charges-api,v1r6,True,RuleInvalidSequenceStart,RULE_INVALID_SEQUENCE_START,The sequence does not begin with 1
+individuals-charges-api,v1r6,True,RuleSequenceOrderBroken,RULE_SEQUENCE_ORDER_BROKEN,The sequence is not continuous
+individuals-charges-api,v1r6,True,RuleLossClaimsMissing,RULE_LOSS_CLAIMS_MISSING,One or more loss claims missing from this request
+individuals-charges-api,v1r6,True,RuleCountryCodeError,RULE_COUNTRY_CODE,The country code is not a valid ISO 3166-1 alpha-3 country code
+individuals-charges-api,v1r6,True,RuleIsAnnualAllowanceReducedError,RULE_IS_ANNUAL_ALLOWANCE_REDUCED,Tapered annual allowance or money purchased allowance has not been provided
+individuals-charges-api,v1r6,True,RuleBenefitExcessesError,RULE_BENEFIT,You can only provide Lump sum benefit taken in excess of lifetime allowance or Benefit in excess of lifetime allowance not both
+individuals-charges-api,v1r6,True,RulePensionReferenceError,RULE_PENSION_REFERENCE,You can only provide qualifying recognised Overseas Pension Scheme reference or pension scheme tax reference not both
+individuals-charges-api,v1r6,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individuals-charges-api,v1r6,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individuals-charges-api,v1r6,True,BadRequestError,INVALID_REQUEST,Invalid request
+individuals-charges-api,v1r6,True,BVRError,BUSINESS_ERROR,Business validation error
+individuals-charges-api,v1r6,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individuals-charges-api,v1r6,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individuals-charges-api,v1r6,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individuals-charges-api,v1r6,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individuals-charges-api,v1r6,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individuals-charges-api,v1r6,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-disclosures-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individuals-disclosures-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individuals-disclosures-api,v1,True,SRNFormatError,FORMAT_SRN_INVALID,The provided scheme reference number is invalid
+individuals-disclosures-api,v1,True,PartnerFirstNameFormatError,FORMAT_SPOUSE_OR_CIVIL_PARTNERS_FIRST_NAME,The provided spouse or civil partner's first name is invalid
+individuals-disclosures-api,v1,True,PartnerSurnameFormatError,FORMAT_SPOUSE_OR_CIVIL_PARTNERS_SURNAME,The provided spouse or civil partner's surname is invalid
+individuals-disclosures-api,v1,True,PartnerNinoFormatError,FORMAT_SPOUSE_OR_CIVIL_PARTNERS_NINO,The provided spouse or civil partner's National Insurance Number is invalid
+individuals-disclosures-api,v1,True,PartnerDoBFormatError,FORMAT_SPOUSE_OR_CIVIL_PARTNERS_DATE_OF_BIRTH,The provided spouse or civil partner's date of birth date is invalid
+individuals-disclosures-api,v1,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"The specified tax year is not supported. That is, the tax year specified is before the minimum tax year value"
+individuals-disclosures-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individuals-disclosures-api,v1,True,RuleTaxYearRangeInvalidError,RULE_TAX_YEAR_RANGE_INVALID,Tax year range invalid. A tax year range of one year is required
+individuals-disclosures-api,v1,True,RuleDeceasedRecipientError,RULE_DECEASED_RECIPIENT,The provided spouse or civil partner is deceased
+individuals-disclosures-api,v1,True,RuleActiveMarriageAllowanceClaimError,RULE_ACTIVE_MARRIAGE_ALLOWANCE_CLAIM,Marriage Allowance has already been transferred to a spouse or civil partner
+individuals-disclosures-api,v1,True,RuleInvalidRequestError,RULE_INVALID_REQUEST,The NINO supplied is invalid
+individuals-disclosures-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individuals-disclosures-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individuals-disclosures-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+individuals-disclosures-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+individuals-disclosures-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individuals-disclosures-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individuals-disclosures-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individuals-disclosures-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individuals-disclosures-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-disclosures-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individuals-expenses-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individuals-expenses-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individuals-expenses-api,v1,True,ValueFormatError,FORMAT_VALUE,The field should be between 0 and 99999999999.99
+individuals-expenses-api,v1,True,CustomerReferenceFormatError,FORMAT_CUSTOMER_REFERENCE,The provided customer reference is not valid
+individuals-expenses-api,v1,True,SourceFormatError,FORMAT_SOURCE,The provided source is invalid
+individuals-expenses-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individuals-expenses-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individuals-expenses-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individuals-expenses-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+individuals-expenses-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+individuals-expenses-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individuals-expenses-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individuals-expenses-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individuals-expenses-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individuals-expenses-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-expenses-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individuals-income-received-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individuals-income-received-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individuals-income-received-api,v1,True,EmploymentIdFormatError,FORMAT_EMPLOYMENT_ID,The provided employment ID is invalid
+individuals-income-received-api,v1,True,CountryCodeFormatError,FORMAT_COUNTRY_CODE,The format of the country code is invalid
+individuals-income-received-api,v1,True,CountryCodeRuleError,RULE_COUNTRY_CODE,The country code is not a valid ISO 3166-1 alpha-3 country code
+individuals-income-received-api,v1,True,ValueFormatError,FORMAT_VALUE,The value must be between 0.00 and 99999999999.99
+individuals-income-received-api,v1,True,CustomerRefFormatError,FORMAT_CUSTOMER_REF,The provided customer reference is invalid
+individuals-income-received-api,v1,True,EventFormatError,FORMAT_EVENT,The provided policy event is invalid
+individuals-income-received-api,v1,True,QOPSRefFormatError,FORMAT_QOPS_REF,The provided QOPS reference number is invalid
+individuals-income-received-api,v1,True,DoubleTaxationArticleFormatError,FORMAT_DOUBLE_TAXATION_ARTICLE,The provided double taxation article is invalid
+individuals-income-received-api,v1,True,DoubleTaxationTreatyFormatError,FORMAT_DOUBLE_TAXATION_TREATY,The provided double taxation treaty is invalid
+individuals-income-received-api,v1,True,EmployerNameFormatError,FORMAT_EMPLOYER_NAME,The provided employer name is invalid
+individuals-income-received-api,v1,True,EmployerRefFormatError,FORMAT_EMPLOYER_REF,The provided employer ref is invalid
+individuals-income-received-api,v1,True,DateFormatError,FORMAT_DATE,The field should be in the format YYYY-MM-DD
+individuals-income-received-api,v1,True,ClassOfSharesAwardedFormatError,FORMAT_CLASS_OF_SHARES_AWARDED,The provided class of shares awarded is invalid
+individuals-income-received-api,v1,True,ClassOfSharesAcquiredFormatError,FORMAT_CLASS_OF_SHARES_ACQUIRED,The provided class of shares acquired is invalid
+individuals-income-received-api,v1,True,SchemePlanTypeFormatError,FORMAT_SCHEME_PLAN_TYPE,The provided scheme plan type is invalid
+individuals-income-received-api,v1,True,PayrollIdFormatError,FORMAT_PAYROLL_ID,The provided payroll ID is invalid
+individuals-income-received-api,v1,True,StartDateFormatError,FORMAT_START_DATE,The provided start date is invalid
+individuals-income-received-api,v1,True,CessationDateFormatError,FORMAT_CESSATION_DATE,The provided cessation date is invalid
+individuals-income-received-api,v1,True,SourceFormatError,FORMAT_SOURCE,The provided source is invalid
+individuals-income-received-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individuals-income-received-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individuals-income-received-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+individuals-income-received-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+individuals-income-received-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individuals-income-received-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individuals-income-received-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individuals-income-received-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individuals-income-received-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-income-received-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individuals-income-received-api,v1r6,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individuals-income-received-api,v1r6,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individuals-income-received-api,v1r6,True,EmploymentIdFormatError,FORMAT_EMPLOYMENT_ID,The provided employment ID is invalid
+individuals-income-received-api,v1r6,True,PpdSubmissionIdFormatError,FORMAT_PPD_SUBMISSION_ID,The provided ppdSubmissionId is invalid
+individuals-income-received-api,v1r6,True,CountryCodeFormatError,FORMAT_COUNTRY_CODE,The format of the country code is invalid
+individuals-income-received-api,v1r6,True,CountryCodeRuleError,RULE_COUNTRY_CODE,The country code is not a valid ISO 3166-1 alpha-3 country code
+individuals-income-received-api,v1r6,True,ValueFormatError,FORMAT_VALUE,The value must be between 0.00 and 99999999999.99
+individuals-income-received-api,v1r6,True,CustomerRefFormatError,FORMAT_CUSTOMER_REF,The provided customer reference is invalid
+individuals-income-received-api,v1r6,True,EventFormatError,FORMAT_EVENT,The provided policy event is invalid
+individuals-income-received-api,v1r6,True,QOPSRefFormatError,FORMAT_QOPS_REF,The provided QOPS reference number is invalid
+individuals-income-received-api,v1r6,True,DoubleTaxationArticleFormatError,FORMAT_DOUBLE_TAXATION_ARTICLE,The provided double taxation article is invalid
+individuals-income-received-api,v1r6,True,DoubleTaxationTreatyFormatError,FORMAT_DOUBLE_TAXATION_TREATY,The provided double taxation treaty is invalid
+individuals-income-received-api,v1r6,True,EmployerNameFormatError,FORMAT_EMPLOYER_NAME,The provided employer name is invalid
+individuals-income-received-api,v1r6,True,EmployerRefFormatError,FORMAT_EMPLOYER_REF,The provided employer ref is invalid
+individuals-income-received-api,v1r6,True,DateFormatError,FORMAT_DATE,The field should be in the format YYYY-MM-DD
+individuals-income-received-api,v1r6,True,ClassOfSharesAwardedFormatError,FORMAT_CLASS_OF_SHARES_AWARDED,The provided class of shares awarded is invalid
+individuals-income-received-api,v1r6,True,ClassOfSharesAcquiredFormatError,FORMAT_CLASS_OF_SHARES_ACQUIRED,The provided class of shares acquired is invalid
+individuals-income-received-api,v1r6,True,SchemePlanTypeFormatError,FORMAT_SCHEME_PLAN_TYPE,The provided scheme plan type is invalid
+individuals-income-received-api,v1r6,True,PayrollIdFormatError,FORMAT_PAYROLL_ID,The provided payroll ID is invalid
+individuals-income-received-api,v1r6,True,StartDateFormatError,FORMAT_START_DATE,The provided start date is invalid
+individuals-income-received-api,v1r6,True,CessationDateFormatError,FORMAT_CESSATION_DATE,The provided cessation date is invalid
+individuals-income-received-api,v1r6,True,SourceFormatError,FORMAT_SOURCE,The provided source is invalid
+individuals-income-received-api,v1r6,True,AssetDescriptionFormatError,FORMAT_ASSET_DESCRIPTION,The provided asset description is invalid
+individuals-income-received-api,v1r6,True,AssetTypeFormatError,FORMAT_ASSET_TYPE,The format of the assetType value is invalid
+individuals-income-received-api,v1r6,True,ClaimOrElectionCodesFormatError,FORMAT_CLAIM_OR_ELECTION_CODES,The format of the claimOrElectionCodes value is invalid
+individuals-income-received-api,v1r6,True,RuleCompletionDateBeforeDisposalDateError,RULE_COMPLETION_DATE_BEFORE_DISPOSAL_DATE,The completionDate must not be earlier than the disposalDate
+individuals-income-received-api,v1r6,True,RuleAcquisitionDateAfterDisposalDateError,RULE_ACQUISITION_DATE_AFTER_DISPOSAL_DATE,The acquisitionDate must not be later than disposalDate
+individuals-income-received-api,v1r6,True,RuleCompletionDateError,RULE_COMPLETION_DATE,"The completionDate must be within the specific tax year and not in the future. If the specified tax year has not ended, the completionDate must be between 7th March and 5th April"
+individuals-income-received-api,v1r6,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individuals-income-received-api,v1r6,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individuals-income-received-api,v1r6,True,BadRequestError,INVALID_REQUEST,Invalid request
+individuals-income-received-api,v1r6,True,BVRError,BUSINESS_ERROR,Business validation error
+individuals-income-received-api,v1r6,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individuals-income-received-api,v1r6,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individuals-income-received-api,v1r6,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individuals-income-received-api,v1r6,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individuals-income-received-api,v1r6,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-income-received-api,v1r6,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individuals-reliefs-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individuals-reliefs-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individuals-reliefs-api,v1,True,ValueFormatError,FORMAT_VALUE,The field should be between 0 and 99999999999.99
+individuals-reliefs-api,v1,True,DateFormatError,FORMAT_DATE,The field should be in the format YYYY-MM-DD
+individuals-reliefs-api,v1,True,DateOfInvestmentFormatError,FORMAT_DATE_OF_INVESTMENT,The format of the investment date is invalid
+individuals-reliefs-api,v1,True,NameFormatError,FORMAT_NAME,The format of the name is invalid
+individuals-reliefs-api,v1,True,UniqueInvestmentRefFormatError,FORMAT_UNIQUE_INVESTMENT_REFERENCE,The format of unique investment reference is invalid
+individuals-reliefs-api,v1,True,CustomerReferenceFormatError,FORMAT_CUSTOMER_REF,The provided customer reference is not valid
+individuals-reliefs-api,v1,True,ExSpouseNameFormatError,FORMAT_NAME_EX_SPOUSE,The provided ex spouse name is not valid
+individuals-reliefs-api,v1,True,BusinessNameFormatError,FORMAT_NAME_BUSINESS,The provided business name is not valid
+individuals-reliefs-api,v1,True,NatureOfTradeFormatError,FORMAT_NATURE_OF_TRADE,The provided nature of trade is not valid
+individuals-reliefs-api,v1,True,IncomeSourceFormatError,FORMAT_INCOME_SOURCE,The provided income source is not valid
+individuals-reliefs-api,v1,True,LenderNameFormatError,FORMAT_LENDER_NAME,The provided lender name is not valid
+individuals-reliefs-api,v1,True,CountryCodeFormatError,FORMAT_COUNTRY_CODE,The format of the country code is invalid
+individuals-reliefs-api,v1,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"The specified tax year is not supported. That is, the tax year specified is before the minimum tax year value"
+individuals-reliefs-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individuals-reliefs-api,v1,True,RuleCountryCodeError,RULE_COUNTRY_CODE,The country code is not a valid ISO 3166-1 alpha-3 country code
+individuals-reliefs-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individuals-reliefs-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individuals-reliefs-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+individuals-reliefs-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+individuals-reliefs-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individuals-reliefs-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individuals-reliefs-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individuals-reliefs-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individuals-reliefs-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-reliefs-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individuals-state-benefits-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individuals-state-benefits-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individuals-state-benefits-api,v1,True,StartDateFormatError,FORMAT_START_DATE,The provided start date is invalid
+individuals-state-benefits-api,v1,True,EndDateFormatError,FORMAT_END_DATE,The provided end date is invalid
+individuals-state-benefits-api,v1,True,BenefitIdFormatError,FORMAT_BENEFIT_ID,The provided benefit ID is invalid
+individuals-state-benefits-api,v1,True,BenefitTypeFormatError,FORMAT_BENEFIT_TYPE,The provided benefit type is invalid
+individuals-state-benefits-api,v1,True,ValueFormatError,FORMAT_VALUE,
+individuals-state-benefits-api,v1,True,RuleTaxYearNotEndedError,RULE_TAX_YEAR_NOT_ENDED,Tax year not ended
+individuals-state-benefits-api,v1,True,RuleEndDateBeforeStartDateError,RULE_END_DATE_BEFORE_START_DATE,The end date cannot be earlier than the start date
+individuals-state-benefits-api,v1,True,RuleStartDateAfterTaxYearEndError,RULE_START_DATE_AFTER_TAX_YEAR_END,The start date cannot be later than the tax year end
+individuals-state-benefits-api,v1,True,RuleEndDateBeforeTaxYearStartError,RULE_END_DATE_BEFORE_TAX_YEAR_START,The end date cannot be before the tax year starts
+individuals-state-benefits-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individuals-state-benefits-api,v1,True,RuleDeleteForbiddenError,RULE_DELETE_FORBIDDEN,A deletion of a HMRC held state benefit is not permitted
+individuals-state-benefits-api,v1,True,RuleUpdateForbiddenError,RULE_UPDATE_FORBIDDEN,An update for a HMRC held benefit is not permitted
+individuals-state-benefits-api,v1,True,RuleIgnoreForbiddenError,RULE_IGNORE_FORBIDDEN,A customer added state benefit cannot be ignored
+individuals-state-benefits-api,v1,True,RuleUnignoreForbiddenError,RULE_UNIGNORE_FORBIDDEN,A customer added state benefit cannot be unignored
+individuals-state-benefits-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individuals-state-benefits-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individuals-state-benefits-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+individuals-state-benefits-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+individuals-state-benefits-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individuals-state-benefits-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individuals-state-benefits-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individuals-state-benefits-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individuals-state-benefits-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-state-benefits-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+individuals-state-benefits-api,v1r6,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+individuals-state-benefits-api,v1r6,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+individuals-state-benefits-api,v1r6,True,StartDateFormatError,FORMAT_START_DATE,The provided start date is invalid
+individuals-state-benefits-api,v1r6,True,EndDateFormatError,FORMAT_END_DATE,The provided end date is invalid
+individuals-state-benefits-api,v1r6,True,BenefitIdFormatError,FORMAT_BENEFIT_ID,The provided benefit ID is invalid
+individuals-state-benefits-api,v1r6,True,BenefitTypeFormatError,FORMAT_BENEFIT_TYPE,The provided benefit type is invalid
+individuals-state-benefits-api,v1r6,True,ValueFormatError,FORMAT_VALUE,
+individuals-state-benefits-api,v1r6,True,RuleTaxYearNotEndedError,RULE_TAX_YEAR_NOT_ENDED,Tax year not ended
+individuals-state-benefits-api,v1r6,True,RuleEndDateBeforeStartDateError,RULE_END_DATE_BEFORE_START_DATE,The end date cannot be earlier than the start date
+individuals-state-benefits-api,v1r6,True,RuleStartDateAfterTaxYearEndError,RULE_START_DATE_AFTER_TAX_YEAR_END,The start date cannot be later than the tax year end
+individuals-state-benefits-api,v1r6,True,RuleEndDateBeforeTaxYearStartError,RULE_END_DATE_BEFORE_TAX_YEAR_START,The end date cannot be before the tax year starts
+individuals-state-benefits-api,v1r6,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+individuals-state-benefits-api,v1r6,True,RuleDeleteForbiddenError,RULE_DELETE_FORBIDDEN,A deletion of a HMRC held state benefit is not permitted
+individuals-state-benefits-api,v1r6,True,RuleUpdateForbiddenError,RULE_UPDATE_FORBIDDEN,An update for a HMRC held benefit is not permitted
+individuals-state-benefits-api,v1r6,True,RuleIgnoreForbiddenError,RULE_IGNORE_FORBIDDEN,A customer added state benefit cannot be ignored
+individuals-state-benefits-api,v1r6,True,RuleUnignoreForbiddenError,RULE_UNIGNORE_FORBIDDEN,A customer added state benefit cannot be unignored
+individuals-state-benefits-api,v1r6,True,RuleBenefitTypeExists,RULE_BENEFIT_TYPE_EXISTS,A benefit of this type has already been created
+individuals-state-benefits-api,v1r6,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+individuals-state-benefits-api,v1r6,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+individuals-state-benefits-api,v1r6,True,BadRequestError,INVALID_REQUEST,Invalid request
+individuals-state-benefits-api,v1r6,True,BVRError,BUSINESS_ERROR,Business validation error
+individuals-state-benefits-api,v1r6,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+individuals-state-benefits-api,v1r6,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+individuals-state-benefits-api,v1r6,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+individuals-state-benefits-api,v1r6,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+individuals-state-benefits-api,v1r6,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+individuals-state-benefits-api,v1r6,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+insolvent-vat-api,v1,True,VrnFormatError,FORMAT_VRN,The format of the supplied VRN field is not valid
+insolvent-vat-api,v1,True,PeriodKeyFormatError,FORMAT_PERIOD_KEY,The format of the supplied period key is not valid. It must be a 4 character string
+insolvent-vat-api,v1,True,ValueFormatError,FORMAT_VALUE,
+insolvent-vat-api,v1,True,UniqueIDFormatError,FORMAT_UNIQUE_ID,The format of the Unique ID is invalid
+insolvent-vat-api,v1,True,ReceivedAtFormatError,FORMAT_RECEIVED_AT,The format of Received At is invalid
+insolvent-vat-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+insolvent-vat-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+insolvent-vat-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+insolvent-vat-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+insolvent-vat-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+insolvent-vat-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+insolvent-vat-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+insolvent-vat-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+insolvent-vat-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+insolvent-vat-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+insolvent-vat-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+mtd-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+mtd-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+mtd-api,v1,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"Tax year not supported, because it precedes the earliest allowable tax year"
+mtd-api,v1,True,RuleTaxYearRangeInvalidError,RULE_TAX_YEAR_RANGE_INVALID,Tax year range invalid. A tax year range of one year is required
+mtd-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+mtd-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+mtd-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+mtd-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+mtd-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+mtd-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+mtd-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+mtd-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+mtd-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+mtd-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+mtd-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+mtd-charitable-giving,v2,False,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+mtd-charitable-giving,v2,False,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+mtd-charitable-giving,v2,False,GiftAidSpecifiedYearFormatError,FORMAT_GIFT_AID_SPECIFIED_YEAR,The specified year payment amount is invalid
+mtd-charitable-giving,v2,False,GiftAidOneOffSpecifiedYearFormatError,FORMAT_GIFT_AID_ONE_OFF_SPECIFIED_YEAR,The one-off specified year amount is invalid
+mtd-charitable-giving,v2,False,GiftAidNonUKCharityAmountFormatError,FORMAT_GIFT_AID_NONUK_CHARITY_AMOUNT,The gift aid non-UK Charities amount is invalid
+mtd-charitable-giving,v2,False,GiftAidNonUKNamesFormatError,FORMAT_GIFT_AID_NONUK_NAMES,The non-UK charity names are invalid
+mtd-charitable-giving,v2,False,GiftsSharesSecuritiesFormatError,FORMAT_GIFTS_SHARES_SECURITIES,The shares or securities amount is invalid
+mtd-charitable-giving,v2,False,GiftsLandsBuildingsFormatError,FORMAT_GIFTS_LAND_BUILDINGS,The land and buildings amount is invalid
+mtd-charitable-giving,v2,False,GiftsInvestmentsAmountFormatError,FORMAT_GIFTS_INVESTMENTS_AMOUNT,The investments amount is invalid
+mtd-charitable-giving,v2,False,GiftsNonUKInvestmentsNamesFormatError,FORMAT_GIFTS_NONUK_INVESTMENTS_NAMES,The non-UK investments charity names list is invalid
+mtd-charitable-giving,v2,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+mtd-charitable-giving,v2,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+mtd-charitable-giving,v2,False,BadRequestError,INVALID_REQUEST,Invalid request
+mtd-charitable-giving,v2,False,BvrError,BUSINESS_ERROR,Business validation error
+mtd-charitable-giving,v2,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+mtd-charitable-giving,v2,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised.
+mtd-crystallisation,v2,False,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+mtd-crystallisation,v2,False,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+mtd-crystallisation,v2,False,InvalidCalcIdError,FORMAT_CALCID,The provided calculationId is invalid
+mtd-crystallisation,v2,False,InvalidFromDateError,FORMAT_FROM_DATE,The provided from date is invalid
+mtd-crystallisation,v2,False,InvalidToDateError,FORMAT_TO_DATE,The provided to date is invalid
+mtd-crystallisation,v2,False,MissingFromDateError,MISSING_FROM_DATE,The from date parameter is missing
+mtd-crystallisation,v2,False,MissingToDateError,MISSING_TO_DATE,The to date parameter is missing
+mtd-crystallisation,v2,False,RangeEndDateBeforeStartDateError,RANGE_TO_DATE_BEFORE_FROM_DATE,The To date cannot be before the From date
+mtd-crystallisation,v2,False,RangeDateTooLongError,RANGE_DATE_TOO_LONG,The specified date range is too big
+mtd-crystallisation,v2,False,RuleFromDateNotSupported,RULE_FROM_DATE_NOT_SUPPORTED,The specified from date is not supported as too early
+mtd-crystallisation,v2,False,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+mtd-crystallisation,v2,False,IncomeSourcesChangedError,RULE_INCOME_SOURCES_CHANGED,Income sources data has changed. Perform intent to crystallise
+mtd-crystallisation,v2,False,RecentSubmissionsExistError,RULE_RECENT_SUBMISSIONS_EXIST,More recent submissions exist. Perform intent to crystallise
+mtd-crystallisation,v2,False,ResidencyChangedError,RULE_RESIDENCY_CHANGED,Residency has changed. Perform intent to crystallise
+mtd-crystallisation,v2,False,FinalDeclarationReceivedError,RULE_FINAL_DECLARATION_RECEIVED,Crystallisation declaration has already been received
+mtd-crystallisation,v2,False,NoSubmissionsExistError,RULE_NO_SUBMISSIONS_EXIST,No income submissions exist
+mtd-crystallisation,v2,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+mtd-crystallisation,v2,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+mtd-crystallisation,v2,False,BadRequestError,INVALID_REQUEST,Invalid request
+mtd-crystallisation,v2,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+mtd-crystallisation,v2,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised.
+mtd-dividends-income,v2,False,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+mtd-dividends-income,v2,False,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+mtd-dividends-income,v2,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+mtd-dividends-income,v2,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+mtd-dividends-income,v2,False,BadRequestError,INVALID_REQUEST,Invalid request
+mtd-dividends-income,v2,False,BvrError,BUSINESS_ERROR,Business validation error
+mtd-dividends-income,v2,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+mtd-dividends-income,v2,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised.
+mtd-dividends-income,v2,False,UkDividendsAmountFormatError,FORMAT_UK_DIVIDENDS,UK Dividends format is invalid.
+mtd-dividends-income,v2,False,OtherUkDividendsAmountFormatError,FORMAT_OTHER_DIVIDENDS,Other UK Dividends format is invalid.
+mtd-property-api,v2,False,MissingFromDateError,MISSING_FROM_DATE,The From date parameter is missing
+mtd-property-api,v2,False,InvalidFromDateError,FORMAT_FROM_DATE,The format of the From date is invalid
+mtd-property-api,v2,False,MissingToDateError,MISSING_TO_DATE,The To date parameter is missing
+mtd-property-api,v2,False,InvalidToDateError,FORMAT_TO_DATE,The format of the To date is invalid
+mtd-property-api,v2,False,RangeTooBigError,RANGE_DATE_TOO_LONG,The date range is too long
+mtd-property-api,v2,False,ConflictError,RULE_ALREADY_SUBMITTED,You cannot submit a statement for the same accounting period twice
+mtd-property-api,v2,False,EarlySubmissionError,RULE_EARLY_SUBMISSION,You cannot submit a statement before the end of your accounting period
+mtd-property-api,v2,False,LateSubmissionError,RULE_LATE_SUBMISSION,The period to finalise has passed
+mtd-property-api,v2,False,RuleFhlPrivateUseAdjustment,RULE_FHL_PRIVATE_USE_ADJUSTMENT,"For UK Furnished Holiday Lettings, the private use adjustment must not exceed the total allowable expenses."
+mtd-property-api,v2,False,RuleNonFhlPrivateUseAdjustment,RULE_NON_FHL_PRIVATE_USE_ADJUSTMENT,"For UK non-Furnished Holiday Lettings, the private use adjustment must not exceed the total allowable expenses."
+mtd-property-api,v2,False,RuleMismatchStartDate,RULE_MISMATCH_START_DATE,The period submission start date must match the accounting period start date.
+mtd-property-api,v2,False,RuleMismatchEndDate,RULE_MISMATCH_END_DATE,The period submission end date must match the accounting period end date.
+mtd-property-api,v2,False,RuleConsolidatedExpenses,RULE_CONSOLIDATED_EXPENSES,Consolidated expenses are not allowed if the cumulative turnover amount exceeds the threshold.
+mtd-property-api,v2,False,NonMatchingPeriodError,RULE_NON_MATCHING_PERIOD,An End of Period Statement without a matching accounting period cannot be submitted
+mtd-property-api,v2,False,NinoFormatError,FORMAT_NINO,The NINO format is invalid
+mtd-property-api,v2,False,MissingStartDateError,MISSING_START_DATE,Missing account period start date
+mtd-property-api,v2,False,MissingEndDateError,MISSING_END_DATE,Missing account period end date
+mtd-property-api,v2,False,InvalidStartDateError,FORMAT_START_DATE,Invalid account period start date
+mtd-property-api,v2,False,InvalidEndDateError,FORMAT_END_DATE,Invalid account period end date
+mtd-property-api,v2,False,RangeToDateBeforeFromDateError,RANGE_TO_DATE_BEFORE_FROM_DATE,The To date must be after the From date
+mtd-property-api,v2,False,RangeEndDateBeforeStartDateError,RANGE_END_DATE_BEFORE_START_DATE,The End date must be after the Start date
+mtd-property-api,v2,False,SelfEmploymentIdError,FORMAT_SELF_EMPLOYMENT_ID,The format of the provided self-employment ID is invalid.
+mtd-property-api,v2,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+mtd-property-api,v2,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+mtd-property-api,v2,False,BadRequestError,INVALID_REQUEST,Invalid request
+mtd-property-api,v2,False,BVRError,BUSINESS_ERROR,Business validation error
+mtd-property-api,v2,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+mtd-property-api,v2,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised.
+mtd-savings-accounts,v2,False,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+mtd-savings-accounts,v2,False,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+mtd-savings-accounts,v2,False,AccountIdFormatError,FORMAT_SAVINGS_ACCOUNT_ID,The provided savings account ID is invalid
+mtd-savings-accounts,v2,False,AccountNameFormatError,FORMAT_ACCOUNT_NAME,The provided account name is invalid
+mtd-savings-accounts,v2,False,AccountNameMissingError,MISSING_ACCOUNT_NAME,Account name field is required
+mtd-savings-accounts,v2,False,TaxedInterestFormatError,FORMAT_TAXED_INTEREST,The provided taxed interest amount is invalid
+mtd-savings-accounts,v2,False,UnTaxedInterestFormatError,FORMAT_UNTAXED_INTEREST,The provided untaxed UK interest amount is invalid
+mtd-savings-accounts,v2,False,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,"Tax year not supported, because it precedes the earliest allowable tax year"
+mtd-savings-accounts,v2,False,RuleTaxYearRangeExceededError,RULE_TAX_YEAR_RANGE_EXCEEDED,Tax year range exceeded. A tax year range of one year is required.
+mtd-savings-accounts,v2,False,AccountNameDuplicateError,RULE_DUPLICATE_ACCOUNT_NAME,Duplicate account name given for supplied NINO
+mtd-savings-accounts,v2,False,MaximumSavingsAccountsLimitError,RULE_MAXIMUM_SAVINGS_ACCOUNTS_LIMIT,The 1000 savings account limit exceeded
+mtd-savings-accounts,v2,False,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+mtd-savings-accounts,v2,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+mtd-savings-accounts,v2,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+mtd-savings-accounts,v2,False,BadRequestError,INVALID_REQUEST,Invalid request
+mtd-savings-accounts,v2,False,BvrError,BUSINESS_ERROR,Business validation error
+mtd-savings-accounts,v2,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+mtd-savings-accounts,v2,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised.
+mtd-self-employment,v2,False,ConflictError,RULE_ALREADY_SUBMITTED,You cannot submit a statement for the same accounting period twice
+mtd-self-employment,v2,False,EarlySubmissionError,RULE_EARLY_SUBMISSION,You cannot submit a statement before the end of your accounting period
+mtd-self-employment,v2,False,LateSubmissionError,RULE_LATE_SUBMISSION,The period to finalise has passed
+mtd-self-employment,v2,False,RuleMismatchStartDate,RULE_MISMATCH_START_DATE,The period submission start date must match the accounting period start date.
+mtd-self-employment,v2,False,RuleMismatchEndDate,RULE_MISMATCH_END_DATE,The period submission end date must match the accounting period end date.
+mtd-self-employment,v2,False,RuleConsolidatedExpenses,RULE_CONSOLIDATED_EXPENSES,Consolidated expenses are not allowed if the cumulative turnover amount exceeds the threshold.
+mtd-self-employment,v2,False,NinoFormatError,FORMAT_NINO,The NINO format is invalid
+mtd-self-employment,v2,False,MissingStartDateError,MISSING_START_DATE,Missing account period start date
+mtd-self-employment,v2,False,MissingEndDateError,MISSING_END_DATE,Missing account period end date
+mtd-self-employment,v2,False,InvalidStartDateError,FORMAT_START_DATE,Invalid account period start date
+mtd-self-employment,v2,False,InvalidEndDateError,FORMAT_END_DATE,Invalid account period end date
+mtd-self-employment,v2,False,InvalidRangeError,RANGE_INVALID,The start date must be the same day or before the from date
+mtd-self-employment,v2,False,NotFinalisedDeclaration,RULE_NOT_FINALISED,The statement cannot be accepted without a declaration that it is finalised.
+mtd-self-employment,v2,False,SelfEmploymentIdError,FORMAT_SELF_EMPLOYMENT_ID,The format of the provided self-employment ID is invalid.
+mtd-self-employment,v2,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+mtd-self-employment,v2,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+mtd-self-employment,v2,False,BadRequestError,INVALID_REQUEST,Invalid request
+mtd-self-employment,v2,False,BVRError,BUSINESS_ERROR,Business validation error
+mtd-self-employment,v2,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+mtd-self-employment,v2,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised.
+obligations-api,v1,False,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+obligations-api,v1,False,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+obligations-api,v1,False,BusinessIdFormatError,FORMAT_BUSINESS_ID,The provided businessId is invalid
+obligations-api,v1,False,FromDateFormatError,FORMAT_FROM_DATE,The provided fromDate is invalid
+obligations-api,v1,False,ToDateFormatError,FORMAT_TO_DATE,The provided toDate is invalid
+obligations-api,v1,False,StatusFormatError,FORMAT_STATUS,The provided status is invalid
+obligations-api,v1,False,TypeOfBusinessFormatError,FORMAT_TYPE_OF_BUSINESS,The provided type of business is invalid
+obligations-api,v1,False,MissingFromDateError,MISSING_FROM_DATE,The From date parameter is missing
+obligations-api,v1,False,MissingToDateError,MISSING_TO_DATE,The To date parameter is missing
+obligations-api,v1,False,ToDateBeforeFromDateError,RANGE_TO_DATE_BEFORE_FROM_DATE,The To date must be after the From date
+obligations-api,v1,False,NoObligationsFoundError,NO_OBLIGATIONS_FOUND,No obligations found using this filter
+obligations-api,v1,False,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+obligations-api,v1,False,RuleDateRangeInvalidError,RULE_DATE_RANGE_INVALID,The specified date range is invalid
+obligations-api,v1,False,RuleInsolventTraderError,RULE_INSOLVENT_TRADER,The remote endpoint has indicated that the Trader is insolvent
+obligations-api,v1,False,RuleFromDateNotSupportedError,RULE_FROM_DATE_NOT_SUPPORTED,The specified from date is not supported as too early
+obligations-api,v1,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+obligations-api,v1,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+obligations-api,v1,False,BadRequestError,INVALID_REQUEST,Invalid request
+obligations-api,v1,False,BVRError,BUSINESS_ERROR,Business validation error
+obligations-api,v1,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+obligations-api,v1,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+obligations-api,v1,False,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+obligations-api,v1,False,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+obligations-api,v1,False,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+obligations-api,v1,False,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+other-deductions-api,v1,True,ValueFormatError,FORMAT_VALUE,The field should be between 0 and 99999999999.99
+other-deductions-api,v1,True,NameOfShipFormatError,FORMAT_NAME_OF_SHIP,The provided name of ship is not valid
+other-deductions-api,v1,True,CustomerReferenceFormatError,FORMAT_CUSTOMER_REFERENCE,The provided customer reference is not valid
+other-deductions-api,v1,True,DateFormatError,FORMAT_DATE,The field should be in the format YYYY-MM-DD
+other-deductions-api,v1,True,RangeToDateBeforeFromDateError,RANGE_TO_DATE_BEFORE_FROM_DATE,The To date is before the From date
+other-deductions-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+other-deductions-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+other-deductions-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+other-deductions-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+other-deductions-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+other-deductions-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+other-deductions-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+other-deductions-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+other-deductions-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+other-deductions-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+other-deductions-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+other-deductions-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+other-deductions-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+property-business-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+property-business-api,v1,True,BusinessIdFormatError,FORMAT_BUSINESS_ID,The provided Business ID is invalid
+property-business-api,v1,True,SubmissionIdFormatError,FORMAT_SUBMISSION_ID,The provided Submission ID is invalid
+property-business-api,v1,True,FromDateFormatError,FORMAT_FROM_DATE,The provided From date is invalid
+property-business-api,v1,True,ToDateFormatError,FORMAT_TO_DATE,The provided To date is invalid
+property-business-api,v1,True,CountryCodeFormatError,FORMAT_COUNTRY_CODE,The provided Country code is invalid
+property-business-api,v1,True,ValueFormatError,FORMAT_VALUE,One or more monetary fields are invalid
+property-business-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided Tax year is invalid
+property-business-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+property-business-api,v1,True,RuleOverlappingPeriodError,RULE_OVERLAPPING_PERIOD,Period summary overlaps with any of the existing period summaries
+property-business-api,v1,True,RuleMisalignedPeriodError,RULE_MISALIGNED_PERIOD,Period summary is not within the accounting period
+property-business-api,v1,True,RuleNotContiguousPeriodError,RULE_NOT_CONTIGUOUS_PERIOD,Period summaries are not contiguous
+property-business-api,v1,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,The tax year specified is before the minimum tax year value
+property-business-api,v1,True,RuleTaxYearRangeInvalidError,RULE_TAX_YEAR_RANGE_INVALID,The tax year range is invalid
+property-business-api,v1,True,RuleDuplicateSubmission,RULE_DUPLICATE_SUBMISSION,A summary has already been submitted for the period specified
+property-business-api,v1,True,MissingFromDateError,MISSING_FROM_DATE,The From date parameter is missing
+property-business-api,v1,True,MissingToDateError,MISSING_TO_DATE,The To date parameter is missing
+property-business-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+property-business-api,v1,True,SubmissionIdNotFoundError,SUBMISSION_ID_NOT_FOUND,Submission ID not found
+property-business-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+property-business-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+property-business-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+property-business-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+property-business-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+property-business-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+property-business-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+property-business-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+property-business-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+self-assessment-accounts-api,v1,True,NinoFormatError,FORMAT_NINO,The format of the supplied nino value is invalid
+self-assessment-accounts-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The format of the supplied taxYear value is invalid
+self-assessment-accounts-api,v1,True,FromDateFormatError,FORMAT_FROM_DATE,The provided From date is invalid
+self-assessment-accounts-api,v1,True,ValueFormatError,FORMAT_VALUE,The value must be between 0.00 and 99999999999.99
+self-assessment-accounts-api,v1,True,ToDateFormatError,FORMAT_TO_DATE,The provided To date is invalid
+self-assessment-accounts-api,v1,True,PaymentIdFormatError,FORMAT_PAYMENT_ID,The provided payment ID is invalid
+self-assessment-accounts-api,v1,True,TransactionIdFormatError,FORMAT_TRANSACTION_ID,The provided transaction ID is invalid
+self-assessment-accounts-api,v1,True,IdFormatError,FORMAT_ID,The format of the ID is invalid
+self-assessment-accounts-api,v1,True,SourceFormatError,FORMAT_SOURCE,The format of the supplied source is not valid
+self-assessment-accounts-api,v1,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,The specified taxYear is not supported. The taxYear specified is before the minimum tax year value
+self-assessment-accounts-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+self-assessment-accounts-api,v1,True,RuleTaxYearRangeInvalidError,RULE_TAX_YEAR_RANGE_INVALID,A taxYear range of one year is required
+self-assessment-accounts-api,v1,True,RuleTaxYearNotEndedError,RULE_TAX_YEAR_NOT_ENDED,Tax year not ended
+self-assessment-accounts-api,v1,True,RuleFromDateNotSupportedError,RULE_FROM_DATE_NOT_SUPPORTED,The specified from date is not supported as too early
+self-assessment-accounts-api,v1,True,RuleDateRangeInvalidError,RULE_DATE_RANGE_INVALID,The specified date range is invalid
+self-assessment-accounts-api,v1,True,MissingFromDateError,MISSING_FROM_DATE,The From date parameter is missing
+self-assessment-accounts-api,v1,True,MissingToDateError,MISSING_TO_DATE,The To date parameter is missing
+self-assessment-accounts-api,v1,True,RangeToDateBeforeFromDateError,RANGE_TO_DATE_BEFORE_FROM_DATE,The To date must be after the From date
+self-assessment-accounts-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+self-assessment-accounts-api,v1,True,CodingOutNotFoundError,MATCHING_RESOURCE_NOT_FOUND,Coding out amounts could not be found for the supplied nino and taxYear
+self-assessment-accounts-api,v1,True,NoTransactionDetailsFoundError,NO_DETAILS_FOUND,No transaction details found
+self-assessment-accounts-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+self-assessment-accounts-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+self-assessment-accounts-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+self-assessment-accounts-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+self-assessment-accounts-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+self-assessment-accounts-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+self-assessment-accounts-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+self-assessment-accounts-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+self-assessment-accounts-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+self-assessment-biss-api,v1,False,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+self-assessment-biss-api,v1,False,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+self-assessment-biss-api,v1,False,SelfEmploymentIdFormatError,FORMAT_SELF_EMPLOYMENT_ID,The supplied self-employment ID format is invalid
+self-assessment-biss-api,v1,False,TypeOfBusinessFormatError,FORMAT_TYPE_OF_BUSINESS,The provided type of business is invalid
+self-assessment-biss-api,v1,False,BusinessIdFormatError,FORMAT_BUSINESS_ID,The provided Business ID is invalid
+self-assessment-biss-api,v1,False,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+self-assessment-biss-api,v1,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+self-assessment-biss-api,v1,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+self-assessment-biss-api,v1,False,BadRequestError,INVALID_REQUEST,Invalid request
+self-assessment-biss-api,v1,False,BVRError,BUSINESS_ERROR,Business validation error
+self-assessment-biss-api,v1,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+self-assessment-biss-api,v1,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+self-assessment-biss-api,v1,False,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+self-assessment-biss-api,v1,False,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+self-assessment-biss-api,v1,False,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+self-assessment-biss-api,v1,False,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+self-assessment-bsas-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+self-assessment-bsas-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+self-assessment-bsas-api,v1,True,FormatAdjustmentValueError,FORMAT_ADJUSTMENT_VALUE,
+self-assessment-bsas-api,v1,True,SelfEmploymentIdFormatError,FORMAT_SELF_EMPLOYMENT_ID,The supplied self-employment ID format is invalid
+self-assessment-bsas-api,v1,True,BsasIdFormatError,FORMAT_BSAS_ID,The format of the BSAS ID is invalid
+self-assessment-bsas-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+self-assessment-bsas-api,v1,True,RuleAccountingPeriodNotEndedError,RULE_ACCOUNTING_PERIOD_NOT_ENDED,The accounting period has not yet ended
+self-assessment-bsas-api,v1,True,RulePeriodicDataIncompleteError,RULE_PERIODIC_DATA_INCOMPLETE,One or more periodic updates missing for this accounting period
+self-assessment-bsas-api,v1,True,RuleNoAccountingPeriodError,RULE_NO_ACCOUNTING_PERIOD,The accounting period given does not exist
+self-assessment-bsas-api,v1,True,RuleTypeOfBusinessError,RULE_TYPE_OF_BUSINESS_INCORRECT,The submission is for a different type of business
+self-assessment-bsas-api,v1,True,RuleSummaryStatusInvalid,RULE_SUMMARY_STATUS_INVALID,Periodic data has changed. Request a new summary
+self-assessment-bsas-api,v1,True,RuleSummaryStatusSuperseded,RULE_SUMMARY_STATUS_SUPERSEDED,A newer summary calculation exists for this accounting period
+self-assessment-bsas-api,v1,True,RuleBsasAlreadyAdjusted,RULE_BSAS_ALREADY_ADJUSTED,A summary may only be adjusted once. Request a new summary
+self-assessment-bsas-api,v1,True,RuleNoAdjustmentsMade,RULE_NO_ADJUSTMENTS_MADE,An adjusted summary calculation does not exist
+self-assessment-bsas-api,v1,True,RuleNotUkProperty,RULE_NOT_UK_PROPERTY,The summary calculation requested is not for a UK property business
+self-assessment-bsas-api,v1,True,RuleNotSelfEmployment,RULE_NOT_SELF_EMPLOYMENT,The summary calculation requested is not for a self-employment business
+self-assessment-bsas-api,v1,True,RuleIncorrectPropertyAdjusted,RULE_INCORRECT_PROPERTY_ADJUSTED,An adjustment has been made to an incorrect property type. Re-trigger an adjustable summary for this BSAS ID to correct
+self-assessment-bsas-api,v1,True,RuleErrorPropertyAdjusted,RULE_UK_PROPERTY_ADJUSTED,A UK Property business type was adjusted. Re-trigger an adjustable summary for the affected UK Property business to correct
+self-assessment-bsas-api,v1,True,RuleAdjustmentRangeInvalid,RULE_RANGE_INVALID,
+self-assessment-bsas-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+self-assessment-bsas-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+self-assessment-bsas-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+self-assessment-bsas-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+self-assessment-bsas-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+self-assessment-bsas-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+self-assessment-bsas-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+self-assessment-bsas-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+self-assessment-bsas-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+self-assessment-bsas-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+self-assessment-bsas-api,v2,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+self-assessment-bsas-api,v2,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+self-assessment-bsas-api,v2,True,FormatAdjustmentValueError,FORMAT_ADJUSTMENT_VALUE,The format of the adjustment value is invalid
+self-assessment-bsas-api,v2,True,BsasIdFormatError,FORMAT_BSAS_ID,The format of the BSAS ID is invalid
+self-assessment-bsas-api,v2,True,BusinessIdFormatError,FORMAT_BUSINESS_ID,The supplied business ID is invalid
+self-assessment-bsas-api,v2,True,CountryCodeFormatError,FORMAT_COUNTRY_CODE,The provided Country code is invalid
+self-assessment-bsas-api,v2,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+self-assessment-bsas-api,v2,True,RuleAccountingPeriodNotEndedError,RULE_ACCOUNTING_PERIOD_NOT_ENDED,The accounting period has not yet ended
+self-assessment-bsas-api,v2,True,RulePeriodicDataIncompleteError,RULE_PERIODIC_DATA_INCOMPLETE,One or more periodic updates missing for this accounting period
+self-assessment-bsas-api,v2,True,RuleNoAccountingPeriodError,RULE_NO_ACCOUNTING_PERIOD,The accounting period given does not exist
+self-assessment-bsas-api,v2,True,RuleTypeOfBusinessError,RULE_TYPE_OF_BUSINESS_INCORRECT,The submission is for a different type of business
+self-assessment-bsas-api,v2,True,RuleSummaryStatusInvalid,RULE_SUMMARY_STATUS_INVALID,Periodic data has changed. Request a new summary
+self-assessment-bsas-api,v2,True,RuleSummaryStatusSuperseded,RULE_SUMMARY_STATUS_SUPERSEDED,A newer summary calculation exists for this accounting period
+self-assessment-bsas-api,v2,True,RuleBsasAlreadyAdjusted,RULE_BSAS_ALREADY_ADJUSTED,A summary may only be adjusted once. Request a new summary
+self-assessment-bsas-api,v2,True,RuleNoAdjustmentsMade,RULE_NO_ADJUSTMENTS_MADE,An adjusted summary calculation does not exist
+self-assessment-bsas-api,v2,True,RuleNotUkProperty,RULE_NOT_UK_PROPERTY,The summary calculation requested is not for a UK property business
+self-assessment-bsas-api,v2,True,RuleNotForeignProperty,RULE_NOT_FOREIGN_PROPERTY,The summary calculation requested is not for a foreign property business
+self-assessment-bsas-api,v2,True,RuleNotSelfEmployment,RULE_NOT_SELF_EMPLOYMENT,The summary calculation requested is not for a self-employment business
+self-assessment-bsas-api,v2,True,RuleIncorrectPropertyAdjusted,RULE_INCORRECT_PROPERTY_ADJUSTED,An adjustment has been made to an incorrect property type. Re-trigger an adjustable summary for this BSAS ID to correct
+self-assessment-bsas-api,v2,True,RuleAdjustmentRangeInvalid,RULE_RANGE_INVALID,Adjustment value falls outside accepted range
+self-assessment-bsas-api,v2,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+self-assessment-bsas-api,v2,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+self-assessment-bsas-api,v2,True,BadRequestError,INVALID_REQUEST,Invalid request
+self-assessment-bsas-api,v2,True,BVRError,BUSINESS_ERROR,Business validation error
+self-assessment-bsas-api,v2,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+self-assessment-bsas-api,v2,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client or agent is not authorised
+self-assessment-bsas-api,v2,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+self-assessment-bsas-api,v2,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+self-assessment-bsas-api,v2,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+self-assessment-bsas-api,v2,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+self-employment-business-api,v1,True,NinoFormatError,FORMAT_NINO,The provided NINO is invalid
+self-employment-business-api,v1,True,TaxYearFormatError,FORMAT_TAX_YEAR,The provided tax year is invalid
+self-employment-business-api,v1,True,BusinessIdFormatError,FORMAT_BUSINESS_ID,The provided Business ID is invalid
+self-employment-business-api,v1,True,PeriodIdFormatError,FORMAT_PERIOD_ID,The provided Period ID is invalid
+self-employment-business-api,v1,True,ValueFormatError,FORMAT_VALUE,One or more monetary fields are invalid
+self-employment-business-api,v1,True,FromDateFormatError,FORMAT_FROM_DATE,The provided From date is invalid
+self-employment-business-api,v1,True,ToDateFormatError,FORMAT_TO_DATE,The provided To date is invalid
+self-employment-business-api,v1,True,RuleTaxYearNotSupportedError,RULE_TAX_YEAR_NOT_SUPPORTED,The tax year specified is before the minimum tax year value
+self-employment-business-api,v1,True,RuleTaxYearRangeInvalidError,RULE_TAX_YEAR_RANGE_INVALID,The Tax year range is invalid
+self-employment-business-api,v1,True,RuleOverlappingPeriod,RULE_OVERLAPPING_PERIOD,Period summary overlaps with any of the existing period summaries
+self-employment-business-api,v1,True,RuleMisalignedPeriod,RULE_MISALIGNED_PERIOD,Period summary is not within the accounting period
+self-employment-business-api,v1,True,RuleNotContiguousPeriod,RULE_NOT_CONTIGUOUS_PERIOD,Period summaries are not contiguous
+self-employment-business-api,v1,True,RuleNotAllowedConsolidatedExpenses,RULE_NOT_ALLOWED_CONSOLIDATED_EXPENSES,Consolidated expenses are not allowed if the accumulative turnover amount exceeds the threshold
+self-employment-business-api,v1,True,RuleToDateBeforeFromDateError,RULE_TO_DATE_BEFORE_FROM_DATE,The To date cannot be earlier than the From date
+self-employment-business-api,v1,True,RuleBothExpensesSuppliedError,RULE_BOTH_EXPENSES_SUPPLIED,Both expenses and consolidatedExpenses can not be present at the same time
+self-employment-business-api,v1,True,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+self-employment-business-api,v1,True,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+self-employment-business-api,v1,True,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+self-employment-business-api,v1,True,BadRequestError,INVALID_REQUEST,Invalid request
+self-employment-business-api,v1,True,BVRError,BUSINESS_ERROR,Business validation error
+self-employment-business-api,v1,True,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+self-employment-business-api,v1,True,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+self-employment-business-api,v1,True,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+self-employment-business-api,v1,True,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+self-employment-business-api,v1,True,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+self-employment-business-api,v1,True,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+vat-api,v1,False,FinancialDataInvalidDateFromError,DATE_FROM_INVALID,Invalid date from
+vat-api,v1,False,FinancialDataInvalidDateToError,DATE_TO_INVALID,Invalid date to
+vat-api,v1,False,FinancialDataInvalidDateRangeError,DATE_RANGE_INVALID,"Invalid date range, must be 365 days or less"
+vat-api,v1,False,InvalidDataError,INVALID_DATA,"The provided data is failed validation, contains invalid data"
+vat-api,v1,False,NrsError,NRS_SUBMISSION_FAILURE,The submission to NRS from MDTP failed
+vat-api,v1,False,VrnFormatError,VRN_INVALID,The provided Vrn is invalid
+vat-api,v1,False,VrnFormatErrorDes,VRN_INVALID,The provided VRN is invalid
+vat-api,v1,False,RuleIncorrectOrEmptyBodyError,RULE_INCORRECT_OR_EMPTY_BODY_SUBMITTED,An empty or non-matching body was submitted
+vat-api,v1,False,RuleInsolventTraderError,RULE_INSOLVENT_TRADER,The remote endpoint has indicated that the Trader is insolvent
+vat-api,v1,False,NotFoundError,MATCHING_RESOURCE_NOT_FOUND,Matching resource not found
+vat-api,v1,False,DownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+vat-api,v1,False,BadRequestError,INVALID_REQUEST,Invalid request
+vat-api,v1,False,BVRError,BUSINESS_ERROR,Business validation error
+vat-api,v1,False,ServiceUnavailableError,SERVICE_UNAVAILABLE,Internal server error
+vat-api,v1,False,UnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised
+vat-api,v1,False,InvalidBearerTokenError,UNAUTHORIZED,Bearer token is missing or not authorized
+vat-api,v1,False,LegacyUnauthorisedError,CLIENT_OR_AGENT_NOT_AUTHORISED,The client and/or agent is not authorised.
+vat-api,v1,False,ForbiddenDownstreamError,INTERNAL_SERVER_ERROR,An internal server error occurred
+vat-api,v1,False,InvalidAcceptHeaderError,ACCEPT_HEADER_INVALID,The accept header is missing or invalid
+vat-api,v1,False,UnsupportedVersionError,NOT_FOUND,The requested resource could not be found
+vat-api,v1,False,InvalidBodyTypeError,INVALID_BODY_TYPE,Expecting text/json or application/json body
+vat-api,v1,False,LegacyNotFoundError,NOT_FOUND,The remote endpoint has indicated that no data can be found
+vat-api,v1,False,RuleDateRangeTooLargeError,DATE_RANGE_TOO_LARGE,The date of the requested return cannot be further than four years from the current date.
+vat-api,v1,False,InvalidDateToErrorDes,DATE_TO_INVALID,The provided to date is invalid
+vat-api,v1,False,InvalidDateFromErrorDes,DATE_FROM_INVALID,The provided from date is invalid
+vat-api,v1,False,TaxPeriodNotEnded,TAX_PERIOD_NOT_ENDED,The remote endpoint has indicated that the submission is for a tax period that has not ended
+vat-api,v1,False,DuplicateVatSubmission,DUPLICATE_SUBMISSION,The VAT return was already submitted for the given period.
+vat-api,v1,False,InvalidFromError,INVALID_DATE_FROM,Invalid date from
+vat-api,v1,False,InvalidToError,INVALID_DATE_TO,Invalid date to
+vat-api,v1,False,InvalidStatusError,INVALID_STATUS,Invalid status
+vat-api,v1,False,RuleDateRangeInvalidError,INVALID_DATE_RANGE,"Invalid date range, must be 366 days or less"
+vat-api,v1,False,RuleMissingDateRangeError,MISSING_DATE_RANGE,Missing date range
+vat-api,v1,False,RuleOBLDateRangeTooLargeError,DATE_RANGE_TOO_LARGE,The date of the requested return cannot be further than four years from the current date.
+vat-api,v1,False,InvalidStatusErrorDes,INVALID_STATUS,"The provided data is failed validation, invalid status"
+vat-api,v1,False,InvalidMonetaryValueError,INVALID_REQUEST,Invalid request
+vat-api,v1,False,BodyPeriodKeyFormatError,PERIOD_KEY_INVALID,Invalid period key
+vat-api,v1,False,InvalidJsonError,,"Invalid json, e.g. \"
+vat-api,v1,False,VATNetValueRuleError,VAT_NET_VALUE,netVatDue should be the difference between the largest and the smallest values among totalVatDue and vatReclaimedCurrPeriod
+vat-api,v1,False,VATTotalValueRuleError,VAT_TOTAL_VALUE,totalVatDue should be equal to the sum of vatDueSales and vatDueAcquisitions
+vat-api,v1,False,FinalisedValueRuleError,NOT_FINALISED,User has not declared VAT return as final
+vat-api,v1,False,StringFormatRuleError,INVALID_STRING_VALUE,"String with invalid type, e.g.\"
+vat-api,v1,False,UnMappedPlayRuleError,UNMAPPED_PLAY_ERROR,error.expected.jsboolean
+vat-api,v1,False,NumericFormatRuleError,INVALID_REQUEST,Invalid request
+vat-api,v1,False,MandatoryFieldRuleError,INVALID_REQUEST,Invalid request
+vat-api,v1,False,PeriodKeyFormatError,PERIOD_KEY_INVALID,Invalid period key
+vat-api,v1,False,InvalidInputDataError,DATE_RANGE_TOO_LARGE,The date of the requested return cannot be further than four years from the current date.
+vat-api,v1,False,PeriodKeyFormatErrorDesNotFound,PERIOD_KEY_INVALID,Invalid period key
+vat-api,v1,False,PeriodKeyFormatErrorDes,PERIOD_KEY_INVALID,Invalid period key
+vat-api,v1,False,EmptyNotFoundError,MATCHING_RESOURCE_NOT_FOUND,
