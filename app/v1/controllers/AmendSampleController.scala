@@ -104,12 +104,14 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
     }
 
   private def errorResult(errorWrapper: ErrorWrapper) = {
-    (errorWrapper.error: @unchecked) match {
-      case RuleIncorrectOrEmptyBodyError | BadRequestError | TaxYearFormatError | RuleTaxYearNotSupportedError | NinoFormatError |
-          RuleTaxYearRangeInvalidError =>
-        BadRequest(Json.toJson(errorWrapper))
-      case NotFoundError           => NotFound(Json.toJson(errorWrapper))
+    errorWrapper.error match {
+      case RuleIncorrectOrEmptyBodyError | BadRequestError |
+           TaxYearFormatError | RuleTaxYearNotSupportedError |
+           NinoFormatError | RuleTaxYearRangeInvalidError
+      => BadRequest(Json.toJson(errorWrapper))
+      case NotFoundError => NotFound(Json.toJson(errorWrapper))
       case StandardDownstreamError => InternalServerError(Json.toJson(errorWrapper))
+      case _ => unhandledError(errorWrapper)
     }
   }
 

@@ -92,11 +92,13 @@ class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
     }
 
   private def errorResult(errorWrapper: ErrorWrapper) = {
-    (errorWrapper.error: @unchecked) match {
-      case BadRequestError | NinoFormatError | TaxYearFormatError | RuleTaxYearRangeInvalidError | RuleTaxYearNotSupportedError =>
-        BadRequest(Json.toJson(errorWrapper))
-      case NotFoundError           => NotFound(Json.toJson(errorWrapper))
+    errorWrapper.error match {
+      case BadRequestError | NinoFormatError | TaxYearFormatError |
+           RuleTaxYearRangeInvalidError | RuleTaxYearNotSupportedError
+      => BadRequest(Json.toJson(errorWrapper))
+      case NotFoundError => NotFound(Json.toJson(errorWrapper))
       case StandardDownstreamError => InternalServerError(Json.toJson(errorWrapper))
+      case _ => unhandledError(errorWrapper)
     }
   }
 }
