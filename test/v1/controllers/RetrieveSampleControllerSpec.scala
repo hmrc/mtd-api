@@ -16,28 +16,29 @@
 
 package v1.controllers
 
-import play.api.libs.json.{JsObject, Json}
+import api.controllers.ControllerBaseSpec
+import api.fixtures.RetrieveSampleControllerFixture
+import api.hateoas.HateoasLinks
+import api.mocks.hateoas.MockHateoasFactory
+import api.mocks.requestParsers.MockDeleteRetrieveRequestParser
+import api.mocks.services.{ MockDeleteRetrieveService, MockEnrolmentsAuthService, MockMtdIdLookupService }
+import api.models.domain.{ DownstreamTaxYear, Nino, SampleMtdEnum }
+import api.models.errors._
+import api.models.hateoas.Method.{ DELETE, GET, PUT }
+import api.models.hateoas.RelType.{ AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, SELF }
+import api.models.hateoas.{ HateoasWrapper, Link }
+import api.models.outcomes.ResponseWrapper
+import api.models.request.{ DeleteRetrieveRawData, DeleteRetrieveRequest }
+import api.models.response.retrieveSample._
+import play.api.libs.json.{ JsObject, Json }
 import play.api.mvc.Result
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.fixtures.RetrieveSampleControllerFixture
-import v1.hateoas.HateoasLinks
-import v1.mocks.hateoas.MockHateoasFactory
-import v1.mocks.requestParsers.MockDeleteRetrieveRequestParser
-import v1.mocks.services.{MockDeleteRetrieveService, MockEnrolmentsAuthService, MockMtdIdLookupService}
-import v1.models.domain.{DesTaxYear, Nino, SampleMtdEnum}
-import v1.models.errors._
-import v1.models.hateoas.Method.{DELETE, GET, PUT}
-import v1.models.hateoas.RelType.{AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, SELF}
-import v1.models.hateoas.{HateoasWrapper, Link}
-import v1.models.outcomes.ResponseWrapper
-import v1.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
-import v1.models.response.retrieveSample._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RetrieveSampleControllerSpec
-  extends ControllerBaseSpec
+    extends ControllerBaseSpec
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
     with MockDeleteRetrieveService
@@ -56,7 +57,7 @@ class RetrieveSampleControllerSpec
 
   val requestData: DeleteRetrieveRequest = DeleteRetrieveRequest(
     nino = Nino(nino),
-    taxYear = DesTaxYear.fromMtd(taxYear)
+    taxYear = DownstreamTaxYear.fromMtd(taxYear)
   )
 
   val amendSampleLink: Link =
@@ -225,7 +226,7 @@ class RetrieveSampleControllerSpec
           (NinoFormatError, BAD_REQUEST),
           (TaxYearFormatError, BAD_REQUEST),
           (NotFoundError, NOT_FOUND),
-          (DownstreamError, INTERNAL_SERVER_ERROR)
+          (StandardDownstreamError, INTERNAL_SERVER_ERROR)
         )
 
         input.foreach(args => (serviceErrors _).tupled(args))

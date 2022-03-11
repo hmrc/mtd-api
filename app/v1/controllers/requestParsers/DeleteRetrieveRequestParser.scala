@@ -16,14 +16,16 @@
 
 package v1.controllers.requestParsers
 
-import javax.inject.Inject
+import api.controllers.requestParsers.RequestParser
+import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
 import v1.controllers.requestParsers.validators.DeleteRetrieveValidator
-import v1.models.domain.{DesTaxYear, Nino}
-import v1.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
+
+import javax.inject.Inject
 
 class DeleteRetrieveRequestParser @Inject()(val validator: DeleteRetrieveValidator)
   extends RequestParser[DeleteRetrieveRawData, DeleteRetrieveRequest] {
 
   override protected def requestFor(data: DeleteRetrieveRawData): DeleteRetrieveRequest =
-    DeleteRetrieveRequest(Nino(data.nino), DesTaxYear.fromMtd(data.taxYear))
+    DeleteRetrieveRequest(Nino(data.nino), DownstreamTaxYear.fromMtd(data.taxYear))
 }

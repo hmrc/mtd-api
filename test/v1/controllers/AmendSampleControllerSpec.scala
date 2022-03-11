@@ -16,17 +16,18 @@
 
 package v1.controllers
 
+import api.controllers.ControllerBaseSpec
+import api.mocks.requestParsers.MockAmendSampleRequestParser
+import api.mocks.services.{MockAmendSampleService, MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
+import api.models.audit.{AuditError, AuditEvent, SampleAuditDetail, SampleAuditResponse}
+import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.errors._
+import api.models.outcomes.ResponseWrapper
+import api.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 import mocks.MockAppConfig
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.mocks.requestParsers.MockAmendSampleRequestParser
-import v1.mocks.services.{MockAmendSampleService, MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
-import v1.models.audit.{AuditError, AuditEvent, SampleAuditDetail, SampleAuditResponse}
-import v1.models.domain.{DesTaxYear, Nino}
-import v1.models.errors._
-import v1.models.outcomes.ResponseWrapper
-import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -64,7 +65,7 @@ class AmendSampleControllerSpec
 
   val requestData: AmendSampleRequest = AmendSampleRequest(
     nino = Nino(nino),
-    desTaxYear = DesTaxYear.fromMtd(taxYear),
+    downstreamTaxYear = DownstreamTaxYear.fromMtd(taxYear),
     body = requestBody
   )
 
@@ -198,7 +199,7 @@ class AmendSampleControllerSpec
           (RuleTaxYearNotSupportedError, BAD_REQUEST),
           (RuleTaxYearRangeInvalidError, BAD_REQUEST),
           (RuleIncorrectOrEmptyBodyError, BAD_REQUEST),
-          (DownstreamError, INTERNAL_SERVER_ERROR)
+          (StandardDownstreamError, INTERNAL_SERVER_ERROR)
         )
 
         input.foreach(args => (errorsFromParserTester _).tupled(args))
@@ -250,7 +251,7 @@ class AmendSampleControllerSpec
           (NinoFormatError, BAD_REQUEST),
           (TaxYearFormatError, BAD_REQUEST),
           (NotFoundError, NOT_FOUND),
-          (DownstreamError, INTERNAL_SERVER_ERROR)
+          (StandardDownstreamError, INTERNAL_SERVER_ERROR)
         )
 
         input.foreach(args => (serviceErrors _).tupled(args))

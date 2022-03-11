@@ -16,9 +16,11 @@
 
 package config
 
-import javax.inject.{Inject, Singleton}
-import play.api.Configuration
+import com.typesafe.config.Config
+import play.api.{ ConfigLoader, Configuration }
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+
+import javax.inject.{ Inject, Singleton }
 
 trait AppConfig {
   // MTD ID Lookup Config
@@ -30,11 +32,18 @@ trait AppConfig {
   def desToken: String
   def desEnvironmentHeaders: Option[Seq[String]]
 
+  // IFS Config
+  def ifsBaseUrl: String
+  def ifsEnv: String
+  def ifsToken: String
+  def ifsEnvironmentHeaders: Option[Seq[String]]
+
   // Business Rule Config
   def minimumPermittedTaxYear: Int
 
   // API Config
   def apiGatewayContext: String
+  def confidenceLevelConfig: ConfidenceLevelConfig
   def apiStatus(version: String): String
   def featureSwitch: Option[Configuration]
   def endpointsEnabled(version: String): Boolean
@@ -46,17 +55,36 @@ class AppConfigImpl @Inject()(config: ServicesConfig, configuration: Configurati
   val mtdIdBaseUrl: String = config.baseUrl("mtd-id-lookup")
 
   // DES Config
-  val desBaseUrl: String = config.baseUrl("des")
-  val desEnv: String = config.getString("microservice.services.des.env")
-  val desToken: String = config.getString("microservice.services.des.token")
+  val desBaseUrl: String                         = config.baseUrl("des")
+  val desEnv: String                             = config.getString("microservice.services.des.env")
+  val desToken: String                           = config.getString("microservice.services.des.token")
   val desEnvironmentHeaders: Option[Seq[String]] = configuration.getOptional[Seq[String]]("microservice.services.des.environmentHeaders")
+
+  // IFS Config
+  val ifsBaseUrl: String                         = config.baseUrl("ifs")
+  val ifsEnv: String                             = config.getString("microservice.services.ifs.env")
+  val ifsToken: String                           = config.getString("microservice.services.ifs.token")
+  val ifsEnvironmentHeaders: Option[Seq[String]] = configuration.getOptional[Seq[String]]("microservice.services.ifs.environmentHeaders")
 
   // Business rule Config
   val minimumPermittedTaxYear: Int = config.getInt("minimumPermittedTaxYear")
 
   // API Config
-  val apiGatewayContext: String = config.getString("api.gateway.context")
-  def apiStatus(version: String): String = config.getString(s"api.$version.status")
-  def featureSwitch: Option[Configuration] = configuration.getOptional[Configuration](s"feature-switch")
-  def endpointsEnabled(version: String): Boolean = config.getBoolean(s"api.$version.endpoints.enabled")
+  val apiGatewayContext: String                    = config.getString("api.gateway.context")
+  val confidenceLevelConfig: ConfidenceLevelConfig = configuration.get[ConfidenceLevelConfig](s"api.confidence-level-check")
+  def apiStatus(version: String): String           = config.getString(s"api.$version.status")
+  def featureSwitch: Option[Configuration]         = configuration.getOptional[Configuration](s"feature-switch")
+  def endpointsEnabled(version: String): Boolean   = config.getBoolean(s"api.$version.endpoints.enabled")
+}
+
+case class ConfidenceLevelConfig(definitionEnabled: Boolean, authValidationEnabled: Boolean)
+
+object ConfidenceLevelConfig {
+  implicit val configLoader: ConfigLoader[ConfidenceLevelConfig] = (rootConfig: Config, path: String) => {
+    val config = rootConfig.getConfig(path)
+    ConfidenceLevelConfig(
+      definitionEnabled = config.getBoolean("definition.enabled"),
+      authValidationEnabled = config.getBoolean("auth-validation.enabled")
+    )
+  }
 }

@@ -16,13 +16,15 @@
 
 package v1.controllers.requestParsers.validators
 
+import api.controllers.requestParsers.validators.Validator
+import api.models.errors.MtdError
+import api.models.request.amendSample.{ AmendSampleRawData, AmendSampleRequestBody }
+import api.validations.{ JsonFormatValidation, NinoValidation, TaxYearNotSupportedValidation, TaxYearValidation }
 import config.AppConfig
-import javax.inject.Inject
-import v1.controllers.requestParsers.validators.validations._
-import v1.models.errors.MtdError
-import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequestBody}
 
-class AmendSampleValidator @Inject()(implicit appConfig: AppConfig)extends Validator[AmendSampleRawData] {
+import javax.inject.Inject
+
+class AmendSampleValidator @Inject()(implicit appConfig: AppConfig) extends Validator[AmendSampleRawData] {
 
   private val validationSet = List(parameterFormatValidation, parameterRuleValidation)
 

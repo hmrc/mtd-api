@@ -16,12 +16,12 @@
 
 package v1.controllers.requestParsers.validators
 
+import api.models.errors._
+import api.models.request.DeleteRetrieveRawData
 import config.AppConfig
 import mocks.MockAppConfig
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
 import support.UnitSpec
-import v1.models.errors._
-import v1.models.request.DeleteRetrieveRawData
 
 class DeleteRetrieveValidatorSpec extends UnitSpec {
 

@@ -16,12 +16,12 @@
 
 package v1.controllers.requestParsers
 
+import api.mocks.validators.MockAmendSampleValidator
+import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.errors._
+import api.models.request.amendSample._
 import play.api.libs.json.Json
 import support.UnitSpec
-import v1.mocks.validators.MockAmendSampleValidator
-import v1.models.domain.{DesTaxYear, Nino}
-import v1.models.errors._
-import v1.models.request.amendSample._
 
 class AmendSampleRequestParserSpec extends UnitSpec {
 
@@ -49,7 +49,7 @@ class AmendSampleRequestParserSpec extends UnitSpec {
         MockAmendSampleValidator.validate(inputData).returns(Nil)
 
         parser.parseRequest(inputData) shouldBe
-          Right(AmendSampleRequest(Nino(nino), DesTaxYear("2018"), AmendSampleRequestBody("someData")))
+          Right(AmendSampleRequest(Nino(nino), DownstreamTaxYear("2018"), AmendSampleRequestBody("someData")))
       }
     }
 

@@ -16,14 +16,16 @@
 
 package v1.controllers.requestParsers
 
-import javax.inject.Inject
+import api.controllers.requestParsers.RequestParser
+import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 import v1.controllers.requestParsers.validators.AmendSampleValidator
-import v1.models.domain.{DesTaxYear, Nino}
-import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
+
+import javax.inject.Inject
 
 class AmendSampleRequestParser @Inject()(val validator: AmendSampleValidator)
   extends RequestParser[AmendSampleRawData, AmendSampleRequest] {
 
   override protected def requestFor(data: AmendSampleRawData): AmendSampleRequest =
-    AmendSampleRequest(Nino(data.nino), DesTaxYear.fromMtd(data.taxYear), data.body.as[AmendSampleRequestBody])
+    AmendSampleRequest(Nino(data.nino), DownstreamTaxYear.fromMtd(data.taxYear), data.body.as[AmendSampleRequestBody])
 }
