@@ -16,7 +16,7 @@
 
 package api.models.audit
 
-import play.api.libs.json.{ Json, OWrites }
+import play.api.libs.json.{Json, OWrites}
 
 case class SampleAuditResponse(httpStatus: Int, errors: Option[Seq[AuditError]])
 

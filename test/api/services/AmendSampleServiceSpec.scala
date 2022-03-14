@@ -27,8 +27,8 @@ import scala.concurrent.Future
 
 class AmendSampleServiceSpec extends ServiceSpec {
 
-  private val nino = "AA123456A"
-  private val taxYear = "2017-18"
+  private val nino          = "AA123456A"
+  private val taxYear       = "2017-18"
   private val correlationId = "X-123"
 
   private val requestBody = AmendSampleRequestBody(
@@ -54,7 +54,8 @@ class AmendSampleServiceSpec extends ServiceSpec {
       "return correct result for a success" in new Test {
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
-        MockAmendSampleConnector.amendSample(requestData)
+        MockAmendSampleConnector
+          .amendSample(requestData)
           .returns(Future.successful(outcome))
 
         await(service.amendSample(requestData)) shouldBe outcome
@@ -66,7 +67,8 @@ class AmendSampleServiceSpec extends ServiceSpec {
       def serviceError(downstreamErrorCode: String, error: MtdError): Unit =
         s"a $downstreamErrorCode error is returned from the service" in new Test {
 
-          MockAmendSampleConnector.amendSample(requestData)
+          MockAmendSampleConnector
+            .amendSample(requestData)
             .returns(Future.successful(Left(ResponseWrapper(correlationId, DownstreamErrors.single(DownstreamErrorCode(downstreamErrorCode))))))
 
           await(service.amendSample(requestData)) shouldBe Left(ErrorWrapper(Some(correlationId), error))

@@ -22,19 +22,18 @@ import support.UnitSpec
 
 class SampleAuditDetailSpec extends UnitSpec {
 
-  private val userType = "Organisation"
+  private val userType             = "Organisation"
   private val agentReferenceNumber = Some("012345678")
-  private val nino = "AA123456A"
-  private val taxYear = "2017-18"
-  private val `X-CorrelationId` = "X-123"
-  private val responseSuccess = SampleAuditResponse(Status.SEE_OTHER, None)
-  private val responseFail = SampleAuditResponse(Status.BAD_REQUEST, Some(Seq(AuditError("FORMAT_NINO"))))
+  private val nino                 = "AA123456A"
+  private val taxYear              = "2017-18"
+  private val `X-CorrelationId`    = "X-123"
+  private val responseSuccess      = SampleAuditResponse(Status.SEE_OTHER, None)
+  private val responseFail         = SampleAuditResponse(Status.BAD_REQUEST, Some(Seq(AuditError("FORMAT_NINO"))))
 
   "writes" when {
     "passed an audit model with all fields provided" should {
       "produce valid json" in {
-        val json = Json.parse(
-          s"""
+        val json = Json.parse(s"""
              |{
              |  "userType": "Organisation",
              |  "agentReferenceNumber": "012345678",
@@ -55,8 +54,7 @@ class SampleAuditDetailSpec extends UnitSpec {
 
     "passed an audit model with only mandatory fields provided" should {
       "produce valid json" in {
-        val json = Json.parse(
-          s"""
+        val json = Json.parse(s"""
              |{
              |  "userType": "Organisation",
              |  "nino": "AA123456A",

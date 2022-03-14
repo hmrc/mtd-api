@@ -17,11 +17,11 @@
 package v1.connectors
 
 import api.connectors.DownstreamUri.IfsUri
-import api.connectors.{ ConnectorSpec, DeleteRetrieveConnector, DownstreamUri }
+import api.connectors.{ConnectorSpec, DeleteRetrieveConnector, DownstreamUri}
 import api.mocks.MockHttpClient
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
-import play.api.libs.json.{ Json, Reads }
+import play.api.libs.json.{Json, Reads}
 
 import scala.concurrent.Future
 

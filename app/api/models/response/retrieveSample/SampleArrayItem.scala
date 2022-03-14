@@ -16,10 +16,10 @@
 
 package api.models.response.retrieveSample
 
+import api.models.domain.{DownstreamTaxYear, SampleDownstreamEnum, SampleMtdEnum}
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import utils.JsonUtils
-import api.models.domain.{DownstreamTaxYear, SampleDownstreamEnum, SampleMtdEnum}
 
 case class SampleArrayItem(id: String,
                            declaredAmount: Option[BigDecimal],
@@ -37,7 +37,7 @@ object SampleArrayItem extends JsonUtils {
       (JsPath \ "typeOfItem").read[SampleDownstreamEnum].map(_.toMtdEnum) and
       (JsPath \ "taxYear").read[String].map(DownstreamTaxYear.fromDownstream(_).value) and
       (JsPath \ "isFinalised").readWithDefault(defaultValue = false)
-    ) (SampleArrayItem.apply _)
+  )(SampleArrayItem.apply _)
 
   implicit val writes: OWrites[SampleArrayItem] = Json.writes[SampleArrayItem]
 }

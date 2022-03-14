@@ -20,16 +20,18 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import utils.JsonUtils
 
-case class SampleObject (dateSubmitted: String, submissionItem: Option[SampleArrayItem])
+case class SampleObject(dateSubmitted: String, submissionItem: Option[SampleArrayItem])
 
 object SampleObject extends JsonUtils {
 
   implicit val reads: Reads[SampleObject] = (
     (JsPath \ "dateSubmitted").read[String] and
-      (JsPath \ "submittedItems" \ "income").readNestedNullable[Seq[SampleArrayItem]](
-        filteredArrayReads("typeOfItem", "Type1")
-      ).mapHeadOption
-    ) (SampleObject.apply _)
+      (JsPath \ "submittedItems" \ "income")
+        .readNestedNullable[Seq[SampleArrayItem]](
+          filteredArrayReads("typeOfItem", "Type1")
+        )
+        .mapHeadOption
+  )(SampleObject.apply _)
 
   implicit val writes: OWrites[SampleObject] = Json.writes[SampleObject]
 }

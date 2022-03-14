@@ -16,11 +16,11 @@
 
 package api.support
 
-import play.api.libs.json.{JsObject, Json, Writes}
-import utils.Logging
 import api.controllers.EndpointLogContext
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
+import play.api.libs.json.{JsObject, Json, Writes}
+import utils.Logging
 
 trait DownstreamResponseMappingSupport {
   self: Logging =>
@@ -34,7 +34,7 @@ trait DownstreamResponseMappingSupport {
   }
 
   final def mapDownstreamErrors[D](errorCodeMap: PartialFunction[String, MtdError])(downstreamResponseWrapper: ResponseWrapper[DownstreamError])(
-    implicit logContext: EndpointLogContext): ErrorWrapper = {
+      implicit logContext: EndpointLogContext): ErrorWrapper = {
 
     lazy val defaultErrorCodeMapping: String => MtdError = { code =>
       logger.info(s"[${logContext.controllerName}] [${logContext.endpointName}] - No mapping found for error code $code")

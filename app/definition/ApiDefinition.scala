@@ -30,14 +30,14 @@ case class PublishingException(message: String) extends Exception(message)
 sealed trait APIStatus
 
 object APIStatus extends Enumeration {
-  case object ALPHA extends APIStatus
-  case object BETA extends APIStatus
-  case object STABLE extends APIStatus
+  case object ALPHA      extends APIStatus
+  case object BETA       extends APIStatus
+  case object STABLE     extends APIStatus
   case object DEPRECATED extends APIStatus
-  case object RETIRED extends APIStatus
+  case object RETIRED    extends APIStatus
 
   implicit val formatApiVersion: Format[APIStatus] = Enums.format[APIStatus]
-  val parser: PartialFunction[String, APIStatus] = Enums.parser[APIStatus]
+  val parser: PartialFunction[String, APIStatus]   = Enums.parser[APIStatus]
 }
 
 case class APIVersion(version: String, status: APIStatus, endpointsEnabled: Boolean) {

@@ -16,17 +16,18 @@
 
 package api.mocks.requestParsers
 
-import org.scalamock.handlers.CallHandler
-import org.scalamock.scalatest.MockFactory
 import api.models.errors.ErrorWrapper
 import api.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest}
-import v1.controllers.requestParsers.AmendSampleRequestParser
+import org.scalamock.handlers.CallHandler
+import org.scalamock.scalatest.MockFactory
+import v1.requestParsers.AmendSampleRequestParser
 
 trait MockAmendSampleRequestParser extends MockFactory {
 
   val mockAmendSampleRequestParser: AmendSampleRequestParser = mock[AmendSampleRequestParser]
 
   object MockAmendSampleRequestParser {
+
     def parse(data: AmendSampleRawData): CallHandler[Either[ErrorWrapper, AmendSampleRequest]] = {
       (mockAmendSampleRequestParser.parseRequest(_: AmendSampleRawData)).expects(data)
     }

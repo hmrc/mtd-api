@@ -16,21 +16,21 @@
 
 package api.endpoints
 
+import api.models.domain.DownstreamTaxYear
+import api.stubs.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import support.IntegrationBaseSpec
-import api.models.domain.DownstreamTaxYear
-import api.stubs.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 
 class AuthISpec extends IntegrationBaseSpec {
 
   private trait Test {
-    val nino: String = "AA123456A"
-    val taxYear: String = "2020-21"
-    val data: String = "someData"
+    val nino: String          = "AA123456A"
+    val taxYear: String       = "2020-21"
+    val data: String          = "someData"
     val correlationId: String = "X-123"
 
     val requestJson: String =

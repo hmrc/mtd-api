@@ -16,9 +16,9 @@
 
 package api.models.response.retrieveSample
 
+import api.models.domain.SampleMtdEnum
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
-import api.models.domain.SampleMtdEnum
 
 class RetrieveSampleResponseSpec extends UnitSpec {
 
@@ -232,8 +232,7 @@ class RetrieveSampleResponseSpec extends UnitSpec {
             |    }
             |  }
             |}
-          """.stripMargin
-        )
+          """.stripMargin)
 
         Json.toJson(model) shouldBe json
       }

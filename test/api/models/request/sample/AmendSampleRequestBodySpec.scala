@@ -16,10 +16,10 @@
 
 package api.models.request.sample
 
-import play.api.libs.json._
-import support.UnitSpec
 import api.models.request.amendSample.AmendSampleRequestBody
 import api.models.utils.JsonErrorValidators
+import play.api.libs.json._
+import support.UnitSpec
 
 class AmendSampleRequestBodySpec extends UnitSpec with JsonErrorValidators {
   "reads" when {

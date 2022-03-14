@@ -31,14 +31,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class DeleteSampleControllerSpec
-  extends ControllerBaseSpec
+    extends ControllerBaseSpec
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
     with MockDeleteRetrieveService
     with MockDeleteRetrieveRequestParser {
 
-  val nino: String = "AA123456A"
-  val taxYear: String = "2017-18"
+  val nino: String          = "AA123456A"
+  val taxYear: String       = "2017-18"
   val correlationId: String = "X-123"
 
   val rawData: DeleteRetrieveRawData = DeleteRetrieveRawData(

@@ -28,7 +28,7 @@ import scala.concurrent.Future
 
 class AmendSampleConnectorSpec extends ConnectorSpec {
 
-  val nino: String = "AA123456A"
+  val nino: String                         = "AA123456A"
   val downstreamTaxYear: DownstreamTaxYear = DownstreamTaxYear.fromMtd(taxYear = "2018-19")
 
   val request: AmendSampleRequest = AmendSampleRequest(
@@ -56,7 +56,7 @@ class AmendSampleConnectorSpec extends ConnectorSpec {
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
         implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders ++ Seq("Content-Type" -> "application/json"))
-        val requiredIfsHeadersPut = requiredIfsHeaders ++ Seq("Content-Type" -> "application/json")
+        val requiredIfsHeadersPut      = requiredIfsHeaders ++ Seq("Content-Type" -> "application/json")
 
         MockHttpClient
           .put(
@@ -65,7 +65,8 @@ class AmendSampleConnectorSpec extends ConnectorSpec {
             body = request.body,
             requiredHeaders = requiredIfsHeadersPut,
             excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
-          ).returns(Future.successful(outcome))
+          )
+          .returns(Future.successful(outcome))
 
         await(connector.amendSample(request)) shouldBe outcome
       }

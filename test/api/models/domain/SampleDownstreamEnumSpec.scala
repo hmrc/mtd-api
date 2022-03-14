@@ -17,7 +17,7 @@
 package api.models.domain
 
 import api.models.domain.SampleDownstreamEnum._
-import play.api.libs.json.{ JsError, JsValue, Json }
+import play.api.libs.json.{JsError, JsValue, Json}
 import support.UnitSpec
 import utils.enums.EnumJsonSpecSupport
 

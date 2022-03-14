@@ -21,7 +21,7 @@ import api.controllers.EndpointLogContext
 import api.mocks.connectors.MockDeleteRetrieveConnector
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
-import play.api.libs.json.{ Format, Json }
+import play.api.libs.json.{Format, Json}
 
 import scala.concurrent.Future
 

@@ -16,9 +16,9 @@
 
 package v1.controllers
 
-import api.controllers.{ AuthorisedController, BaseController, EndpointLogContext }
+import api.controllers.{AuthorisedController, BaseController, EndpointLogContext}
 import api.hateoas.AmendHateoasBodies
-import api.models.audit.{ AuditEvent, SampleAuditDetail, SampleAuditResponse }
+import api.models.audit.{AuditEvent, SampleAuditDetail, SampleAuditResponse}
 import api.models.auth.UserDetails
 import api.models.errors._
 import api.models.request.amendSample.AmendSampleRawData
@@ -27,15 +27,15 @@ import cats.data.EitherT
 import cats.implicits._
 import config.AppConfig
 import play.api.http.MimeTypes
-import play.api.libs.json.{ JsValue, Json }
-import play.api.mvc.{ Action, ControllerComponents }
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import utils.Logging
-import v1.controllers.requestParsers.AmendSampleRequestParser
+import v1.requestParsers.AmendSampleRequestParser
 
-import javax.inject.{ Inject, Singleton }
-import scala.concurrent.{ ExecutionContext, Future }
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,

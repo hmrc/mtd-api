@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package api.controllers.requestParsers
+package api.requestParsers
 
-import api.controllers.requestParsers.validators.Validator
 import api.models.errors.{BadRequestError, ErrorWrapper}
 import api.models.request.RawData
+import api.requestParsers.validators.Validator
 
 trait RequestParser[Raw <: RawData, Request] {
 
@@ -28,9 +28,9 @@ trait RequestParser[Raw <: RawData, Request] {
 
   def parseRequest(data: Raw): Either[ErrorWrapper, Request] = {
     validator.validate(data) match {
-      case Nil => Right(requestFor(data))
+      case Nil        => Right(requestFor(data))
       case err :: Nil => Left(ErrorWrapper(None, err, None))
-      case errs => Left(ErrorWrapper(None, BadRequestError, Some(errs)))
+      case errs       => Left(ErrorWrapper(None, BadRequestError, Some(errs)))
     }
   }
 }

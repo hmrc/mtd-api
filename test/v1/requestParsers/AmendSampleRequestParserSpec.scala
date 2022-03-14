@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers
+package v1.requestParsers
 
 import api.mocks.validators.MockAmendSampleValidator
 import api.models.domain.{DownstreamTaxYear, Nino}
@@ -25,9 +25,9 @@ import support.UnitSpec
 
 class AmendSampleRequestParserSpec extends UnitSpec {
 
-  val nino: String = "AA123456B"
+  val nino: String    = "AA123456B"
   val taxYear: String = "2017-18"
-  val calcId: String = "someCalcId"
+  val calcId: String  = "someCalcId"
 
   private val requestBodyJson = Json.parse(
     """{
@@ -56,7 +56,8 @@ class AmendSampleRequestParserSpec extends UnitSpec {
     "return an ErrorWrapper" when {
 
       "a single validation error occurs" in new Test {
-        MockAmendSampleValidator.validate(inputData)
+        MockAmendSampleValidator
+          .validate(inputData)
           .returns(List(NinoFormatError))
 
         parser.parseRequest(inputData) shouldBe
@@ -64,7 +65,8 @@ class AmendSampleRequestParserSpec extends UnitSpec {
       }
 
       "multiple validation errors occur" in new Test {
-        MockAmendSampleValidator.validate(inputData)
+        MockAmendSampleValidator
+          .validate(inputData)
           .returns(List(NinoFormatError, TaxYearFormatError))
 
         parser.parseRequest(inputData) shouldBe

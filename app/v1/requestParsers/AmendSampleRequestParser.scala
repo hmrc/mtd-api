@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers
+package v1.requestParsers
 
-import api.controllers.requestParsers.RequestParser
 import api.models.domain.{DownstreamTaxYear, Nino}
 import api.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
-import v1.controllers.requestParsers.validators.AmendSampleValidator
+import api.requestParsers.RequestParser
+import v1.requestParsers.validators.AmendSampleValidator
 
 import javax.inject.Inject
 
-class AmendSampleRequestParser @Inject()(val validator: AmendSampleValidator)
-  extends RequestParser[AmendSampleRawData, AmendSampleRequest] {
+class AmendSampleRequestParser @Inject()(val validator: AmendSampleValidator) extends RequestParser[AmendSampleRawData, AmendSampleRequest] {
 
   override protected def requestFor(data: AmendSampleRawData): AmendSampleRequest =
     AmendSampleRequest(Nino(data.nino), DownstreamTaxYear.fromMtd(data.taxYear), data.body.as[AmendSampleRequestBody])

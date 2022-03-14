@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers
+package v1.requestParsers
 
 import api.mocks.validators.MockDeleteRetrieveValidator
 import api.models.domain.{DownstreamTaxYear, Nino}
@@ -24,7 +24,7 @@ import support.UnitSpec
 
 class DeleteRetrieveRequestParserSpec extends UnitSpec {
 
-  val nino: String = "AA123456B"
+  val nino: String    = "AA123456B"
   val taxYear: String = "2017-18"
 
   val deleteRetrieveSavingsRawData: DeleteRetrieveRawData = DeleteRetrieveRawData(
@@ -50,7 +50,8 @@ class DeleteRetrieveRequestParserSpec extends UnitSpec {
 
     "return an ErrorWrapper" when {
       "a single validation error occurs" in new Test {
-        MockDeleteRetrieveValidator.validate(deleteRetrieveSavingsRawData)
+        MockDeleteRetrieveValidator
+          .validate(deleteRetrieveSavingsRawData)
           .returns(List(NinoFormatError))
 
         parser.parseRequest(deleteRetrieveSavingsRawData) shouldBe
@@ -58,7 +59,8 @@ class DeleteRetrieveRequestParserSpec extends UnitSpec {
       }
 
       "multiple validation errors occur" in new Test {
-        MockDeleteRetrieveValidator.validate(deleteRetrieveSavingsRawData)
+        MockDeleteRetrieveValidator
+          .validate(deleteRetrieveSavingsRawData)
           .returns(List(NinoFormatError, TaxYearFormatError))
 
         parser.parseRequest(deleteRetrieveSavingsRawData) shouldBe

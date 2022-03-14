@@ -16,11 +16,11 @@
 
 package api.mocks.connectors
 
+import api.connectors.{AmendSampleConnector, DownstreamOutcome}
+import api.models.request.amendSample.AmendSampleRequest
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier
-import api.connectors.{AmendSampleConnector, DownstreamOutcome}
-import api.models.request.amendSample.AmendSampleRequest
 
 import scala.concurrent.{ExecutionContext, Future}
 

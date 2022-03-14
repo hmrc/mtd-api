@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package api.controllers.requestParsers
+package api.requestParsers
 
-import support.UnitSpec
-import api.controllers.requestParsers.validators.Validator
 import api.models.domain.Nino
 import api.models.errors.{BadRequestError, ErrorWrapper, NinoFormatError, RuleIncorrectOrEmptyBodyError}
 import api.models.request.RawData
+import api.requestParsers.validators.Validator
+import support.UnitSpec
 
 class RequestParserSpec extends UnitSpec {
 

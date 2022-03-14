@@ -33,7 +33,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AmendSampleControllerSpec
-  extends ControllerBaseSpec
+    extends ControllerBaseSpec
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
     with MockAppConfig
@@ -41,8 +41,8 @@ class AmendSampleControllerSpec
     with MockAmendSampleRequestParser
     with MockAuditService {
 
-  val nino: String = "AA123456A"
-  val taxYear: String = "2017-18"
+  val nino: String          = "AA123456A"
+  val taxYear: String       = "2017-18"
   val correlationId: String = "X-123"
 
   val requestBodyJson: JsValue = Json.parse(

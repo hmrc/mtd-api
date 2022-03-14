@@ -16,11 +16,11 @@
 
 package api.mocks.validators
 
-import org.scalamock.handlers.CallHandler1
-import org.scalamock.scalatest.MockFactory
 import api.models.errors.MtdError
 import api.models.request.DeleteRetrieveRawData
-import v1.controllers.requestParsers.validators.DeleteRetrieveValidator
+import org.scalamock.handlers.CallHandler1
+import org.scalamock.scalatest.MockFactory
+import v1.requestParsers.validators.DeleteRetrieveValidator
 
 trait MockDeleteRetrieveValidator extends MockFactory {
 

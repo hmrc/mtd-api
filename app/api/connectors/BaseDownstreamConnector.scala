@@ -16,14 +16,14 @@
 
 package api.connectors
 
-import api.connectors.DownstreamUri.{ DesUri, IfsUri }
+import api.connectors.DownstreamUri.{DesUri, IfsUri}
 import config.AppConfig
-import play.api.http.{ HeaderNames, MimeTypes }
+import play.api.http.{HeaderNames, MimeTypes}
 import play.api.libs.json.Writes
-import uk.gov.hmrc.http.{ HeaderCarrier, HttpClient, HttpReads }
+import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads}
 import utils.Logging
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 trait BaseDownstreamConnector extends Logging {
   val http: HttpClient

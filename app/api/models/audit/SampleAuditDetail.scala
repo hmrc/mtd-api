@@ -16,7 +16,7 @@
 
 package api.models.audit
 
-import play.api.libs.json.{ Json, OWrites }
+import play.api.libs.json.{Json, OWrites}
 
 case class SampleAuditDetail(
     userType: String,

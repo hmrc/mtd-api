@@ -16,14 +16,14 @@
 
 package api.mocks.services
 
-import org.scalamock.handlers.CallHandler
-import org.scalamock.scalatest.MockFactory
-import uk.gov.hmrc.http.HeaderCarrier
 import api.controllers.EndpointLogContext
 import api.models.errors.ErrorWrapper
 import api.models.outcomes.ResponseWrapper
 import api.models.request.amendSample.AmendSampleRequest
 import api.services.AmendSampleService
+import org.scalamock.handlers.CallHandler
+import org.scalamock.scalatest.MockFactory
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
 

@@ -16,10 +16,10 @@
 
 package api.hateoas
 
-import config.AppConfig
 import api.models.hateoas.Link
 import api.models.hateoas.Method.{PUT, _}
-import api.models.hateoas.RelType.{AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, _}
+import api.models.hateoas.RelType._
+import config.AppConfig
 
 trait HateoasLinks {
 
@@ -42,8 +42,7 @@ trait HateoasLinks {
         method = GET,
         rel = SELF
       )
-    }
-  else {
+    } else {
       Link(
         href = sampleUri(appConfig, nino, taxYear),
         method = GET,

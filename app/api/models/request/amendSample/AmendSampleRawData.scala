@@ -16,7 +16,7 @@
 
 package api.models.request.amendSample
 
-import play.api.libs.json.JsValue
 import api.models.request.RawData
+import play.api.libs.json.JsValue
 
 case class AmendSampleRawData(nino: String, taxYear: String, body: JsValue) extends RawData

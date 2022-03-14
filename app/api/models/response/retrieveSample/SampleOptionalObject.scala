@@ -16,13 +16,11 @@
 
 package api.models.response.retrieveSample
 
+import api.models.domain.{SampleDownstreamEnum, SampleMtdEnum}
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import utils.JsonUtils
-import api.models.domain.{SampleDownstreamEnum, SampleMtdEnum}
 
-case class SampleOptionalObject(itemIdentifier: Option[String],
-                                itemType: Option[SampleMtdEnum],
-                                deductibleAmount: Option[BigDecimal])
+case class SampleOptionalObject(itemIdentifier: Option[String], itemType: Option[SampleMtdEnum], deductibleAmount: Option[BigDecimal])
 
 object SampleOptionalObject extends JsonUtils {
   val empty: SampleOptionalObject = SampleOptionalObject(None, None, None)
@@ -30,13 +28,12 @@ object SampleOptionalObject extends JsonUtils {
   implicit val reads: Reads[SampleOptionalObject] = for {
     submittedId <- (JsPath \ "requestedItemId").readNullable[String]
     generatedId <- (JsPath \ "generatedItemId").readNullable[String]
-    itemType <- (JsPath \ "typeOfItem").readNullable[SampleDownstreamEnum].map(_.map(_.toMtdEnum))
-    amount <- (JsPath \ "paymentAmount").readNullable[BigDecimal]
+    itemType    <- (JsPath \ "typeOfItem").readNullable[SampleDownstreamEnum].map(_.map(_.toMtdEnum))
+    amount      <- (JsPath \ "paymentAmount").readNullable[BigDecimal]
   } yield {
     if (submittedId.nonEmpty) {
       SampleOptionalObject(submittedId, itemType, amount)
-    }
-    else {
+    } else {
       SampleOptionalObject(generatedId, itemType, amount)
     }
   }

@@ -35,7 +35,7 @@ trait JsonUtils {
               case JsNull => JsSuccess(None)
               case js     => rds.reads(js).repath(jsPath).map(Some(_))
             }
-          )
+        )
       )
     }
 
@@ -65,9 +65,8 @@ trait JsonUtils {
   /*  Json Reads that replaces the standard reads for a sequence of type T. Instead of immediately reading in the json
     this takes the raw json sequence and filters out all elements which do not include the required matching element.
     After the filter it executes the standard json reads for the type T to read in only the filtered values.
- */
-  def filteredArrayReads[T](filterName: String, matching: String)
-                           (implicit rds: Reads[Seq[T]]): Reads[Seq[T]] = (json: JsValue) => {
+   */
+  def filteredArrayReads[T](filterName: String, matching: String)(implicit rds: Reads[Seq[T]]): Reads[Seq[T]] = (json: JsValue) => {
     json
       .validate[Seq[JsValue]]
       .flatMap(
@@ -92,13 +91,14 @@ trait JsonUtils {
     * Extension methods for reads of a optional sequence
     */
   implicit class OptSeqReadsOps[A](reads: Reads[Option[Seq[A]]]) {
+
     /**
       * Returns a Reads that maps the sequence to itself unless it is empty
       */
     def mapEmptySeqToNone: Reads[Option[Seq[A]]] =
       reads.map {
         case Some(Nil) => None
-        case other => other
+        case other     => other
       }
 
     /**
@@ -107,7 +107,7 @@ trait JsonUtils {
     def mapHeadOption: Reads[Option[A]] =
       reads.map {
         case Some(x) => x.headOption
-        case None => None
+        case None    => None
       }
   }
 }

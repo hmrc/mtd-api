@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package api.controllers.requestParsers.validators
+package api.requestParsers.validators
 
-import org.scalamock.scalatest.MockFactory
-import support.UnitSpec
 import api.models.errors.{MtdError, NinoFormatError, NotFoundError}
 import api.models.request.RawData
+import org.scalamock.scalatest.MockFactory
+import support.UnitSpec
 
 class ValidatorSpec extends UnitSpec with MockFactory {
 
@@ -143,7 +143,7 @@ class ValidatorSpec extends UnitSpec with MockFactory {
     }
 
     "handle empty lists correctly" in {
-      val emptyErrorList: List[List[MtdError]] = List.empty[List[MtdError]]
+      val emptyErrorList: List[List[MtdError]]   = List.empty[List[MtdError]]
       val listOfEmptyLists: List[List[MtdError]] = List(List.empty[MtdError])
       Validator.flattenErrors(emptyErrorList) shouldBe List.empty[MtdError]
       Validator.flattenErrors(listOfEmptyLists) shouldBe List.empty[MtdError]

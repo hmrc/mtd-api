@@ -14,35 +14,34 @@
  * limitations under the License.
  */
 
-package v1.controllers.requestParsers.validators
+package v1.requestParsers.validators
 
-import api.controllers.requestParsers.validators.Validator
 import api.models.errors.MtdError
-import api.models.request.amendSample.{ AmendSampleRawData, AmendSampleRequestBody }
-import api.validations.{ JsonFormatValidation, NinoValidation, TaxYearNotSupportedValidation, TaxYearValidation }
+import api.models.request.DeleteRetrieveRawData
+import api.requestParsers.validators.Validator
+import api.validations.{NinoValidation, TaxYearNotSupportedValidation, TaxYearValidation}
 import config.AppConfig
 
 import javax.inject.Inject
 
-class AmendSampleValidator @Inject()(implicit appConfig: AppConfig) extends Validator[AmendSampleRawData] {
+class DeleteRetrieveValidator @Inject()(implicit appConfig: AppConfig) extends Validator[DeleteRetrieveRawData] {
 
   private val validationSet = List(parameterFormatValidation, parameterRuleValidation)
 
-  private def parameterFormatValidation: AmendSampleRawData => List[List[MtdError]] = (data: AmendSampleRawData) => {
+  override def validate(data: DeleteRetrieveRawData): List[MtdError] = {
+    run(validationSet, data).distinct
+  }
+
+  private def parameterFormatValidation: DeleteRetrieveRawData => List[List[MtdError]] = (data: DeleteRetrieveRawData) => {
     List(
       NinoValidation.validate(data.nino),
-      TaxYearValidation.validate(data.taxYear),
-      JsonFormatValidation.validate[AmendSampleRequestBody](data.body)
+      TaxYearValidation.validate(data.taxYear)
     )
   }
 
-  private def parameterRuleValidation: AmendSampleRawData => List[List[MtdError]] = { data =>
+  private def parameterRuleValidation: DeleteRetrieveRawData => List[List[MtdError]] = (data: DeleteRetrieveRawData) => {
     List(
       TaxYearNotSupportedValidation.validate(data.taxYear)
     )
-  }
-
-  override def validate(data: AmendSampleRawData): List[MtdError] = {
-    run(validationSet, data).distinct
   }
 }

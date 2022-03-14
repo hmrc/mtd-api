@@ -123,8 +123,10 @@ object RetrieveSampleControllerFixture {
     """.stripMargin
   )
 
-  def mtdResponseWithHateoas(nino: String, taxYear: String): JsObject = mtdJson.as[JsObject] ++ Json.parse(
-    s"""
+  def mtdResponseWithHateoas(nino: String, taxYear: String): JsObject =
+    mtdJson.as[JsObject] ++ Json
+      .parse(
+        s"""
        |{
        |   "links":[
        |      {
@@ -145,5 +147,6 @@ object RetrieveSampleControllerFixture {
        |   ]
        |}
     """.stripMargin
-  ).as[JsObject]
+      )
+      .as[JsObject]
 }

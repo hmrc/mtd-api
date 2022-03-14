@@ -16,12 +16,12 @@
 
 package api.models.response.retrieveSample
 
+import api.hateoas.{HateoasLinks, HateoasLinksFactory}
+import api.models.hateoas.{HateoasData, Link}
 import config.AppConfig
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import utils.JsonUtils
-import api.hateoas.{HateoasLinks, HateoasLinksFactory}
-import api.models.hateoas.{HateoasData, Link}
 
 case class RetrieveSampleResponse(completedItems: Option[Seq[SampleArrayItem]],
                                   taxableForeignIncome: Option[SampleObject],
@@ -36,15 +36,14 @@ object RetrieveSampleResponse extends HateoasLinks with JsonUtils {
     (JsPath \ "historicalIncomeSubmissions").readNullable[Seq[SampleArrayItem]].mapEmptySeqToNone and
       (JsPath \ "currentIncomeSubmission").readNullable[SampleObject].map {
         case Some(SampleObject(_, None)) => None
-        case other => other
+        case other                       => other
       } and
-      (JsPath \ "totalCharitableContribution").readNullable[SampleOptionalObject].map{
+      (JsPath \ "totalCharitableContribution").readNullable[SampleOptionalObject].map {
         case Some(SampleOptionalObject.empty) => None
-        case other => other
+        case other                            => other
       } and
-      (JsPath \ "broughtForwardSubmissions").readNullable[Seq[SampleOptionalObject]]
-        (filteredArrayReads("typeOfItem", "Type4")).mapEmptySeqToNone
-    ) (RetrieveSampleResponse.apply _)
+      (JsPath \ "broughtForwardSubmissions").readNullable[Seq[SampleOptionalObject]](filteredArrayReads("typeOfItem", "Type4")).mapEmptySeqToNone
+  )(RetrieveSampleResponse.apply _)
 
   implicit val writes: OWrites[RetrieveSampleResponse] = Json.writes[RetrieveSampleResponse]
 

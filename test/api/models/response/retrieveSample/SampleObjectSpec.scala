@@ -16,9 +16,9 @@
 
 package api.models.response.retrieveSample
 
+import api.models.domain.SampleMtdEnum
 import play.api.libs.json.{JsError, JsValue, Json}
 import support.UnitSpec
-import api.models.domain.SampleMtdEnum
 
 class SampleObjectSpec extends UnitSpec {
 

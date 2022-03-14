@@ -16,13 +16,13 @@
 
 package api.mocks.connectors
 
-import api.connectors.{ DeleteRetrieveConnector, DownstreamOutcome, DownstreamUri }
+import api.connectors.{DeleteRetrieveConnector, DownstreamOutcome, DownstreamUri}
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import play.api.libs.json.Reads
 import uk.gov.hmrc.http.HeaderCarrier
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 trait MockDeleteRetrieveConnector extends MockFactory {
 
