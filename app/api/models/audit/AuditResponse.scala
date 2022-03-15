@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package api.models.request.amendSample
+package api.models.audit
 
-import api.models.domain.{DownstreamTaxYear, Nino}
+import play.api.libs.json.{Json, OWrites}
 
-case class AmendSampleRequest(nino: Nino, downstreamTaxYear: DownstreamTaxYear, body: AmendSampleRequestBody)
+case class AuditResponse(httpStatus: Int, errors: Option[Seq[AuditError]])
+
+object AuditResponse {
+  implicit val writes: OWrites[AuditResponse] = Json.writes[AuditResponse]
+}

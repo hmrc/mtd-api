@@ -17,12 +17,12 @@
 package v1.requestParsers.validators
 
 import api.models.errors._
-import api.models.request.amendSample.AmendSampleRawData
 import config.AppConfig
 import mocks.MockAppConfig
 import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
 import play.api.libs.json.Json
 import support.UnitSpec
+import v1.models.request.amendSample.AmendSampleRawData
 
 class AmendSampleValidatorSpec extends UnitSpec {
 

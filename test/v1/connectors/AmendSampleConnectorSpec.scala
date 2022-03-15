@@ -20,9 +20,9 @@ import api.connectors.ConnectorSpec
 import api.mocks.MockHttpClient
 import api.models.domain.{DownstreamTaxYear, Nino}
 import api.models.outcomes.ResponseWrapper
-import api.models.request.amendSample.{AmendSampleRequest, AmendSampleRequestBody}
 import mocks.MockAppConfig
 import uk.gov.hmrc.http.HeaderCarrier
+import v1.models.request.amendSample.{AmendSampleRequest, AmendSampleRequestBody}
 
 import scala.concurrent.Future
 

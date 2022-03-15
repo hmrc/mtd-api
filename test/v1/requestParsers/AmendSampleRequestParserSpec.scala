@@ -18,10 +18,10 @@ package v1.requestParsers
 
 import api.models.domain.{DownstreamTaxYear, Nino}
 import api.models.errors._
-import api.models.request.amendSample._
 import play.api.libs.json.Json
 import support.UnitSpec
 import v1.mocks.validators.MockAmendSampleValidator
+import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 
 class AmendSampleRequestParserSpec extends UnitSpec {
 

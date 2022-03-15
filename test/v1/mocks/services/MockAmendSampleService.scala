@@ -19,10 +19,10 @@ package v1.mocks.services
 import api.controllers.EndpointLogContext
 import api.models.errors.ErrorWrapper
 import api.models.outcomes.ResponseWrapper
-import api.models.request.amendSample.AmendSampleRequest
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier
+import v1.models.request.amendSample.AmendSampleRequest
 import v1.services.AmendSampleService
 
 import scala.concurrent.{ExecutionContext, Future}

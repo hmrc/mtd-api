@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package api.models.response.retrieveSample
+package v1.models.response.retrieveSample
 
 import api.models.domain.SampleMtdEnum
-import play.api.libs.json.{JsError, JsValue, Json}
+import play.api.libs.json.{ JsError, JsValue, Json }
 import support.UnitSpec
 
 class SampleObjectSpec extends UnitSpec {

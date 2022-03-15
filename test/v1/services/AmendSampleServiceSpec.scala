@@ -17,12 +17,12 @@
 package v1.services
 
 import api.controllers.EndpointLogContext
-import api.models.domain.{ DownstreamTaxYear, Nino }
+import api.models.domain.{DownstreamTaxYear, Nino}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
-import api.models.request.amendSample.{ AmendSampleRequest, AmendSampleRequestBody }
 import api.services.ServiceSpec
 import v1.mocks.connectors.MockAmendSampleConnector
+import v1.models.request.amendSample.{AmendSampleRequest, AmendSampleRequestBody}
 
 import scala.concurrent.Future
 

@@ -17,8 +17,8 @@
 package v1.requestParsers
 
 import api.models.domain.{DownstreamTaxYear, Nino}
-import api.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 import api.requestParsers.RequestParser
+import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 import v1.requestParsers.validators.AmendSampleValidator
 
 import javax.inject.Inject

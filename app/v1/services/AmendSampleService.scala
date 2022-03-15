@@ -19,16 +19,16 @@ package v1.services
 import api.controllers.EndpointLogContext
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
-import api.models.request.amendSample.AmendSampleRequest
 import api.support.DownstreamResponseMappingSupport
 import cats.data.EitherT
 import cats.implicits._
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Logging
 import v1.connectors.AmendSampleConnector
+import v1.models.request.amendSample.AmendSampleRequest
 
-import javax.inject.{ Inject, Singleton }
-import scala.concurrent.{ ExecutionContext, Future }
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class AmendSampleService @Inject()(connector: AmendSampleConnector) extends DownstreamResponseMappingSupport with Logging {

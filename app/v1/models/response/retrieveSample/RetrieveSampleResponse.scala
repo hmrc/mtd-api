@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package api.models.response.retrieveSample
+package v1.models.response.retrieveSample
 
-import api.hateoas.{HateoasLinks, HateoasLinksFactory}
-import api.models.hateoas.{HateoasData, Link}
+import api.hateoas.{ HateoasLinks, HateoasLinksFactory }
+import api.models.hateoas.{ HateoasData, Link }
 import config.AppConfig
 import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import play.api.libs.json.{ JsPath, Json, OWrites, Reads }
 import utils.JsonUtils
 
 case class RetrieveSampleResponse(completedItems: Option[Seq[SampleArrayItem]],

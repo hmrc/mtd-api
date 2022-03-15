@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-package api.models.request.amendSample
+package v1.models.request.amendSample
 
-import play.api.libs.json.{Json, OFormat}
+import api.models.request.RawData
+import play.api.libs.json.JsValue
 
-case class AmendSampleRequestBody(data: String)
-
-object AmendSampleRequestBody {
-  implicit val format: OFormat[AmendSampleRequestBody] = Json.format[AmendSampleRequestBody]
-}
+case class AmendSampleRawData(nino: String, taxYear: String, body: JsValue) extends RawData

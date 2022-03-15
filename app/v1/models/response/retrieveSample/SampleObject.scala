@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package api.models.response.retrieveSample
+package v1.models.response.retrieveSample
 
 import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import play.api.libs.json.{ JsPath, Json, OWrites, Reads }
 import utils.JsonUtils
 
 case class SampleObject(dateSubmitted: String, submissionItem: Option[SampleArrayItem])

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package api.models.request.sample
+package v1.models.request.sample
 
-import api.models.request.amendSample.AmendSampleRequestBody
 import api.models.utils.JsonErrorValidators
 import play.api.libs.json._
 import support.UnitSpec
+import v1.models.request.amendSample.AmendSampleRequestBody
 
 class AmendSampleRequestBodySpec extends UnitSpec with JsonErrorValidators {
   "reads" when {

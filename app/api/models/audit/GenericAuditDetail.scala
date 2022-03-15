@@ -14,9 +14,19 @@
  * limitations under the License.
  */
 
-package api.models.request.amendSample
+package api.models.audit
 
-import api.models.request.RawData
-import play.api.libs.json.JsValue
+import play.api.libs.json.{Json, OWrites}
 
-case class AmendSampleRawData(nino: String, taxYear: String, body: JsValue) extends RawData
+case class GenericAuditDetail(
+    userType: String,
+    agentReferenceNumber: Option[String],
+    nino: String,
+    taxYear: String,
+    `X-CorrelationId`: String,
+    response: AuditResponse
+)
+
+object GenericAuditDetail {
+  implicit val writes: OWrites[GenericAuditDetail] = Json.writes[GenericAuditDetail]
+}

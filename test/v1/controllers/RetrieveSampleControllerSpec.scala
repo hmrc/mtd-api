@@ -27,13 +27,13 @@ import api.models.hateoas.RelType.{AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, SELF}
 import api.models.hateoas.{HateoasWrapper, Link}
 import api.models.outcomes.ResponseWrapper
 import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
-import api.models.response.retrieveSample._
 import play.api.libs.json.{JsObject, Json}
 import play.api.mvc.Result
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.fixtures.RetrieveSampleControllerFixture
 import v1.mocks.requestParsers.MockDeleteRetrieveRequestParser
 import v1.mocks.services.{MockDeleteRetrieveService, MockEnrolmentsAuthService}
+import v1.models.response.retrieveSample.{RetrieveSampleHateoasData, RetrieveSampleResponse, SampleArrayItem, SampleObject, SampleOptionalObject}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

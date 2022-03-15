@@ -17,10 +17,10 @@
 package v1.requestParsers.validators
 
 import api.models.errors.MtdError
-import api.models.request.amendSample.{AmendSampleRawData, AmendSampleRequestBody}
 import api.requestParsers.validators.Validator
 import api.validations.{JsonFormatValidation, NinoValidation, TaxYearNotSupportedValidation, TaxYearValidation}
 import config.AppConfig
+import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequestBody}
 
 import javax.inject.Inject
 

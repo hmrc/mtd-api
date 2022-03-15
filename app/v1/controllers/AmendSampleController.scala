@@ -18,10 +18,9 @@ package v1.controllers
 
 import api.controllers.{AuthorisedController, BaseController, EndpointLogContext}
 import api.hateoas.AmendHateoasBodies
-import api.models.audit.{AuditEvent, SampleAuditDetail, SampleAuditResponse}
+import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.auth.UserDetails
 import api.models.errors._
-import api.models.request.amendSample.AmendSampleRawData
 import api.services._
 import cats.data.EitherT
 import cats.implicits._
@@ -32,6 +31,7 @@ import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import utils.Logging
+import v1.models.request.amendSample.AmendSampleRawData
 import v1.requestParsers.AmendSampleRequestParser
 import v1.services.AmendSampleService
 
@@ -117,13 +117,13 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
                                  statusCode: Int,
                                  correlationId: String,
                                  userDetails: UserDetails,
-                                 errorWrapper: Option[ErrorWrapper] = None): SampleAuditDetail = {
+                                 errorWrapper: Option[ErrorWrapper] = None): GenericAuditDetail = {
 
-    val response: SampleAuditResponse = errorWrapper
-      .map(wrapper => SampleAuditResponse(statusCode, Some(wrapper.auditErrors)))
-      .getOrElse(SampleAuditResponse(statusCode, None))
+    val response: AuditResponse = errorWrapper
+      .map(wrapper => AuditResponse(statusCode, Some(wrapper.auditErrors)))
+      .getOrElse(AuditResponse(statusCode, None))
 
-    SampleAuditDetail(
+    GenericAuditDetail(
       userType = userDetails.userType,
       agentReferenceNumber = userDetails.agentReferenceNumber,
       nino = rawData.nino,
@@ -133,9 +133,9 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
     )
   }
 
-  private def auditSubmission(details: SampleAuditDetail)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[AuditResult] = {
+  private def auditSubmission(details: GenericAuditDetail)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[AuditResult] = {
 
-    val event: AuditEvent[SampleAuditDetail] = AuditEvent(
+    val event: AuditEvent[GenericAuditDetail] = AuditEvent(
       auditType = "sampleAuditType",
       transactionName = "sample-transaction-type",
       detail = details

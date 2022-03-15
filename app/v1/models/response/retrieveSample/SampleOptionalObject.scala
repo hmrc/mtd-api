@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package api.models.response.retrieveSample
+package v1.models.response.retrieveSample
 
-import api.models.domain.{SampleDownstreamEnum, SampleMtdEnum}
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import api.models.domain.{ SampleDownstreamEnum, SampleMtdEnum }
+import play.api.libs.json.{ JsPath, Json, OWrites, Reads }
 import utils.JsonUtils
 
 case class SampleOptionalObject(itemIdentifier: Option[String], itemType: Option[SampleMtdEnum], deductibleAmount: Option[BigDecimal])
