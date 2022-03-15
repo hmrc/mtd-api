@@ -22,7 +22,7 @@ import api.controllers.{AuthorisedController, BaseController, EndpointLogContext
 import api.models.domain.DownstreamTaxYear
 import api.models.errors._
 import api.models.request.DeleteRetrieveRawData
-import api.services.{DeleteRetrieveService, EnrolmentsAuthService, MtdIdLookupService}
+import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import cats.data.EitherT
 import cats.implicits._
 import play.api.libs.json.Json
@@ -30,6 +30,7 @@ import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import play.mvc.Http.MimeTypes
 import utils.Logging
 import v1.requestParsers.DeleteRetrieveRequestParser
+import v1.services.DeleteRetrieveService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}

@@ -20,7 +20,7 @@ import api.connectors.DownstreamUri.IfsUri
 import api.controllers.EndpointLogContext
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
-import api.services.{ DeleteRetrieveService, ServiceSpec }
+import api.services.ServiceSpec
 import play.api.libs.json.{ Format, Json }
 import v1.mocks.connectors.MockDeleteRetrieveConnector
 

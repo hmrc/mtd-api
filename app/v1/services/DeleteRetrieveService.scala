@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package api.services
+package v1.services
 
 import api.connectors.DownstreamUri
 import api.controllers.EndpointLogContext

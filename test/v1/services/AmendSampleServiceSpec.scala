@@ -21,7 +21,7 @@ import api.models.domain.{ DownstreamTaxYear, Nino }
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import api.models.request.amendSample.{ AmendSampleRequest, AmendSampleRequestBody }
-import api.services.{ AmendSampleService, ServiceSpec }
+import api.services.ServiceSpec
 import v1.mocks.connectors.MockAmendSampleConnector
 
 import scala.concurrent.Future
