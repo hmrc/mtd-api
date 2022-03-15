@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package api.services
+package v1.services
 
 import api.controllers.EndpointLogContext
-import api.mocks.connectors.MockAmendSampleConnector
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.domain.{ DownstreamTaxYear, Nino }
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
-import api.models.request.amendSample.{AmendSampleRequest, AmendSampleRequestBody}
+import api.models.request.amendSample.{ AmendSampleRequest, AmendSampleRequestBody }
+import api.services.{ AmendSampleService, ServiceSpec }
+import v1.mocks.connectors.MockAmendSampleConnector
 
 import scala.concurrent.Future
 

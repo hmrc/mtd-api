@@ -16,11 +16,11 @@
 
 package v1.requestParsers
 
-import api.mocks.validators.MockDeleteRetrieveValidator
 import api.models.domain.{DownstreamTaxYear, Nino}
 import api.models.errors._
 import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
 import support.UnitSpec
+import v1.mocks.validators.MockDeleteRetrieveValidator
 
 class DeleteRetrieveRequestParserSpec extends UnitSpec {
 

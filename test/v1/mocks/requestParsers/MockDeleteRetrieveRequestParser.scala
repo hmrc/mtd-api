@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package api.mocks.validators
+package v1.mocks.requestParsers
 
-import api.models.errors.MtdError
-import api.models.request.amendSample.AmendSampleRawData
-import org.scalamock.handlers.CallHandler1
+import api.models.errors.ErrorWrapper
+import api.models.request.{ DeleteRetrieveRawData, DeleteRetrieveRequest }
+import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import v1.requestParsers.validators.AmendSampleValidator
+import v1.requestParsers.DeleteRetrieveRequestParser
 
-trait MockAmendSampleValidator extends MockFactory {
+trait MockDeleteRetrieveRequestParser extends MockFactory {
 
-  val mockAmendSampleValidator: AmendSampleValidator = mock[AmendSampleValidator]
+  val mockDeleteRetrieveRequestParser: DeleteRetrieveRequestParser = mock[DeleteRetrieveRequestParser]
 
-  object MockAmendSampleValidator {
+  object MockDeleteRetrieveRequestParser {
 
-    def validate(data: AmendSampleRawData): CallHandler1[AmendSampleRawData, List[MtdError]] = {
-      (mockAmendSampleValidator
-        .validate(_: AmendSampleRawData))
-        .expects(data)
+    def parse(data: DeleteRetrieveRawData): CallHandler[Either[ErrorWrapper, DeleteRetrieveRequest]] = {
+      (mockDeleteRetrieveRequestParser.parseRequest(_: DeleteRetrieveRawData)).expects(data)
     }
   }
+
 }

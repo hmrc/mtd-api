@@ -16,7 +16,7 @@
 
 package v1.connectors
 
-import api.connectors.{AmendSampleConnector, ConnectorSpec}
+import api.connectors.ConnectorSpec
 import api.mocks.MockHttpClient
 import api.models.domain.{DownstreamTaxYear, Nino}
 import api.models.outcomes.ResponseWrapper

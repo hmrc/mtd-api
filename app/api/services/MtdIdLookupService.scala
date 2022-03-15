@@ -16,13 +16,13 @@
 
 package api.services
 
-import api.connectors.{MtdIdLookupConnector, MtdIdLookupOutcome}
+import api.connectors.{ MtdIdLookupConnector, MtdIdLookupOutcome }
 import api.models.domain.Nino
 import api.models.errors.NinoFormatError
 import uk.gov.hmrc.http.HeaderCarrier
 
-import javax.inject.{Inject, Singleton}
-import scala.concurrent.{ExecutionContext, Future}
+import javax.inject.{ Inject, Singleton }
+import scala.concurrent.{ ExecutionContext, Future }
 
 @Singleton
 class MtdIdLookupService @Inject()(val connector: MtdIdLookupConnector) {

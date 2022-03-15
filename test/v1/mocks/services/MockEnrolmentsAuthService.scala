@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package api.mocks.services
+package v1.mocks.services
 
 import api.models.auth.UserDetails
 import api.models.outcomes.AuthOutcome
@@ -24,7 +24,7 @@ import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.http.HeaderCarrier
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 
 trait MockEnrolmentsAuthService extends MockFactory {
 

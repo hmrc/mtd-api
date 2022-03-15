@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package api.fixtures
+package v1.fixtures
 
-import play.api.libs.json.{JsObject, JsValue, Json}
+import play.api.libs.json.{ JsObject, JsValue, Json }
 
 object RetrieveSampleControllerFixture {
 

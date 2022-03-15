@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package api.endpoints
+package v1.endpoints
 
-import api.fixtures.RetrieveSampleControllerFixture
 import api.models.domain.DownstreamTaxYear
 import api.models.errors._
 import api.stubs.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
@@ -26,6 +25,7 @@ import play.api.http.Status._
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import support.IntegrationBaseSpec
+import v1.fixtures.RetrieveSampleControllerFixture
 
 class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
 

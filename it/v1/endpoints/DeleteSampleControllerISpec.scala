@@ -14,29 +14,27 @@
  * limitations under the License.
  */
 
-package api.endpoints
+package v1.endpoints
 
 import api.models.domain.DownstreamTaxYear
 import api.models.errors._
-import api.stubs.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
+import api.stubs.{ AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub }
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
-import play.api.libs.json.{JsValue, Json}
-import play.api.libs.ws.{WSRequest, WSResponse}
+import play.api.libs.json.{ JsObject, Json }
+import play.api.libs.ws.{ WSRequest, WSResponse }
 import support.IntegrationBaseSpec
 
-class AmendSampleControllerISpec extends IntegrationBaseSpec {
+class DeleteSampleControllerISpec extends IntegrationBaseSpec {
 
   private trait Test {
 
-    val nino          = "AA123456A"
-    val taxYear       = "2020-21"
-    val correlationId = "X-123"
+    val nino: String    = "AA123456A"
+    val taxYear: String = "2020-21"
 
-    def uri: String = s"/sample/$nino/$taxYear"
-
-    def downstreamUri: String = s"/some-placeholder/template/$nino/${DownstreamTaxYear.fromMtd(taxYear)}"
+    def uri: String           = s"/sample/$nino/$taxYear"
+    def downstreamUri: String = s"/sample/$nino/${DownstreamTaxYear.fromMtd(taxYear)}"
 
     def setupStubs(): StubMapping
 
@@ -47,39 +45,7 @@ class AmendSampleControllerISpec extends IntegrationBaseSpec {
     }
   }
 
-  val requestJson: JsValue = Json.parse(
-    s"""
-       |{
-       |  "data": "someData"
-       |}
-        """.stripMargin
-  )
-
-  val mtdResponse: JsValue = Json.parse(
-    """
-      |{
-      |  "links": [
-      |    {
-      |      "href": "/mtd/template/sample/AA123456A/2020-21",
-      |      "method": "PUT",
-      |      "rel": "amend-sample-rel"
-      |    },
-      |    {
-      |      "href": "/mtd/template/sample/AA123456A/2020-21",
-      |      "method": "GET",
-      |      "rel": "self"
-      |    },
-      |    {
-      |      "href": "/mtd/template/sample/AA123456A/2020-21",
-      |      "method": "DELETE",
-      |      "rel": "delete-sample-rel"
-      |    }
-      |  ]
-      |}
-    """.stripMargin
-  )
-
-  "Calling the sample endpoint" should {
+  "Calling the 'delete sample income' endpoint" should {
     "return a 204 status code" when {
       "any valid request is made" in new Test {
 
@@ -87,13 +53,14 @@ class AmendSampleControllerISpec extends IntegrationBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, NO_CONTENT)
+          DownstreamStub.onSuccess(DownstreamStub.DELETE, downstreamUri, NO_CONTENT, JsObject.empty)
         }
 
-        val response: WSResponse = await(request().put(requestJson))
-        response.status shouldBe OK
-        response.json shouldBe mtdResponse
+        val response: WSResponse = await(request().delete())
+        response.status shouldBe NO_CONTENT
+        response.body shouldBe ""
         response.header("Content-Type") shouldBe Some("application/json")
+        response.header("X-CorrelationId") shouldBe defined
       }
     }
 
@@ -111,7 +78,7 @@ class AmendSampleControllerISpec extends IntegrationBaseSpec {
               MtdIdLookupStub.ninoFound(nino)
             }
 
-            val response: WSResponse = await(request().put(requestJson))
+            val response: WSResponse = await(request().delete())
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
             response.header("Content-Type") shouldBe Some("application/json")
@@ -121,8 +88,8 @@ class AmendSampleControllerISpec extends IntegrationBaseSpec {
         val input = Seq(
           ("AA1123A", "2017-18", BAD_REQUEST, NinoFormatError),
           ("AA123456A", "20177", BAD_REQUEST, TaxYearFormatError),
-          ("AA123456A", "2015-16", BAD_REQUEST, RuleTaxYearNotSupportedError),
-          ("AA123456A", "2015-17", BAD_REQUEST, RuleTaxYearRangeInvalidError)
+          ("AA123456A", "2015-17", BAD_REQUEST, RuleTaxYearRangeInvalidError),
+          ("AA123456A", "2015-16", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
 
         input.foreach(args => (validationErrorTest _).tupled(args))
@@ -130,34 +97,37 @@ class AmendSampleControllerISpec extends IntegrationBaseSpec {
 
       "downstream service error" when {
         def serviceErrorTest(downstreamStatus: Int, downstreamCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"downstream service returns an $downstreamCode error and status $downstreamStatus" in new Test {
+          s"downstream returns $downstreamCode error and status $downstreamStatus" in new Test {
 
             override def setupStubs(): StubMapping = {
               AuditStub.audit()
               AuthStub.authorised()
               MtdIdLookupStub.ninoFound(nino)
-              DownstreamStub.onError(DownstreamStub.PUT, downstreamUri, downstreamStatus, errorBody(downstreamCode))
+              DownstreamStub.onError(DownstreamStub.DELETE, downstreamUri, downstreamStatus, errorBody(downstreamCode))
             }
 
-            val response: WSResponse = await(request().put(requestJson))
+            val response: WSResponse = await(request().delete())
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
+            response.header("Content-Type") shouldBe Some("application/json")
+            response.header("X-CorrelationId") shouldBe defined
           }
         }
 
         def errorBody(code: String): String =
           s"""
              |{
-             |  "code": "$code",
-             |  "reason": "ifs message"
+             |   "code": "$code",
+             |   "reason": "downstream message"
              |}
             """.stripMargin
 
         val input = Seq(
-          (BAD_REQUEST, "INVALID_REQUEST", INTERNAL_SERVER_ERROR, StandardDownstreamError),
-          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, StandardDownstreamError),
+          (BAD_REQUEST, "INVALID_NINO", BAD_REQUEST, NinoFormatError),
+          (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
+          (NOT_FOUND, "NOT_FOUND", NOT_FOUND, NotFoundError),
           (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, StandardDownstreamError),
-          (BAD_REQUEST, "NOT_FOUND", NOT_FOUND, NotFoundError)
+          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, StandardDownstreamError)
         )
 
         input.foreach(args => (serviceErrorTest _).tupled(args))

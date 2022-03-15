@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package api.connectors
+package v1.connectors
 
+import api.connectors.{ BaseDownstreamConnector, DownstreamOutcome, DownstreamUri }
 import config.AppConfig
 import play.api.libs.json.Reads
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.{ HeaderCarrier, HttpClient }
 
-import javax.inject.{Inject, Singleton}
-import scala.concurrent.{ExecutionContext, Future}
+import javax.inject.{ Inject, Singleton }
+import scala.concurrent.{ ExecutionContext, Future }
 
 @Singleton
 class DeleteRetrieveConnector @Inject()(val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {

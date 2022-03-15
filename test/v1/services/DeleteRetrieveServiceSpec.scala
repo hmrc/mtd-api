@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package api.services
+package v1.services
 
 import api.connectors.DownstreamUri.IfsUri
 import api.controllers.EndpointLogContext
-import api.mocks.connectors.MockDeleteRetrieveConnector
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
-import play.api.libs.json.{Format, Json}
+import api.services.{ DeleteRetrieveService, ServiceSpec }
+import play.api.libs.json.{ Format, Json }
+import v1.mocks.connectors.MockDeleteRetrieveConnector
 
 import scala.concurrent.Future
 
