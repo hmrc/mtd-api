@@ -16,9 +16,9 @@
 
 package v1.models.response.retrieveSample
 
-import play.api.libs.json.{JsError, JsValue, Json}
+import api.models.domain.SampleMtdEnum
+import play.api.libs.json.{ JsError, JsValue, Json }
 import support.UnitSpec
-import v1.models.domain.SampleMtdEnum
 
 class SampleArrayItemSpec extends UnitSpec {
 
@@ -68,7 +68,9 @@ class SampleArrayItemSpec extends UnitSpec {
         )
 
         json.as[SampleArrayItem] shouldBe model.copy(
-          declaredAmount = None, taxableAmount = None , finalised = false
+          declaredAmount = None,
+          taxableAmount = None,
+          finalised = false
         )
       }
     }

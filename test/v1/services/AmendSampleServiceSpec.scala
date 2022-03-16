@@ -16,19 +16,20 @@
 
 package v1.services
 
-import v1.controllers.EndpointLogContext
+import api.controllers.EndpointLogContext
+import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.errors._
+import api.models.outcomes.ResponseWrapper
+import api.services.ServiceSpec
 import v1.mocks.connectors.MockAmendSampleConnector
-import v1.models.domain.{DesTaxYear, Nino}
-import v1.models.errors._
-import v1.models.outcomes.ResponseWrapper
 import v1.models.request.amendSample.{AmendSampleRequest, AmendSampleRequestBody}
 
 import scala.concurrent.Future
 
 class AmendSampleServiceSpec extends ServiceSpec {
 
-  private val nino = "AA123456A"
-  private val taxYear = "2017-18"
+  private val nino          = "AA123456A"
+  private val taxYear       = "2017-18"
   private val correlationId = "X-123"
 
   private val requestBody = AmendSampleRequestBody(
@@ -37,7 +38,7 @@ class AmendSampleServiceSpec extends ServiceSpec {
 
   private val requestData = AmendSampleRequest(
     nino = Nino(nino),
-    desTaxYear = DesTaxYear.fromMtd(taxYear),
+    downstreamTaxYear = DownstreamTaxYear.fromMtd(taxYear),
     body = requestBody
   )
 
@@ -54,7 +55,8 @@ class AmendSampleServiceSpec extends ServiceSpec {
       "return correct result for a success" in new Test {
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
-        MockAmendSampleConnector.amendSample(requestData)
+        MockAmendSampleConnector
+          .amendSample(requestData)
           .returns(Future.successful(outcome))
 
         await(service.amendSample(requestData)) shouldBe outcome
@@ -63,11 +65,12 @@ class AmendSampleServiceSpec extends ServiceSpec {
 
     "map errors according to spec" when {
 
-      def serviceError(desErrorCode: String, error: MtdError): Unit =
-        s"a $desErrorCode error is returned from the service" in new Test {
+      def serviceError(downstreamErrorCode: String, error: MtdError): Unit =
+        s"a $downstreamErrorCode error is returned from the service" in new Test {
 
-          MockAmendSampleConnector.amendSample(requestData)
-            .returns(Future.successful(Left(ResponseWrapper(correlationId, DesErrors.single(DesErrorCode(desErrorCode))))))
+          MockAmendSampleConnector
+            .amendSample(requestData)
+            .returns(Future.successful(Left(ResponseWrapper(correlationId, DownstreamErrors.single(DownstreamErrorCode(downstreamErrorCode))))))
 
           await(service.amendSample(requestData)) shouldBe Left(ErrorWrapper(Some(correlationId), error))
         }
@@ -76,8 +79,8 @@ class AmendSampleServiceSpec extends ServiceSpec {
         ("INVALID_NINO", NinoFormatError),
         ("INVALID_TAX_YEAR", TaxYearFormatError),
         ("NOT_FOUND", NotFoundError),
-        ("SERVER_ERROR", DownstreamError),
-        ("SERVICE_UNAVAILABLE", DownstreamError)
+        ("SERVER_ERROR", StandardDownstreamError),
+        ("SERVICE_UNAVAILABLE", StandardDownstreamError)
       )
 
       input.foreach(args => (serviceError _).tupled(args))

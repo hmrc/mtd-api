@@ -16,34 +16,28 @@
 
 package v1.connectors
 
+import api.connectors.{ BaseDownstreamConnector, DownstreamOutcome, DownstreamUri }
 import config.AppConfig
-import javax.inject.{Inject, Singleton}
 import play.api.libs.json.Reads
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.{ HeaderCarrier, HttpClient }
 
-import scala.concurrent.{ExecutionContext, Future}
+import javax.inject.{ Inject, Singleton }
+import scala.concurrent.{ ExecutionContext, Future }
 
 @Singleton
-class DeleteRetrieveConnector @Inject()(val http: HttpClient,
-                                        val appConfig: AppConfig) extends BaseDesConnector {
+class DeleteRetrieveConnector @Inject()(val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
 
-  def delete()(
-    implicit hc: HeaderCarrier,
-    ec: ExecutionContext,
-    desUri: DesUri[Unit]): Future[DesOutcome[Unit]] = {
+  def delete()(implicit hc: HeaderCarrier, ec: ExecutionContext, downstreamUri: DownstreamUri[Unit]): Future[DownstreamOutcome[Unit]] = {
+    import api.connectors.httpparsers.StandardDownstreamHttpParser._
 
-    import v1.connectors.httpparsers.StandardDesHttpParser._
-
-    delete(uri = desUri)
+    delete(uri = downstreamUri)
   }
 
-  def retrieve[Resp: Reads]()(
-    implicit hc: HeaderCarrier,
-    ec: ExecutionContext,
-    desUri: DesUri[Resp]): Future[DesOutcome[Resp]] = {
+  def retrieve[Resp: Reads]()(implicit hc: HeaderCarrier,
+                              ec: ExecutionContext,
+                              downstreamUri: DownstreamUri[Resp]): Future[DownstreamOutcome[Resp]] = {
+    import api.connectors.httpparsers.StandardDownstreamHttpParser._
 
-    import v1.connectors.httpparsers.StandardDesHttpParser._
-
-    get(uri = desUri)
+    get(uri = downstreamUri)
   }
 }

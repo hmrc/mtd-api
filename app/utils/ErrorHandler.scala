@@ -16,8 +16,8 @@
 
 package utils
 
+import api.models.errors._
 import definition.Versions
-import javax.inject._
 import play.api._
 import play.api.http.Status._
 import play.api.libs.json.Json
@@ -29,15 +29,14 @@ import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.bootstrap.backend.http.JsonErrorHandler
 import uk.gov.hmrc.play.bootstrap.config.HttpAuditEvent
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
-import v1.models.errors._
 
+import javax.inject._
 import scala.concurrent._
 
 @Singleton
-class ErrorHandler @Inject()(config: Configuration,
-                             auditConnector: AuditConnector,
-                             httpAuditEvent: HttpAuditEvent)(implicit ec: ExecutionContext)
-  extends JsonErrorHandler(auditConnector, httpAuditEvent, config) with Logging {
+class ErrorHandler @Inject()(config: Configuration, auditConnector: AuditConnector, httpAuditEvent: HttpAuditEvent)(implicit ec: ExecutionContext)
+    extends JsonErrorHandler(auditConnector, httpAuditEvent, config)
+    with Logging {
 
   import httpAuditEvent.dataEvent
 
@@ -52,18 +51,16 @@ class ErrorHandler @Inject()(config: Configuration,
           s"$statusCode and message: $message")
     statusCode match {
       case BAD_REQUEST =>
-        auditConnector.sendEvent(dataEvent("ServerValidationError",
-          "Request bad format exception", request))
+        auditConnector.sendEvent(dataEvent("ServerValidationError", "Request bad format exception", request))
         Future.successful(BadRequest(Json.toJson(BadRequestError)))
       case NOT_FOUND =>
-        auditConnector.sendEvent(dataEvent("ResourceNotFound",
-          "Resource Endpoint Not Found", request))
+        auditConnector.sendEvent(dataEvent("ResourceNotFound", "Resource Endpoint Not Found", request))
         Future.successful(NotFound(Json.toJson(NotFoundError)))
       case _ =>
         val errorCode = statusCode match {
-          case UNAUTHORIZED => UnauthorisedError
+          case UNAUTHORIZED           => UnauthorisedError
           case UNSUPPORTED_MEDIA_TYPE => InvalidBodyTypeError
-          case _ => MtdError("INVALID_REQUEST", message)
+          case _                      => MtdError("INVALID_REQUEST", message)
         }
 
         auditConnector.sendEvent(
@@ -91,13 +88,13 @@ class ErrorHandler @Inject()(config: Configuration,
     )
 
     val (status, errorCode, eventType) = ex match {
-      case _: NotFoundException => (NOT_FOUND, NotFoundError, "ResourceNotFound")
-      case _: AuthorisationException => (UNAUTHORIZED, UnauthorisedError, "ClientError")
-      case _: JsValidationException => (BAD_REQUEST, BadRequestError, "ServerValidationError")
-      case e: HttpException => (e.responseCode, BadRequestError, "ServerValidationError")
+      case _: NotFoundException                                                  => (NOT_FOUND, NotFoundError, "ResourceNotFound")
+      case _: AuthorisationException                                             => (UNAUTHORIZED, UnauthorisedError, "ClientError")
+      case _: JsValidationException                                              => (BAD_REQUEST, BadRequestError, "ServerValidationError")
+      case e: HttpException                                                      => (e.responseCode, BadRequestError, "ServerValidationError")
       case e: UpstreamErrorResponse if e.statusCode >= 400 && e.statusCode < 500 => (e.statusCode, BadRequestError, "ServerValidationError")
-      case e: UpstreamErrorResponse => (e.reportAs, DownstreamError, "ServerInternalError")
-      case _ => (INTERNAL_SERVER_ERROR, DownstreamError, "ServerInternalError")
+      case e: UpstreamErrorResponse                                              => (e.reportAs, StandardDownstreamError, "ServerInternalError")
+      case _                                                                     => (INTERNAL_SERVER_ERROR, StandardDownstreamError, "ServerInternalError")
     }
     auditConnector.sendEvent(
       dataEvent(

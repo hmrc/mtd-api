@@ -16,10 +16,11 @@
 
 package v1.mocks.connectors
 
+import api.connectors.DownstreamOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.connectors.{AmendSampleConnector, DesOutcome}
+import v1.connectors.AmendSampleConnector
 import v1.models.request.amendSample.AmendSampleRequest
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -30,7 +31,7 @@ trait MockAmendSampleConnector extends MockFactory {
 
   object MockAmendSampleConnector {
 
-    def amendSample(requestData: AmendSampleRequest): CallHandler[Future[DesOutcome[Unit]]] = {
+    def amendSample(requestData: AmendSampleRequest): CallHandler[Future[DownstreamOutcome[Unit]]] = {
       (mockAmendSampleConnector
         .amendSample(_: AmendSampleRequest)(_: HeaderCarrier, _: ExecutionContext))
         .expects(requestData, *, *)

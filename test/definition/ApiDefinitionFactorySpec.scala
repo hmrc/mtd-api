@@ -16,11 +16,11 @@
 
 package definition
 
+import api.mocks.MockHttpClient
 import definition.APIStatus.{ALPHA, BETA}
 import definition.Versions.VERSION_1
 import mocks.MockAppConfig
 import support.UnitSpec
-import v1.mocks.MockHttpClient
 
 class ApiDefinitionFactorySpec extends UnitSpec {
 
@@ -36,7 +36,7 @@ class ApiDefinitionFactorySpec extends UnitSpec {
         MockAppConfig.apiStatus returns "1.0"
         MockAppConfig.endpointsEnabled returns true
 
-        private val readScope = "read:self-assessment"
+        private val readScope  = "read:self-assessment"
         private val writeScope = "write:self-assessment"
 
         apiDefinitionFactory.definition shouldBe

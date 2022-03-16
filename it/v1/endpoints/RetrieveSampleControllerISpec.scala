@@ -16,6 +16,9 @@
 
 package v1.endpoints
 
+import api.models.domain.DownstreamTaxYear
+import api.models.errors._
+import api.stubs.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
@@ -23,24 +26,20 @@ import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import support.IntegrationBaseSpec
 import v1.fixtures.RetrieveSampleControllerFixture
-import v1.models.domain.DesTaxYear
-import v1.models.errors._
-import v1.stubs.{AuditStub, AuthStub, DesStub, MtdIdLookupStub}
 
 class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
 
   private trait Test {
 
-    val nino: String = "AA123456A"
-    val taxYear: String = "2020-21"
+    val nino: String          = "AA123456A"
+    val taxYear: String       = "2020-21"
     val correlationId: String = "X-123"
 
-    val desResponse: JsValue = RetrieveSampleControllerFixture.desJson
-    val mtdResponse: JsValue = RetrieveSampleControllerFixture.mtdResponseWithHateoas(nino, taxYear)
+    val downstreamResponse: JsValue = RetrieveSampleControllerFixture.downstreamJson
+    val mtdResponse: JsValue        = RetrieveSampleControllerFixture.mtdResponseWithHateoas(nino, taxYear)
 
-    def uri: String = s"/sample/$nino/$taxYear"
-
-    def desUri: String = s"/sample/$nino/${DesTaxYear.fromMtd(taxYear)}"
+    def uri: String           = s"/sample/$nino/$taxYear"
+    def downstreamUri: String = s"/sample/$nino/${DownstreamTaxYear.fromMtd(taxYear)}"
 
     def setupStubs(): StubMapping
 
@@ -59,7 +58,7 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DesStub.onSuccess(DesStub.GET, desUri, OK, desResponse)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponse)
         }
 
         val response: WSResponse = await(request.get)
@@ -76,7 +75,7 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DesStub.onSuccess(DesStub.GET, desUri, OK, JsObject.empty)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, JsObject.empty)
         }
 
         val response: WSResponse = await(request.get)
@@ -91,7 +90,7 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
         def validationErrorTest(requestNino: String, requestTaxYear: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
           s"validation fails with ${expectedBody.code} error" in new Test {
 
-            override val nino: String = requestNino
+            override val nino: String    = requestNino
             override val taxYear: String = requestTaxYear
 
             override def setupStubs(): StubMapping = {
@@ -117,15 +116,15 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
         input.foreach(args => (validationErrorTest _).tupled(args))
       }
 
-      "des service error" when {
-        def serviceErrorTest(desStatus: Int, desCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"des returns an $desCode error and status $desStatus" in new Test {
+      "downstream service error" when {
+        def serviceErrorTest(downstreamStatus: Int, downstreamCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
+          s"downstream service returns an $downstreamCode error and status $downstreamStatus" in new Test {
 
             override def setupStubs(): StubMapping = {
               AuditStub.audit()
               AuthStub.authorised()
               MtdIdLookupStub.ninoFound(nino)
-              DesStub.onError(DesStub.GET, desUri, desStatus, errorBody(desCode))
+              DownstreamStub.onError(DownstreamStub.GET, downstreamUri, downstreamStatus, errorBody(downstreamCode))
             }
 
             val response: WSResponse = await(request.get)
@@ -139,7 +138,7 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
           s"""
              |{
              |   "code": "$code",
-             |   "reason": "des message"
+             |   "reason": "ifs message"
              |}
             """.stripMargin
 
@@ -147,8 +146,8 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
           (BAD_REQUEST, "INVALID_NINO", BAD_REQUEST, NinoFormatError),
           (BAD_REQUEST, "INVALID_TAX_YEAR", BAD_REQUEST, TaxYearFormatError),
           (NOT_FOUND, "NOT_FOUND", NOT_FOUND, NotFoundError),
-          (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, DownstreamError),
-          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, DownstreamError)
+          (INTERNAL_SERVER_ERROR, "SERVER_ERROR", INTERNAL_SERVER_ERROR, StandardDownstreamError),
+          (SERVICE_UNAVAILABLE, "SERVICE_UNAVAILABLE", INTERNAL_SERVER_ERROR, StandardDownstreamError)
         )
 
         input.foreach(args => (serviceErrorTest _).tupled(args))

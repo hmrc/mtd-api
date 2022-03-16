@@ -16,17 +16,18 @@
 
 package v1.mocks.requestParsers
 
+import api.models.errors.ErrorWrapper
+import api.models.request.{ DeleteRetrieveRawData, DeleteRetrieveRequest }
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import v1.controllers.requestParsers.DeleteRetrieveRequestParser
-import v1.models.errors.ErrorWrapper
-import v1.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
+import v1.requestParsers.DeleteRetrieveRequestParser
 
 trait MockDeleteRetrieveRequestParser extends MockFactory {
 
   val mockDeleteRetrieveRequestParser: DeleteRetrieveRequestParser = mock[DeleteRetrieveRequestParser]
 
   object MockDeleteRetrieveRequestParser {
+
     def parse(data: DeleteRetrieveRawData): CallHandler[Either[ErrorWrapper, DeleteRetrieveRequest]] = {
       (mockDeleteRetrieveRequestParser.parseRequest(_: DeleteRetrieveRawData)).expects(data)
     }

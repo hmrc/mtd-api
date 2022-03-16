@@ -16,40 +16,39 @@
 
 package v1.services
 
+import api.controllers.EndpointLogContext
+import api.models.errors._
+import api.models.outcomes.ResponseWrapper
+import api.support.DownstreamResponseMappingSupport
 import cats.data.EitherT
 import cats.implicits._
-import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Logging
 import v1.connectors.AmendSampleConnector
-import v1.controllers.EndpointLogContext
-import v1.models.errors._
-import v1.models.outcomes.ResponseWrapper
 import v1.models.request.amendSample.AmendSampleRequest
-import v1.support.DesResponseMappingSupport
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendSampleService @Inject()(connector: AmendSampleConnector) extends DesResponseMappingSupport with Logging {
+class AmendSampleService @Inject()(connector: AmendSampleConnector) extends DownstreamResponseMappingSupport with Logging {
 
-  def amendSample(request: AmendSampleRequest)(
-    implicit hc: HeaderCarrier,
-    ec: ExecutionContext,
-    logContext: EndpointLogContext): Future[Either[ErrorWrapper, ResponseWrapper[Unit]]] = {
+  def amendSample(request: AmendSampleRequest)(implicit hc: HeaderCarrier,
+                                               ec: ExecutionContext,
+                                               logContext: EndpointLogContext): Future[Either[ErrorWrapper, ResponseWrapper[Unit]]] = {
 
     val result = for {
-      desResponseWrapper <- EitherT(connector.amendSample(request)).leftMap(mapDesErrors(desErrorMap))
-    } yield desResponseWrapper.map(des => des) // For any additional mapping
+      downstreamResponseWrapper <- EitherT(connector.amendSample(request)).leftMap(mapDownstreamErrors(desErrorMap))
+    } yield downstreamResponseWrapper.map(des => des) // For any additional mapping
 
     result.value
   }
 
   private def desErrorMap: Map[String, MtdError] = Map(
-    "INVALID_NINO" -> NinoFormatError,
-    "INVALID_TAX_YEAR" -> TaxYearFormatError,
-    "NOT_FOUND" -> NotFoundError,
-    "SERVER_ERROR" -> DownstreamError,
-    "SERVICE_UNAVAILABLE" -> DownstreamError
+    "INVALID_NINO"        -> NinoFormatError,
+    "INVALID_TAX_YEAR"    -> TaxYearFormatError,
+    "NOT_FOUND"           -> NotFoundError,
+    "SERVER_ERROR"        -> StandardDownstreamError,
+    "SERVICE_UNAVAILABLE" -> StandardDownstreamError
   )
 }

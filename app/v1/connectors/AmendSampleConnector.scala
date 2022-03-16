@@ -16,29 +16,28 @@
 
 package v1.connectors
 
+import api.connectors.DownstreamUri.IfsUri
+import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import config.AppConfig
-import javax.inject.{Inject, Singleton}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.models.request.amendSample.AmendSampleRequest
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendSampleConnector @Inject()(val http: HttpClient,
-                                     val appConfig: AppConfig) extends BaseDesConnector {
+class AmendSampleConnector @Inject()(val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
 
-  def amendSample(request: AmendSampleRequest)(
-    implicit hc: HeaderCarrier,
-    ec: ExecutionContext): Future[DesOutcome[Unit]] = {
+  def amendSample(request: AmendSampleRequest)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[DownstreamOutcome[Unit]] = {
 
-    import v1.connectors.httpparsers.StandardDesHttpParser._
+    import api.connectors.httpparsers.StandardDownstreamHttpParser._
 
-    val nino = request.nino.nino
-    val taxYear = request.desTaxYear
+    val nino    = request.nino.nino
+    val taxYear = request.downstreamTaxYear
 
     put(
       body = request.body,
-      DesUri[Unit](s"some-placeholder/template/$nino/$taxYear")
+      IfsUri[Unit](s"some-placeholder/template/$nino/$taxYear")
     )
   }
 }

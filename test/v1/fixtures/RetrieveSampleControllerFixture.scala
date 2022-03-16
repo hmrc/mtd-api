@@ -16,11 +16,11 @@
 
 package v1.fixtures
 
-import play.api.libs.json.{JsObject, JsValue, Json}
+import play.api.libs.json.{ JsObject, JsValue, Json }
 
 object RetrieveSampleControllerFixture {
 
-  val desJson: JsValue = Json.parse(
+  val downstreamJson: JsValue = Json.parse(
     """
       |{
       |  "historicalIncomeSubmissions": [
@@ -123,8 +123,10 @@ object RetrieveSampleControllerFixture {
     """.stripMargin
   )
 
-  def mtdResponseWithHateoas(nino: String, taxYear: String): JsObject = mtdJson.as[JsObject] ++ Json.parse(
-    s"""
+  def mtdResponseWithHateoas(nino: String, taxYear: String): JsObject =
+    mtdJson.as[JsObject] ++ Json
+      .parse(
+        s"""
        |{
        |   "links":[
        |      {
@@ -145,5 +147,6 @@ object RetrieveSampleControllerFixture {
        |   ]
        |}
     """.stripMargin
-  ).as[JsObject]
+      )
+      .as[JsObject]
 }

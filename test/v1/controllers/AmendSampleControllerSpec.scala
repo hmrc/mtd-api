@@ -16,23 +16,25 @@
 
 package v1.controllers
 
+import api.controllers.ControllerBaseSpec
+import api.mocks.services.{MockAuditService, MockMtdIdLookupService}
+import api.models.audit.{AuditError, AuditEvent, AuditResponse, GenericAuditDetail}
+import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.errors._
+import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.mocks.requestParsers.MockAmendSampleRequestParser
-import v1.mocks.services.{MockAmendSampleService, MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
-import v1.models.audit.{AuditError, AuditEvent, SampleAuditDetail, SampleAuditResponse}
-import v1.models.domain.{DesTaxYear, Nino}
-import v1.models.errors._
-import v1.models.outcomes.ResponseWrapper
+import v1.mocks.services.{MockAmendSampleService, MockEnrolmentsAuthService}
 import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AmendSampleControllerSpec
-  extends ControllerBaseSpec
+    extends ControllerBaseSpec
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
     with MockAppConfig
@@ -40,8 +42,8 @@ class AmendSampleControllerSpec
     with MockAmendSampleRequestParser
     with MockAuditService {
 
-  val nino: String = "AA123456A"
-  val taxYear: String = "2017-18"
+  val nino: String          = "AA123456A"
+  val taxYear: String       = "2017-18"
   val correlationId: String = "X-123"
 
   val requestBodyJson: JsValue = Json.parse(
@@ -64,7 +66,7 @@ class AmendSampleControllerSpec
 
   val requestData: AmendSampleRequest = AmendSampleRequest(
     nino = Nino(nino),
-    desTaxYear = DesTaxYear.fromMtd(taxYear),
+    downstreamTaxYear = DownstreamTaxYear.fromMtd(taxYear),
     body = requestBody
   )
 
@@ -130,19 +132,19 @@ class AmendSampleControllerSpec
         contentAsJson(result) shouldBe responseBody
         header("X-CorrelationId", result) shouldBe Some(correlationId)
 
-        val detail: SampleAuditDetail = SampleAuditDetail(
+        val detail: GenericAuditDetail = GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
           nino = nino,
           taxYear = taxYear,
           `X-CorrelationId` = correlationId,
-          response = SampleAuditResponse(
+          response = AuditResponse(
             httpStatus = OK,
             errors = None
           )
         )
 
-        val event: AuditEvent[SampleAuditDetail] = AuditEvent[SampleAuditDetail](
+        val event: AuditEvent[GenericAuditDetail] = AuditEvent[GenericAuditDetail](
           auditType = "sampleAuditType",
           transactionName = "sample-transaction-type",
           detail = detail
@@ -169,19 +171,19 @@ class AmendSampleControllerSpec
             contentAsJson(result) shouldBe Json.toJson(error)
             header("X-CorrelationId", result) shouldBe Some(correlationId)
 
-            val detail: SampleAuditDetail = SampleAuditDetail(
+            val detail: GenericAuditDetail = GenericAuditDetail(
               userType = "Individual",
               agentReferenceNumber = None,
               nino = nino,
               taxYear = taxYear,
               `X-CorrelationId` = header("X-CorrelationId", result).get,
-              response = SampleAuditResponse(
+              response = AuditResponse(
                 httpStatus = expectedStatus,
                 errors = Some(Seq(AuditError(error.code)))
               )
             )
 
-            val event: AuditEvent[SampleAuditDetail] = AuditEvent[SampleAuditDetail](
+            val event: AuditEvent[GenericAuditDetail] = AuditEvent[GenericAuditDetail](
               auditType = "sampleAuditType",
               transactionName = "sample-transaction-type",
               detail = detail
@@ -198,7 +200,7 @@ class AmendSampleControllerSpec
           (RuleTaxYearNotSupportedError, BAD_REQUEST),
           (RuleTaxYearRangeInvalidError, BAD_REQUEST),
           (RuleIncorrectOrEmptyBodyError, BAD_REQUEST),
-          (DownstreamError, INTERNAL_SERVER_ERROR)
+          (StandardDownstreamError, INTERNAL_SERVER_ERROR)
         )
 
         input.foreach(args => (errorsFromParserTester _).tupled(args))
@@ -224,19 +226,19 @@ class AmendSampleControllerSpec
             contentAsJson(result) shouldBe Json.toJson(mtdError)
             header("X-CorrelationId", result) shouldBe Some(correlationId)
 
-            val detail: SampleAuditDetail = SampleAuditDetail(
+            val detail: GenericAuditDetail = GenericAuditDetail(
               userType = "Individual",
               agentReferenceNumber = None,
               nino = nino,
               taxYear = taxYear,
               `X-CorrelationId` = header("X-CorrelationId", result).get,
-              response = SampleAuditResponse(
+              response = AuditResponse(
                 httpStatus = expectedStatus,
                 errors = Some(Seq(AuditError(mtdError.code)))
               )
             )
 
-            val event: AuditEvent[SampleAuditDetail] = AuditEvent[SampleAuditDetail](
+            val event: AuditEvent[GenericAuditDetail] = AuditEvent[GenericAuditDetail](
               auditType = "sampleAuditType",
               transactionName = "sample-transaction-type",
               detail = detail
@@ -250,7 +252,7 @@ class AmendSampleControllerSpec
           (NinoFormatError, BAD_REQUEST),
           (TaxYearFormatError, BAD_REQUEST),
           (NotFoundError, NOT_FOUND),
-          (DownstreamError, INTERNAL_SERVER_ERROR)
+          (StandardDownstreamError, INTERNAL_SERVER_ERROR)
         )
 
         input.foreach(args => (serviceErrors _).tupled(args))

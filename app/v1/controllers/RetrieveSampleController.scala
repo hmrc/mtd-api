@@ -16,23 +16,26 @@
 
 package v1.controllers
 
+import api.connectors.DownstreamUri
+import api.connectors.DownstreamUri.IfsUri
+import api.controllers.{ AuthorisedController, BaseController, EndpointLogContext }
+import api.hateoas.HateoasFactory
+import api.models.domain.DownstreamTaxYear
+import api.models.errors._
+import api.models.request.DeleteRetrieveRawData
+import api.services.{ EnrolmentsAuthService, MtdIdLookupService }
 import cats.data.EitherT
 import cats.implicits._
-import javax.inject.{Inject, Singleton}
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import play.api.mvc.{ Action, AnyContent, ControllerComponents }
 import play.mvc.Http.MimeTypes
 import utils.Logging
-import v1.connectors.DesUri
-import v1.controllers.requestParsers.DeleteRetrieveRequestParser
-import v1.hateoas.HateoasFactory
-import v1.models.domain.DesTaxYear
-import v1.models.errors._
-import v1.models.request.DeleteRetrieveRawData
-import v1.models.response.retrieveSample.{RetrieveSampleHateoasData, RetrieveSampleResponse}
-import v1.services.{DeleteRetrieveService, EnrolmentsAuthService, MtdIdLookupService}
+import v1.models.response.retrieveSample.{ RetrieveSampleHateoasData, RetrieveSampleResponse }
+import v1.requestParsers.DeleteRetrieveRequestParser
+import v1.services.DeleteRetrieveService
 
-import scala.concurrent.{ExecutionContext, Future}
+import javax.inject.{ Inject, Singleton }
+import scala.concurrent.{ ExecutionContext, Future }
 
 @Singleton
 class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
@@ -41,7 +44,9 @@ class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
                                          service: DeleteRetrieveService,
                                          hateoasFactory: HateoasFactory,
                                          cc: ControllerComponents)(implicit ec: ExecutionContext)
-  extends AuthorisedController(cc) with BaseController with Logging {
+    extends AuthorisedController(cc)
+    with BaseController
+    with Logging {
 
   implicit val endpointLogContext: EndpointLogContext = EndpointLogContext(
     controllerName = "RetrieveSampleController",
@@ -50,19 +55,18 @@ class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
 
   def retrieveSample(nino: String, taxYear: String): Action[AnyContent] =
     authorisedAction(nino).async { implicit request =>
-
       val rawData: DeleteRetrieveRawData = DeleteRetrieveRawData(
         nino = nino,
         taxYear = taxYear
       )
 
-      implicit val desUri: DesUri[RetrieveSampleResponse] = DesUri[RetrieveSampleResponse](
-        s"sample/$nino/${DesTaxYear.fromMtd(taxYear)}"
+      implicit val downstreamUri: DownstreamUri[RetrieveSampleResponse] = IfsUri[RetrieveSampleResponse](
+        s"sample/$nino/${DownstreamTaxYear.fromMtd(taxYear)}"
       )
 
       val result =
         for {
-          _ <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
+          _               <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
           serviceResponse <- EitherT(service.retrieve[RetrieveSampleResponse]())
           vendorResponse <- EitherT.fromEither[Future](
             hateoasFactory
@@ -81,7 +85,7 @@ class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
 
       result.leftMap { errorWrapper =>
         val correlationId = getCorrelationId(errorWrapper)
-        val result = errorResult(errorWrapper).withApiHeaders(correlationId)
+        val result        = errorResult(errorWrapper).withApiHeaders(correlationId)
 
         result
       }.merge
@@ -89,11 +93,10 @@ class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
 
   private def errorResult(errorWrapper: ErrorWrapper) = {
     (errorWrapper.error: @unchecked) match {
-      case BadRequestError | NinoFormatError | TaxYearFormatError |
-           RuleTaxYearRangeInvalidError | RuleTaxYearNotSupportedError
-      => BadRequest(Json.toJson(errorWrapper))
-      case NotFoundError => NotFound(Json.toJson(errorWrapper))
-      case DownstreamError => InternalServerError(Json.toJson(errorWrapper))
+      case BadRequestError | NinoFormatError | TaxYearFormatError | RuleTaxYearRangeInvalidError | RuleTaxYearNotSupportedError =>
+        BadRequest(Json.toJson(errorWrapper))
+      case NotFoundError           => NotFound(Json.toJson(errorWrapper))
+      case StandardDownstreamError => InternalServerError(Json.toJson(errorWrapper))
     }
   }
 }

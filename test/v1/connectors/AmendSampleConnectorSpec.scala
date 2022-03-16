@@ -16,23 +16,24 @@
 
 package v1.connectors
 
+import api.connectors.ConnectorSpec
+import api.mocks.MockHttpClient
+import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.mocks.MockHttpClient
-import v1.models.domain.{DesTaxYear, Nino}
-import v1.models.outcomes.ResponseWrapper
 import v1.models.request.amendSample.{AmendSampleRequest, AmendSampleRequestBody}
 
 import scala.concurrent.Future
 
 class AmendSampleConnectorSpec extends ConnectorSpec {
 
-  val nino: String = "AA123456A"
-  val desTaxYear: DesTaxYear = DesTaxYear.fromMtd(taxYear = "2018-19")
+  val nino: String                         = "AA123456A"
+  val downstreamTaxYear: DownstreamTaxYear = DownstreamTaxYear.fromMtd(taxYear = "2018-19")
 
   val request: AmendSampleRequest = AmendSampleRequest(
     nino = Nino(nino),
-    desTaxYear = desTaxYear,
+    downstreamTaxYear = downstreamTaxYear,
     body = AmendSampleRequestBody("someData")
   )
 
@@ -43,10 +44,10 @@ class AmendSampleConnectorSpec extends ConnectorSpec {
       appConfig = mockAppConfig
     )
 
-    MockAppConfig.desBaseUrl returns baseUrl
-    MockAppConfig.desToken returns "des-token"
-    MockAppConfig.desEnvironment returns "des-environment"
-    MockAppConfig.desEnvironmentHeaders returns Some(allowedDesHeaders)
+    MockAppConfig.ifsBaseUrl returns baseUrl
+    MockAppConfig.ifsToken returns "ifs-token"
+    MockAppConfig.ifsEnvironment returns "ifs-environment"
+    MockAppConfig.ifsEnvironmentHeaders returns Some(allowedIfsHeaders)
   }
 
   "AmendSampleConnector" when {
@@ -55,16 +56,17 @@ class AmendSampleConnectorSpec extends ConnectorSpec {
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
         implicit val hc: HeaderCarrier = HeaderCarrier(otherHeaders = otherHeaders ++ Seq("Content-Type" -> "application/json"))
-        val requiredDesHeadersPut: Seq[(String, String)] = requiredDesHeaders ++ Seq("Content-Type" -> "application/json")
+        val requiredIfsHeadersPut      = requiredIfsHeaders ++ Seq("Content-Type" -> "application/json")
 
         MockHttpClient
           .put(
-            url = s"$baseUrl/some-placeholder/template/$nino/$desTaxYear",
-            config = dummyDesHeaderCarrierConfig,
+            url = s"$baseUrl/some-placeholder/template/$nino/$downstreamTaxYear",
+            config = dummyIfsHeaderCarrierConfig,
             body = request.body,
-            requiredHeaders = requiredDesHeadersPut,
+            requiredHeaders = requiredIfsHeadersPut,
             excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
-          ).returns(Future.successful(outcome))
+          )
+          .returns(Future.successful(outcome))
 
         await(connector.amendSample(request)) shouldBe outcome
       }

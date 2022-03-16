@@ -16,14 +16,14 @@
 
 package v1.mocks.services
 
+import api.connectors.DownstreamUri.IfsUri
+import api.controllers.EndpointLogContext
+import api.models.errors.{ErrorWrapper, MtdError}
+import api.models.outcomes.ResponseWrapper
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import play.api.libs.json.{Format, Reads}
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.connectors.DesUri
-import v1.controllers.EndpointLogContext
-import v1.models.errors.{ErrorWrapper, MtdError}
-import v1.models.outcomes.ResponseWrapper
 import v1.services.DeleteRetrieveService
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -34,17 +34,27 @@ trait MockDeleteRetrieveService extends MockFactory {
 
   object MockDeleteRetrieveService {
 
-    val defaultDesMap: Map[String, MtdError] = Map.empty[String, MtdError]
+    val defaultDownstreamErrorMap: Map[String, MtdError] = Map.empty[String, MtdError]
 
-    def delete(desErrorMap: Map[String, MtdError] = defaultDesMap): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Unit]]]] = {
+    def delete(
+        downstreamErrorMap: Map[String, MtdError] = defaultDownstreamErrorMap): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Unit]]]] = {
       (mockDeleteRetrieveService
-        .delete(_: Map[String, MtdError])(_: HeaderCarrier, _: ExecutionContext, _: EndpointLogContext, _: DesUri[Unit]))
+        .delete(_: Map[String, MtdError])(_: HeaderCarrier, _: ExecutionContext, _: EndpointLogContext, _: IfsUri[Unit]))
         .expects(*, *, *, *, *)
     }
 
-    def retrieve[Resp: Reads](desErrorMap: Map[String, MtdError] = defaultDesMap): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Resp]]]] = {
-      (mockDeleteRetrieveService
-        .retrieve[Resp](_: Map[String, MtdError])(_: Format[Resp], _: HeaderCarrier, _: ExecutionContext, _: EndpointLogContext, _: DesUri[Resp]))
+    def retrieve[Resp: Reads](
+        downstreamErrorMap: Map[String, MtdError] = defaultDownstreamErrorMap): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Resp]]]] = {
+      (
+        mockDeleteRetrieveService
+          .retrieve[Resp](_: Map[String, MtdError])(
+            _: Format[Resp],
+            _: HeaderCarrier,
+            _: ExecutionContext,
+            _: EndpointLogContext,
+            _: IfsUri[Resp]
+          )
+        )
         .expects(*, *, *, *, *, *)
     }
   }

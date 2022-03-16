@@ -16,10 +16,10 @@
 
 package v1.models.response.retrieveSample
 
+import api.models.domain.{ DownstreamTaxYear, SampleDownstreamEnum, SampleMtdEnum }
 import play.api.libs.functional.syntax._
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import play.api.libs.json.{ JsPath, Json, OWrites, Reads }
 import utils.JsonUtils
-import v1.models.domain.{DesTaxYear, SampleDesEnum, SampleMtdEnum}
 
 case class SampleArrayItem(id: String,
                            declaredAmount: Option[BigDecimal],
@@ -34,10 +34,10 @@ object SampleArrayItem extends JsonUtils {
     (JsPath \ "itemId").read[String] and
       (JsPath \ "submittedAmount").readNullable[BigDecimal] and
       (JsPath \ "itemDetail" \ "taxableAmount").readNestedNullable[BigDecimal] and
-      (JsPath \ "typeOfItem").read[SampleDesEnum].map(_.toMtdEnum) and
-      (JsPath \ "taxYear").read[String].map(DesTaxYear.fromDes(_).value) and
+      (JsPath \ "typeOfItem").read[SampleDownstreamEnum].map(_.toMtdEnum) and
+      (JsPath \ "taxYear").read[String].map(DownstreamTaxYear.fromDownstream(_).value) and
       (JsPath \ "isFinalised").readWithDefault(defaultValue = false)
-    ) (SampleArrayItem.apply _)
+  )(SampleArrayItem.apply _)
 
   implicit val writes: OWrites[SampleArrayItem] = Json.writes[SampleArrayItem]
 }

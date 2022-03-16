@@ -16,24 +16,26 @@
 
 package v1.controllers
 
+import api.controllers.{AuthorisedController, BaseController, EndpointLogContext}
+import api.hateoas.AmendHateoasBodies
+import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
+import api.models.auth.UserDetails
+import api.models.errors._
+import api.services._
 import cats.data.EitherT
 import cats.implicits._
 import config.AppConfig
-import javax.inject.{Inject, Singleton}
 import play.api.http.MimeTypes
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import utils.Logging
-import v1.controllers.requestParsers.AmendSampleRequestParser
-import v1.hateoas.AmendHateoasBodies
-import v1.models.audit.{AuditEvent, SampleAuditDetail, SampleAuditResponse}
-import v1.models.auth.UserDetails
-import v1.models.errors._
 import v1.models.request.amendSample.AmendSampleRawData
-import v1.services.{AmendSampleService, _}
+import v1.requestParsers.AmendSampleRequestParser
+import v1.services.AmendSampleService
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -44,7 +46,10 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
                                       service: AmendSampleService,
                                       auditService: AuditService,
                                       cc: ControllerComponents)(implicit ec: ExecutionContext)
-  extends AuthorisedController(cc) with BaseController with Logging with AmendHateoasBodies {
+    extends AuthorisedController(cc)
+    with BaseController
+    with Logging
+    with AmendHateoasBodies {
 
   implicit val endpointLogContext: EndpointLogContext = EndpointLogContext(
     controllerName = "AmendSampleController",
@@ -53,7 +58,6 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
 
   def amendSample(nino: String, taxYear: String): Action[JsValue] =
     authorisedAction(nino).async(parse.json) { implicit request =>
-
       val rawData = AmendSampleRawData(
         nino = nino,
         taxYear = taxYear,
@@ -62,14 +66,15 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
 
       val result =
         for {
-          parsedRequest <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
+          parsedRequest   <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
           serviceResponse <- EitherT(service.amendSample(parsedRequest))
         } yield {
           logger.info(
             s"[${endpointLogContext.controllerName}][${endpointLogContext.endpointName}] - " +
               s"Success response received with CorrelationId: ${serviceResponse.correlationId}")
 
-          auditSubmission(createAuditDetails(
+          auditSubmission(
+            createAuditDetails(
               rawData = rawData,
               statusCode = OK,
               correlationId = serviceResponse.correlationId,
@@ -83,9 +88,10 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
 
       result.leftMap { errorWrapper =>
         val correlationId = getCorrelationId(errorWrapper)
-        val result = errorResult(errorWrapper).withApiHeaders(correlationId)
+        val result        = errorResult(errorWrapper).withApiHeaders(correlationId)
 
-        auditSubmission(createAuditDetails(
+        auditSubmission(
+          createAuditDetails(
             rawData = rawData,
             statusCode = result.header.status,
             correlationId = correlationId,
@@ -99,12 +105,11 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
 
   private def errorResult(errorWrapper: ErrorWrapper) = {
     (errorWrapper.error: @unchecked) match {
-      case RuleIncorrectOrEmptyBodyError | BadRequestError |
-           TaxYearFormatError | RuleTaxYearNotSupportedError |
-           NinoFormatError | RuleTaxYearRangeInvalidError
-      => BadRequest(Json.toJson(errorWrapper))
-      case NotFoundError => NotFound(Json.toJson(errorWrapper))
-      case DownstreamError => InternalServerError(Json.toJson(errorWrapper))
+      case RuleIncorrectOrEmptyBodyError | BadRequestError | TaxYearFormatError | RuleTaxYearNotSupportedError | NinoFormatError |
+          RuleTaxYearRangeInvalidError =>
+        BadRequest(Json.toJson(errorWrapper))
+      case NotFoundError           => NotFound(Json.toJson(errorWrapper))
+      case StandardDownstreamError => InternalServerError(Json.toJson(errorWrapper))
     }
   }
 
@@ -112,13 +117,13 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
                                  statusCode: Int,
                                  correlationId: String,
                                  userDetails: UserDetails,
-                                 errorWrapper: Option[ErrorWrapper] = None): SampleAuditDetail = {
+                                 errorWrapper: Option[ErrorWrapper] = None): GenericAuditDetail = {
 
-    val response: SampleAuditResponse = errorWrapper
-      .map(wrapper => SampleAuditResponse(statusCode, Some(wrapper.auditErrors)))
-      .getOrElse(SampleAuditResponse(statusCode, None))
+    val response: AuditResponse = errorWrapper
+      .map(wrapper => AuditResponse(statusCode, Some(wrapper.auditErrors)))
+      .getOrElse(AuditResponse(statusCode, None))
 
-    SampleAuditDetail(
+    GenericAuditDetail(
       userType = userDetails.userType,
       agentReferenceNumber = userDetails.agentReferenceNumber,
       nino = rawData.nino,
@@ -128,10 +133,9 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
     )
   }
 
-  private def auditSubmission(details: SampleAuditDetail)(implicit hc: HeaderCarrier,
-                                                          ec: ExecutionContext): Future[AuditResult] = {
+  private def auditSubmission(details: GenericAuditDetail)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[AuditResult] = {
 
-    val event: AuditEvent[SampleAuditDetail] = AuditEvent(
+    val event: AuditEvent[GenericAuditDetail] = AuditEvent(
       auditType = "sampleAuditType",
       transactionName = "sample-transaction-type",
       detail = details
