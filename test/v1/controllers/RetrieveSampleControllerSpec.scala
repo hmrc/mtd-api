@@ -21,7 +21,7 @@ import api.hateoas.HateoasLinks
 import api.mocks.hateoas.MockHateoasFactory
 import api.mocks.requestParsers.MockDeleteRetrieveRequestParser
 import api.mocks.services.{ MockDeleteRetrieveService, MockEnrolmentsAuthService, MockMtdIdLookupService }
-import api.models.domain.{ DownstreamTaxYear, Nino, SampleMtdEnum }
+import api.models.domain.{ DownstreamTaxYear, Nino }
 import api.models.errors._
 import api.models.hateoas.Method.{ DELETE, GET, PUT }
 import api.models.hateoas.RelType.{ AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, SELF }
@@ -32,6 +32,7 @@ import play.api.libs.json.{ JsObject, Json }
 import play.api.mvc.Result
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.fixtures.RetrieveSampleControllerFixture
+import v1.models.domain.SampleMtdEnum
 import v1.models.response.retrieveSample._
 
 import scala.concurrent.ExecutionContext.Implicits.global

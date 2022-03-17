@@ -14,37 +14,37 @@
  * limitations under the License.
  */
 
-package api.models.domain
+package v1.models.domain
 
-import api.models.domain.SampleDownstreamEnum._
-import play.api.libs.json.{JsError, JsValue, Json}
+import play.api.libs.json.{ JsError, JsValue, Json }
 import support.UnitSpec
 import utils.enums.EnumJsonSpecSupport
+import v1.models.domain.SampleMtdEnum._
 
-class SampleDownstreamEnumSpec extends UnitSpec with EnumJsonSpecSupport {
+class SampleMtdEnumSpec extends UnitSpec with EnumJsonSpecSupport {
 
   val downstreamJson: JsValue = Json.toJson("")
 
-  testRoundTrip[SampleDownstreamEnum](
-    ("Type1", Type1),
-    ("Type2", Type2),
-    ("Type3", Type3),
-    ("Type4", Type4)
+  testRoundTrip[SampleMtdEnum](
+    ("One", One),
+    ("Two", Two),
+    ("Three", Three),
+    ("Four", Four)
   )
 
-  "SampleDownstreamEnum" when {
+  "SampleMtdEnum" when {
     "given an invalid field" should {
       "return a JsError" in {
-        downstreamJson.validate[SampleDownstreamEnum] shouldBe a[JsError]
+        downstreamJson.validate[SampleMtdEnum] shouldBe a[JsError]
       }
     }
 
-    "toMtdEnum" should {
+    "toDownstreamEnum" should {
       "produce the correct SampleMtdEnum object" in {
-        Type1.toMtdEnum shouldBe SampleMtdEnum.One
-        Type2.toMtdEnum shouldBe SampleMtdEnum.Two
-        Type3.toMtdEnum shouldBe SampleMtdEnum.Three
-        Type4.toMtdEnum shouldBe SampleMtdEnum.Four
+        One.toDownstreamEnum shouldBe SampleDownstreamEnum.Type1
+        Two.toDownstreamEnum shouldBe SampleDownstreamEnum.Type2
+        Three.toDownstreamEnum shouldBe SampleDownstreamEnum.Type3
+        Four.toDownstreamEnum shouldBe SampleDownstreamEnum.Type4
       }
     }
   }
