@@ -16,15 +16,14 @@
 
 package api.controllers
 
-import api.mocks.services.MockMtdIdLookupService
+import api.mocks.services.{ MockEnrolmentsAuthService, MockMtdIdLookupService }
 import api.models.errors._
-import api.services.{EnrolmentsAuthService, MtdIdLookupService}
+import api.services.{ EnrolmentsAuthService, MtdIdLookupService }
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{ Action, AnyContent }
 import uk.gov.hmrc.auth.core.Enrolment
 import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.mocks.services.MockEnrolmentsAuthService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -108,7 +107,6 @@ class AuthorisedControllerSpec extends ControllerBaseSpec {
         status(result) shouldBe UNAUTHORIZED
       }
     }
-
   }
 
   "authorisation checks fail when retrieving the MDT ID" should {

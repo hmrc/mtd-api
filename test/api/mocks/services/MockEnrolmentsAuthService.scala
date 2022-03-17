@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.mocks.services
+package api.mocks.services
 
 import api.models.auth.UserDetails
 import api.models.outcomes.AuthOutcome
@@ -28,22 +28,19 @@ import scala.concurrent.{ ExecutionContext, Future }
 
 trait MockEnrolmentsAuthService extends MockFactory {
 
-  val mockEnrolmentsAuthService: EnrolmentsAuthService = mock[EnrolmentsAuthService]
+  val mockEnrolmentsAuthService = mock[EnrolmentsAuthService]
 
   object MockEnrolmentsAuthService {
 
-    def authoriseUser(): Unit = {
+    def authoriseUser(): Unit =
       (mockEnrolmentsAuthService
         .authorised(_: Predicate)(_: HeaderCarrier, _: ExecutionContext))
         .expects(*, *, *)
         .returns(Future.successful(Right(UserDetails("mtd-id", "Individual", None))))
-    }
 
-    def authorised(predicate: Predicate): CallHandler[Future[AuthOutcome]] = {
+    def authorised(predicate: Predicate): CallHandler[Future[AuthOutcome]] =
       (mockEnrolmentsAuthService
         .authorised(_: Predicate)(_: HeaderCarrier, _: ExecutionContext))
         .expects(predicate, *, *)
-    }
   }
-
 }

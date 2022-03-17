@@ -18,15 +18,14 @@ package v1.controllers
 
 import api.controllers.ControllerBaseSpec
 import api.mocks.requestParsers.MockDeleteRetrieveRequestParser
-import api.mocks.services.{MockDeleteRetrieveService, MockMtdIdLookupService}
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.mocks.services.{ MockDeleteRetrieveService, MockEnrolmentsAuthService, MockMtdIdLookupService }
+import api.models.domain.{ DownstreamTaxYear, Nino }
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
-import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
+import api.models.request.{ DeleteRetrieveRawData, DeleteRetrieveRequest }
 import play.api.libs.json.Json
 import play.api.mvc.Result
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.mocks.services.MockEnrolmentsAuthService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

@@ -17,18 +17,18 @@
 package v1.controllers
 
 import api.controllers.ControllerBaseSpec
-import api.mocks.services.{MockAuditService, MockMtdIdLookupService}
-import api.models.audit.{AuditError, AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.mocks.services.{ MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService }
+import api.models.audit.{ AuditError, AuditEvent, AuditResponse, GenericAuditDetail }
+import api.models.domain.{ DownstreamTaxYear, Nino }
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{ JsValue, Json }
 import play.api.mvc.Result
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.mocks.requestParsers.MockAmendSampleRequestParser
-import v1.mocks.services.{MockAmendSampleService, MockEnrolmentsAuthService}
-import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
+import v1.mocks.services.MockAmendSampleService
+import v1.models.request.amendSample.{ AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
