@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package v1.services
+package api.services
 
-import api.connectors.DownstreamUri
+import api.connectors.{DeleteRetrieveConnector, DownstreamUri}
 import api.controllers.EndpointLogContext
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
@@ -26,10 +26,9 @@ import cats.implicits._
 import play.api.libs.json.Format
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Logging
-import v1.connectors.DeleteRetrieveConnector
 
-import javax.inject.{ Inject, Singleton }
-import scala.concurrent.{ ExecutionContext, Future }
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class DeleteRetrieveService @Inject()(connector: DeleteRetrieveConnector) extends DownstreamResponseMappingSupport with Logging {

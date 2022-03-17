@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package v1.requestParsers.validators
+package api.requestParsers.validators
 
 import api.models.errors.MtdError
 import api.models.request.DeleteRetrieveRawData
-import api.requestParsers.validators.Validator
-import api.validations.{NinoValidation, TaxYearNotSupportedValidation, TaxYearValidation}
+import api.validations.{ NinoValidation, TaxYearNotSupportedValidation, TaxYearValidation }
 import config.AppConfig
 
 import javax.inject.Inject

@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package v1.mocks.connectors
+package api.mocks.connectors
 
-import api.connectors.{ DownstreamOutcome, DownstreamUri }
+import api.connectors.{ DeleteRetrieveConnector, DownstreamOutcome, DownstreamUri }
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import play.api.libs.json.Reads
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.connectors.DeleteRetrieveConnector
 
 import scala.concurrent.{ ExecutionContext, Future }
 
 trait MockDeleteRetrieveConnector extends MockFactory {
 
-  val mockDeleteRetrieveConnector: DeleteRetrieveConnector = mock[DeleteRetrieveConnector]
+  val mockDeleteRetrieveConnector = mock[DeleteRetrieveConnector]
 
   object MockDeleteRetrieveConnector {
 
@@ -37,11 +36,10 @@ trait MockDeleteRetrieveConnector extends MockFactory {
         .expects(*, *, *)
     }
 
-    def retrieve[Resp: Reads](): CallHandler[Future[DownstreamOutcome[Resp]]] = {
+    def retrieve[Resp: Reads](): CallHandler[Future[DownstreamOutcome[Resp]]] =
       (mockDeleteRetrieveConnector
         .retrieve[Resp]()(_: Reads[Resp], _: HeaderCarrier, _: ExecutionContext, _: DownstreamUri[Resp]))
         .expects(*, *, *, *)
-    }
   }
 
 }
