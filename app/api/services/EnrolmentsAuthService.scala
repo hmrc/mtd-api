@@ -69,9 +69,6 @@ class EnrolmentsAuthService @Inject()(val connector: AuthConnector, val appConfi
             logger.warn(s"[EnrolmentsAuthService][authorised] No AgentReferenceNumber defined on agent enrolment.")
             Left(StandardDownstreamError)
         }
-      case unexpected =>
-        logger.error(s"[EnrolmentsAuthService][authorised] Unexpected AuthorisedFunction: $unexpected")
-        Future.successful(Left(StandardDownstreamError))
       case _ ~ _ =>
         logger.warn(s"[EnrolmentsAuthService][authorised] Invalid AffinityGroup.")
         Future.successful(Left(UnauthorisedError))

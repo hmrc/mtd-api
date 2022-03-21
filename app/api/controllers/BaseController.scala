@@ -16,12 +16,11 @@
 
 package api.controllers
 
-import api.models.errors.ErrorWrapper
+import api.models.errors.{ErrorWrapper, StandardDownstreamError}
 import play.api.libs.json.Json
 import play.api.mvc.Result
 import play.api.mvc.Results.InternalServerError
 import utils.Logging
-
 import java.util.UUID
 
 trait BaseController {
@@ -31,7 +30,7 @@ trait BaseController {
     logger.error(
       s"[${endpointLogContext.controllerName}][${endpointLogContext.endpointName}] - " +
         s"Unhandled error: $errorWrapper")
-    InternalServerError(Json.toJson(DownstreamError))
+    InternalServerError(Json.toJson(StandardDownstreamError))
   }
 
   implicit class Response(result: Result) {
