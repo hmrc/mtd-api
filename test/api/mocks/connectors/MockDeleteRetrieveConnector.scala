@@ -14,36 +14,32 @@
  * limitations under the License.
  */
 
-package v1.mocks.services
+package api.mocks.connectors
 
-import api.models.auth.UserDetails
-import api.models.outcomes.AuthOutcome
-import api.services.EnrolmentsAuthService
+import api.connectors.{ DeleteRetrieveConnector, DownstreamOutcome, DownstreamUri }
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import uk.gov.hmrc.auth.core.authorise.Predicate
+import play.api.libs.json.Reads
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ ExecutionContext, Future }
 
-trait MockEnrolmentsAuthService extends MockFactory {
+trait MockDeleteRetrieveConnector extends MockFactory {
 
-  val mockEnrolmentsAuthService: EnrolmentsAuthService = mock[EnrolmentsAuthService]
+  val mockDeleteRetrieveConnector = mock[DeleteRetrieveConnector]
 
-  object MockEnrolmentsAuthService {
+  object MockDeleteRetrieveConnector {
 
-    def authoriseUser(): Unit = {
-      (mockEnrolmentsAuthService
-        .authorised(_: Predicate)(_: HeaderCarrier, _: ExecutionContext))
+    def delete(): CallHandler[Future[DownstreamOutcome[Unit]]] = {
+      (mockDeleteRetrieveConnector
+        .delete()(_: HeaderCarrier, _: ExecutionContext, _: DownstreamUri[Unit]))
         .expects(*, *, *)
-        .returns(Future.successful(Right(UserDetails("mtd-id", "Individual", None))))
     }
 
-    def authorised(predicate: Predicate): CallHandler[Future[AuthOutcome]] = {
-      (mockEnrolmentsAuthService
-        .authorised(_: Predicate)(_: HeaderCarrier, _: ExecutionContext))
-        .expects(predicate, *, *)
-    }
+    def retrieve[Resp: Reads](): CallHandler[Future[DownstreamOutcome[Resp]]] =
+      (mockDeleteRetrieveConnector
+        .retrieve[Resp]()(_: Reads[Resp], _: HeaderCarrier, _: ExecutionContext, _: DownstreamUri[Resp]))
+        .expects(*, *, *, *)
   }
 
 }

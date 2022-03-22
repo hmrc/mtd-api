@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package v1.requestParsers.validators
+package api.requestParsers.validators
 
 import api.models.errors._
 import api.models.request.DeleteRetrieveRawData
-import config.AppConfig
 import mocks.MockAppConfig
-import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
+import org.joda.time.format.DateTimeFormat
 import support.UnitSpec
 
 class DeleteRetrieveValidatorSpec extends UnitSpec {
@@ -29,12 +28,9 @@ class DeleteRetrieveValidatorSpec extends UnitSpec {
   private val validTaxYear = "2020-21"
 
   class Test extends MockAppConfig {
-
-    val dateTimeFormatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-
-    implicit val appConfig: AppConfig = mockAppConfig
-
-    val validator = new DeleteRetrieveValidator()
+    implicit val appConfig = mockAppConfig
+    val dateTimeFormatter  = DateTimeFormat.forPattern("yyyy-MM-dd")
+    val validator          = new DeleteRetrieveValidator()
 
     MockAppConfig.minimumPermittedTaxYear
       .returns(2021)

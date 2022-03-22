@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package v1.mocks.services
+package api.mocks.services
 
 import api.connectors.DownstreamUri.IfsUri
 import api.controllers.EndpointLogContext
-import api.models.errors.{ErrorWrapper, MtdError}
+import api.models.errors.{ ErrorWrapper, MtdError }
 import api.models.outcomes.ResponseWrapper
+import api.services.DeleteRetrieveService
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import play.api.libs.json.{Format, Reads}
+import play.api.libs.json.{ Format, Reads }
 import uk.gov.hmrc.http.HeaderCarrier
-import v1.services.DeleteRetrieveService
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 
 trait MockDeleteRetrieveService extends MockFactory {
 
@@ -37,14 +37,13 @@ trait MockDeleteRetrieveService extends MockFactory {
     val defaultDownstreamErrorMap: Map[String, MtdError] = Map.empty[String, MtdError]
 
     def delete(
-        downstreamErrorMap: Map[String, MtdError] = defaultDownstreamErrorMap): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Unit]]]] = {
+        downstreamErrorMap: Map[String, MtdError] = defaultDownstreamErrorMap): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Unit]]]] =
       (mockDeleteRetrieveService
         .delete(_: Map[String, MtdError])(_: HeaderCarrier, _: ExecutionContext, _: EndpointLogContext, _: IfsUri[Unit]))
         .expects(*, *, *, *, *)
-    }
 
     def retrieve[Resp: Reads](
-        downstreamErrorMap: Map[String, MtdError] = defaultDownstreamErrorMap): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Resp]]]] = {
+        downstreamErrorMap: Map[String, MtdError] = defaultDownstreamErrorMap): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Resp]]]] =
       (
         mockDeleteRetrieveService
           .retrieve[Resp](_: Map[String, MtdError])(
@@ -56,7 +55,5 @@ trait MockDeleteRetrieveService extends MockFactory {
           )
         )
         .expects(*, *, *, *, *, *)
-    }
   }
-
 }

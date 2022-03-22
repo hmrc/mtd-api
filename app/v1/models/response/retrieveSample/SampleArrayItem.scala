@@ -16,10 +16,11 @@
 
 package v1.models.response.retrieveSample
 
-import api.models.domain.{ DownstreamTaxYear, SampleDownstreamEnum, SampleMtdEnum }
+import api.models.domain.DownstreamTaxYear
 import play.api.libs.functional.syntax._
-import play.api.libs.json.{ JsPath, Json, OWrites, Reads }
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import utils.JsonUtils
+import v1.models.domain.{SampleDownstreamEnum, SampleMtdEnum}
 
 case class SampleArrayItem(id: String,
                            declaredAmount: Option[BigDecimal],

@@ -19,21 +19,21 @@ package v1.controllers
 import api.controllers.ControllerBaseSpec
 import api.hateoas.HateoasLinks
 import api.mocks.hateoas.MockHateoasFactory
-import api.mocks.services.MockMtdIdLookupService
-import api.models.domain.{DownstreamTaxYear, Nino, SampleMtdEnum}
+import api.mocks.requestParsers.MockDeleteRetrieveRequestParser
+import api.mocks.services.{ MockDeleteRetrieveService, MockEnrolmentsAuthService, MockMtdIdLookupService }
+import api.models.domain.{ DownstreamTaxYear, Nino }
 import api.models.errors._
-import api.models.hateoas.Method.{DELETE, GET, PUT}
-import api.models.hateoas.RelType.{AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, SELF}
-import api.models.hateoas.{HateoasWrapper, Link}
+import api.models.hateoas.Method.{ DELETE, GET, PUT }
+import api.models.hateoas.RelType.{ AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, SELF }
+import api.models.hateoas.{ HateoasWrapper, Link }
 import api.models.outcomes.ResponseWrapper
-import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
-import play.api.libs.json.{JsObject, Json}
+import api.models.request.{ DeleteRetrieveRawData, DeleteRetrieveRequest }
+import play.api.libs.json.{ JsObject, Json }
 import play.api.mvc.Result
 import uk.gov.hmrc.http.HeaderCarrier
 import v1.fixtures.RetrieveSampleControllerFixture
-import v1.mocks.requestParsers.MockDeleteRetrieveRequestParser
-import v1.mocks.services.{MockDeleteRetrieveService, MockEnrolmentsAuthService}
-import v1.models.response.retrieveSample.{RetrieveSampleHateoasData, RetrieveSampleResponse, SampleArrayItem, SampleObject, SampleOptionalObject}
+import v1.models.domain.SampleMtdEnum
+import v1.models.response.retrieveSample._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

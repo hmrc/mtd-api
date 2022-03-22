@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package v1.mocks.validators
+package api.mocks.validators
 
 import api.models.errors.MtdError
 import api.models.request.DeleteRetrieveRawData
+import api.requestParsers.validators.DeleteRetrieveValidator
 import org.scalamock.handlers.CallHandler1
 import org.scalamock.scalatest.MockFactory
-import v1.requestParsers.validators.DeleteRetrieveValidator
 
 trait MockDeleteRetrieveValidator extends MockFactory {
 
-  val mockDeleteRetrieveValidator: DeleteRetrieveValidator = mock[DeleteRetrieveValidator]
+  val mockDeleteRetrieveValidator = mock[DeleteRetrieveValidator]
 
   object MockDeleteRetrieveValidator {
 
-    def validate(data: DeleteRetrieveRawData): CallHandler1[DeleteRetrieveRawData, List[MtdError]] = {
+    def validate(data: DeleteRetrieveRawData): CallHandler1[DeleteRetrieveRawData, List[MtdError]] =
       (mockDeleteRetrieveValidator
         .validate(_: DeleteRetrieveRawData))
         .expects(data)
-    }
   }
-
 }

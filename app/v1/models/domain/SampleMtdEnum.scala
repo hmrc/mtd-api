@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package api.models.domain
+package v1.models.domain
 
 import play.api.libs.json.Format
 import utils.enums.Enums

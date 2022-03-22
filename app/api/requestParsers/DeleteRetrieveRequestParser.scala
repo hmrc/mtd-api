@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package v1.requestParsers
+package api.requestParsers
 
-import api.models.domain.{DownstreamTaxYear, Nino}
-import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
-import api.requestParsers.RequestParser
-import v1.requestParsers.validators.DeleteRetrieveValidator
+import api.models.domain.{ DownstreamTaxYear, Nino }
+import api.models.request.{ DeleteRetrieveRawData, DeleteRetrieveRequest }
+import api.requestParsers.validators.DeleteRetrieveValidator
 
 import javax.inject.Inject
 
