@@ -74,4 +74,5 @@ class AmendSampleRequestParserSpec extends UnitSpec {
       }
     }
   }
+
 }

@@ -38,4 +38,5 @@ object MtdIdLookupHttpParser extends HttpParser {
       case _            => Left(StandardDownstreamError)
     }
   }
+
 }

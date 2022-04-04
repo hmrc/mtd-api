@@ -31,11 +31,12 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendSampleService @Inject()(connector: AmendSampleConnector) extends DownstreamResponseMappingSupport with Logging {
+class AmendSampleService @Inject() (connector: AmendSampleConnector) extends DownstreamResponseMappingSupport with Logging {
 
-  def amendSample(request: AmendSampleRequest)(implicit hc: HeaderCarrier,
-                                               ec: ExecutionContext,
-                                               logContext: EndpointLogContext): Future[Either[ErrorWrapper, ResponseWrapper[Unit]]] = {
+  def amendSample(request: AmendSampleRequest)(implicit
+      hc: HeaderCarrier,
+      ec: ExecutionContext,
+      logContext: EndpointLogContext): Future[Either[ErrorWrapper, ResponseWrapper[Unit]]] = {
 
     val result = for {
       downstreamResponseWrapper <- EitherT(connector.amendSample(request)).leftMap(mapDownstreamErrors(desErrorMap))
@@ -51,4 +52,5 @@ class AmendSampleService @Inject()(connector: AmendSampleConnector) extends Down
     "SERVER_ERROR"        -> StandardDownstreamError,
     "SERVICE_UNAVAILABLE" -> StandardDownstreamError
   )
+
 }

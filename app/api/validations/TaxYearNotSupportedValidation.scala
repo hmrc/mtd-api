@@ -27,4 +27,5 @@ object TaxYearNotSupportedValidation {
     val downstreamTaxYear = Integer.parseInt(DownstreamTaxYear.fromMtd(taxYear).value)
     if (downstreamTaxYear < appConfig.minimumPermittedTaxYear) List(RuleTaxYearNotSupportedError) else NoValidationErrors
   }
+
 }

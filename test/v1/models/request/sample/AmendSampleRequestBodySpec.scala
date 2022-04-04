@@ -22,6 +22,7 @@ import support.UnitSpec
 import v1.models.request.amendSample.AmendSampleRequestBody
 
 class AmendSampleRequestBodySpec extends UnitSpec with JsonErrorValidators {
+
   "reads" when {
     "passed valid JSON" should {
       val inputJson = Json.parse(
@@ -45,4 +46,5 @@ class AmendSampleRequestBodySpec extends UnitSpec with JsonErrorValidators {
       )
     }
   }
+
 }

@@ -26,7 +26,7 @@ object JsonFormatValidation {
     if (data == JsObject.empty) List(RuleIncorrectOrEmptyBodyError)
     else {
       data.validate[A] match {
-        case JsSuccess(body, _)                                       => if (Json.toJson(body) == JsObject.empty) List(RuleIncorrectOrEmptyBodyError) else NoValidationErrors
+        case JsSuccess(body, _) => if (Json.toJson(body) == JsObject.empty) List(RuleIncorrectOrEmptyBodyError) else NoValidationErrors
         case JsError(errors: Seq[(JsPath, Seq[JsonValidationError])]) => handleErrors(errors)
       }
     }
@@ -60,6 +60,7 @@ object JsonFormatValidation {
         .toString()
         .replace("(", "/")
         .replace(")", "")
+
   }
 
   private case class MissingMandatoryField(path: JsPath) extends JsonFormatValidationFailure(path, "Missing mandatory field")

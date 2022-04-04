@@ -23,8 +23,9 @@ import v1.requestParsers.validators.AmendSampleValidator
 
 import javax.inject.Inject
 
-class AmendSampleRequestParser @Inject()(val validator: AmendSampleValidator) extends RequestParser[AmendSampleRawData, AmendSampleRequest] {
+class AmendSampleRequestParser @Inject() (val validator: AmendSampleValidator) extends RequestParser[AmendSampleRawData, AmendSampleRequest] {
 
   override protected def requestFor(data: AmendSampleRawData): AmendSampleRequest =
     AmendSampleRequest(Nino(data.nino), DownstreamTaxYear.fromMtd(data.taxYear), data.body.as[AmendSampleRequestBody])
+
 }

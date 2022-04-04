@@ -45,6 +45,7 @@ trait BaseController {
 
       result.copy(header = result.header.copy(headers = result.header.headers ++ newHeaders))
     }
+
   }
 
   protected def getCorrelationId(errorWrapper: ErrorWrapper)(implicit endpointLogContext: EndpointLogContext): String = {
@@ -62,4 +63,5 @@ trait BaseController {
         correlationId
     }
   }
+
 }

@@ -16,7 +16,7 @@
 
 package v1.fixtures
 
-import play.api.libs.json.{ JsObject, JsValue, Json }
+import play.api.libs.json.{JsObject, JsValue, Json}
 
 object RetrieveSampleControllerFixture {
 
@@ -149,4 +149,5 @@ object RetrieveSampleControllerFixture {
     """.stripMargin
       )
       .as[JsObject]
+
 }

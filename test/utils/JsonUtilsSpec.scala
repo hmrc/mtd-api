@@ -25,14 +25,17 @@ class JsonUtilsSpec extends UnitSpec with JsonUtils {
   case class Foo(foo1: String, foo2: String)
 
   object Foo {
+
     implicit val reads: Reads[Foo] =
       ((__ \ "baz" \ "foo" \ "foo1").read[String] and
         (__ \ "foo2").read[String])(Foo.apply _)
+
   }
 
   case class Bar(p1: String, foo: Option[Foo])
 
   object Bar extends JsonUtils {
+
     implicit val reads: Reads[Bar] =
       ((__ \ "b1").read[String] and
         emptyIfNotPresent[Foo](__ \ "baz" \ "foo"))(Bar.apply _)
@@ -56,42 +59,49 @@ class JsonUtilsSpec extends UnitSpec with JsonUtils {
   "emptyIfNotPresent" when {
     "required path not present" must {
       "read as None" in {
-        Json.parse("""
+        Json
+          .parse("""
             |{
             |  "b1": "B1",
             |  "foo2": "F2"
             |}
-            |""".stripMargin).as[Bar] shouldBe Bar("B1", None)
+            |""".stripMargin)
+          .as[Bar] shouldBe Bar("B1", None)
       }
     }
 
     "part of required path not present" must {
       "read as None" in {
-        Json.parse("""
+        Json
+          .parse("""
             |{
             |  "b1": "B1",
             |  "baz": {
             |  },
             |  "foo2": "F2"
             |}
-            |""".stripMargin).as[Bar] shouldBe Bar("B1", None)
+            |""".stripMargin)
+          .as[Bar] shouldBe Bar("B1", None)
       }
     }
 
     "no fields of the optional object are present" must {
       "read as None" in {
-        Json.parse("""
+        Json
+          .parse("""
             |{
             |  "b1": "B1"
             |}
-            |""".stripMargin).as[Bar] shouldBe Bar("B1", None)
+            |""".stripMargin)
+          .as[Bar] shouldBe Bar("B1", None)
       }
     }
 
     "required path is present" when {
       "the schema is correct for the target object" must {
         "read it" in {
-          Json.parse("""
+          Json
+            .parse("""
               |{
               |  "b1": "B1",
               |  "baz": {
@@ -101,14 +111,16 @@ class JsonUtilsSpec extends UnitSpec with JsonUtils {
               |  },
               |  "foo2": "F2"
               |}
-              |""".stripMargin).as[Bar] shouldBe Bar("B1", Some(Foo("F1", "F2")))
+              |""".stripMargin)
+            .as[Bar] shouldBe Bar("B1", Some(Foo("F1", "F2")))
         }
       }
 
       "the schema is incorrect for the target object under the parent" must {
         "validate with an error" in {
           // Invalid because required field missing...
-          Json.parse("""
+          Json
+            .parse("""
               |{
               |  "b1": "B1",
               |  "baz": {
@@ -117,14 +129,16 @@ class JsonUtilsSpec extends UnitSpec with JsonUtils {
               |  },
               |  "foo2": "F2"
               |}
-              |""".stripMargin).validate[Bar] shouldBe a[JsError]
+              |""".stripMargin)
+            .validate[Bar] shouldBe a[JsError]
         }
       }
 
       "the schema is incorrect for the target object under a field not under the parent" must {
         "validate with an error" in {
           // Invalid because required field missing...
-          Json.parse("""
+          Json
+            .parse("""
               |{
               |  "b1": "B1",
               |  "baz": {
@@ -133,7 +147,8 @@ class JsonUtilsSpec extends UnitSpec with JsonUtils {
               |    }
               |  }
               |}
-              |""".stripMargin).validate[Bar] shouldBe a[JsError]
+              |""".stripMargin)
+            .validate[Bar] shouldBe a[JsError]
         }
       }
     }
@@ -328,4 +343,5 @@ class JsonUtilsSpec extends UnitSpec with JsonUtils {
       JsNull.as(reads) shouldBe None
     }
   }
+
 }

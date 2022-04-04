@@ -18,12 +18,12 @@ package api.requestParsers.validators
 
 import api.models.errors.MtdError
 import api.models.request.DeleteRetrieveRawData
-import api.validations.{ NinoValidation, TaxYearNotSupportedValidation, TaxYearValidation }
+import api.validations.{NinoValidation, TaxYearNotSupportedValidation, TaxYearValidation}
 import config.AppConfig
 
 import javax.inject.Inject
 
-class DeleteRetrieveValidator @Inject()(implicit appConfig: AppConfig) extends Validator[DeleteRetrieveRawData] {
+class DeleteRetrieveValidator @Inject() (implicit appConfig: AppConfig) extends Validator[DeleteRetrieveRawData] {
 
   private val validationSet = List(parameterFormatValidation, parameterRuleValidation)
 
@@ -43,4 +43,5 @@ class DeleteRetrieveValidator @Inject()(implicit appConfig: AppConfig) extends V
       TaxYearNotSupportedValidation.validate(data.taxYear)
     )
   }
+
 }

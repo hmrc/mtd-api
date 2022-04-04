@@ -65,8 +65,8 @@ trait BaseDownstreamConnector extends Logging {
     )
   }
 
-  def post[Body: Writes, Resp](body: Body, uri: DownstreamUri[Resp])(
-      implicit ec: ExecutionContext,
+  def post[Body: Writes, Resp](body: Body, uri: DownstreamUri[Resp])(implicit
+      ec: ExecutionContext,
       hc: HeaderCarrier,
       httpReads: HttpReads[DownstreamOutcome[Resp]]): Future[DownstreamOutcome[Resp]] = {
 
@@ -76,8 +76,8 @@ trait BaseDownstreamConnector extends Logging {
     doPost(getBackendHeaders(uri, hc, jsonContentTypeHeader))
   }
 
-  def get[Resp](uri: DownstreamUri[Resp], queryParams: Seq[(String, String)] = Nil)(
-      implicit ec: ExecutionContext,
+  def get[Resp](uri: DownstreamUri[Resp], queryParams: Seq[(String, String)] = Nil)(implicit
+      ec: ExecutionContext,
       hc: HeaderCarrier,
       httpReads: HttpReads[DownstreamOutcome[Resp]]): Future[DownstreamOutcome[Resp]] = {
 
@@ -87,9 +87,10 @@ trait BaseDownstreamConnector extends Logging {
     doGet(getBackendHeaders(uri, hc))
   }
 
-  def delete[Resp](uri: DownstreamUri[Resp])(implicit ec: ExecutionContext,
-                                             hc: HeaderCarrier,
-                                             httpReads: HttpReads[DownstreamOutcome[Resp]]): Future[DownstreamOutcome[Resp]] = {
+  def delete[Resp](uri: DownstreamUri[Resp])(implicit
+      ec: ExecutionContext,
+      hc: HeaderCarrier,
+      httpReads: HttpReads[DownstreamOutcome[Resp]]): Future[DownstreamOutcome[Resp]] = {
 
     def doDelete(implicit hc: HeaderCarrier): Future[DownstreamOutcome[Resp]] =
       http.DELETE(getBackendUri(uri))
@@ -97,8 +98,8 @@ trait BaseDownstreamConnector extends Logging {
     doDelete(getBackendHeaders(uri, hc))
   }
 
-  def put[Body: Writes, Resp](body: Body, uri: DownstreamUri[Resp])(
-      implicit ec: ExecutionContext,
+  def put[Body: Writes, Resp](body: Body, uri: DownstreamUri[Resp])(implicit
+      ec: ExecutionContext,
       hc: HeaderCarrier,
       httpReads: HttpReads[DownstreamOutcome[Resp]]): Future[DownstreamOutcome[Resp]] = {
 
@@ -118,4 +119,5 @@ trait BaseDownstreamConnector extends Logging {
       case DesUri(_) => desHeaderCarrier(hc, additionalHeaders: _*)
       case IfsUri(_) => ifsHeaderCarrier(hc, additionalHeaders: _*)
     }
+
 }

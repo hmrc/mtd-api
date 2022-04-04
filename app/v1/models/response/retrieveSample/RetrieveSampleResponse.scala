@@ -16,11 +16,11 @@
 
 package v1.models.response.retrieveSample
 
-import api.hateoas.{ HateoasLinks, HateoasLinksFactory }
-import api.models.hateoas.{ HateoasData, Link }
+import api.hateoas.{HateoasLinks, HateoasLinksFactory}
+import api.models.hateoas.{HateoasData, Link}
 import config.AppConfig
 import play.api.libs.functional.syntax._
-import play.api.libs.json.{ JsPath, Json, OWrites, Reads }
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import utils.JsonUtils
 
 case class RetrieveSampleResponse(completedItems: Option[Seq[SampleArrayItem]],
@@ -48,6 +48,7 @@ object RetrieveSampleResponse extends HateoasLinks with JsonUtils {
   implicit val writes: OWrites[RetrieveSampleResponse] = Json.writes[RetrieveSampleResponse]
 
   implicit object RetrieveSampleLinksFactory extends HateoasLinksFactory[RetrieveSampleResponse, RetrieveSampleHateoasData] {
+
     override def links(appConfig: AppConfig, data: RetrieveSampleHateoasData): Seq[Link] = {
       import data._
       Seq(
@@ -56,7 +57,9 @@ object RetrieveSampleResponse extends HateoasLinks with JsonUtils {
         deleteSample(appConfig, nino, taxYear)
       )
     }
+
   }
+
 }
 
 case class RetrieveSampleHateoasData(nino: String, taxYear: String) extends HateoasData

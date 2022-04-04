@@ -36,6 +36,7 @@ trait MockAmendSampleConnector extends MockFactory {
         .amendSample(_: AmendSampleRequest)(_: HeaderCarrier, _: ExecutionContext))
         .expects(requestData, *, *)
     }
+
   }
 
 }

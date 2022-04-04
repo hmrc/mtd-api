@@ -26,7 +26,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendSampleConnector @Inject()(val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
+class AmendSampleConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
 
   def amendSample(request: AmendSampleRequest)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[DownstreamOutcome[Unit]] = {
 
@@ -40,4 +40,5 @@ class AmendSampleConnector @Inject()(val http: HttpClient, val appConfig: AppCon
       IfsUri[Unit](s"some-placeholder/template/$nino/$taxYear")
     )
   }
+
 }

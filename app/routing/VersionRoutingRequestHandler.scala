@@ -28,12 +28,12 @@ import play.core.DefaultWebCommands
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class VersionRoutingRequestHandler @Inject()(versionRoutingMap: VersionRoutingMap,
-                                             errorHandler: HttpErrorHandler,
-                                             httpConfiguration: HttpConfiguration,
-                                             config: AppConfig,
-                                             filters: HttpFilters,
-                                             action: DefaultActionBuilder)
+class VersionRoutingRequestHandler @Inject() (versionRoutingMap: VersionRoutingMap,
+                                              errorHandler: HttpErrorHandler,
+                                              httpConfiguration: HttpConfiguration,
+                                              config: AppConfig,
+                                              filters: HttpFilters,
+                                              action: DefaultActionBuilder)
     extends DefaultHttpRequestHandler(
       webCommands = new DefaultWebCommands,
       optDevContext = None,

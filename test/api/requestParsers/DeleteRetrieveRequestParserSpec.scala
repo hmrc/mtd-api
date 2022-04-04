@@ -33,9 +33,11 @@ class DeleteRetrieveRequestParserSpec extends UnitSpec {
   )
 
   trait Test extends MockDeleteRetrieveValidator {
+
     lazy val parser: DeleteRetrieveRequestParser = new DeleteRetrieveRequestParser(
       validator = mockDeleteRetrieveValidator
     )
+
   }
 
   "parse" should {
@@ -68,4 +70,5 @@ class DeleteRetrieveRequestParserSpec extends UnitSpec {
       }
     }
   }
+
 }

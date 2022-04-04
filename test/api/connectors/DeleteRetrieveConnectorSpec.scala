@@ -20,7 +20,7 @@ import api.connectors.DownstreamUri.IfsUri
 import api.mocks.MockHttpClient
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
-import play.api.libs.json.{ Json, Reads }
+import play.api.libs.json.{Json, Reads}
 
 import scala.concurrent.Future
 
@@ -89,4 +89,5 @@ class DeleteRetrieveConnectorSpec extends ConnectorSpec {
       }
     }
   }
+
 }

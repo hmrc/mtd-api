@@ -87,4 +87,5 @@ class ApiDefinitionFactorySpec extends UnitSpec {
       }
     }
   }
+
 }

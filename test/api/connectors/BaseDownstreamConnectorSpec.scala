@@ -123,4 +123,5 @@ class BaseDownstreamConnectorSpec extends ConnectorSpec {
       }
     }
   }
+
 }

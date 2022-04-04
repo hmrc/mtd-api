@@ -16,6 +16,6 @@
 
 package v1.models.request.amendSample
 
-import api.models.domain.{ DownstreamTaxYear, Nino }
+import api.models.domain.{DownstreamTaxYear, Nino}
 
 case class AmendSampleRequest(nino: Nino, downstreamTaxYear: DownstreamTaxYear, body: AmendSampleRequestBody)

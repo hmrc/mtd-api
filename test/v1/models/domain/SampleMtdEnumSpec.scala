@@ -16,7 +16,7 @@
 
 package v1.models.domain
 
-import play.api.libs.json.{ JsError, JsValue, Json }
+import play.api.libs.json.{JsError, JsValue, Json}
 import support.UnitSpec
 import utils.enums.EnumJsonSpecSupport
 import v1.models.domain.SampleMtdEnum._
@@ -48,4 +48,5 @@ class SampleMtdEnumSpec extends UnitSpec with EnumJsonSpecSupport {
       }
     }
   }
+
 }

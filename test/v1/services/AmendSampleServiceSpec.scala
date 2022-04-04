@@ -48,6 +48,7 @@ class AmendSampleServiceSpec extends ServiceSpec {
     val service = new AmendSampleService(
       connector = mockAmendSampleConnector
     )
+
   }
 
   "AmendSampleService" when {
@@ -86,4 +87,5 @@ class AmendSampleServiceSpec extends ServiceSpec {
       input.foreach(args => (serviceError _).tupled(args))
     }
   }
+
 }

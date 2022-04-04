@@ -57,6 +57,7 @@ class AuthISpec extends IntegrationBaseSpec {
         |}
       """.stripMargin
     )
+
   }
 
   "Calling the sample endpoint" when {
@@ -118,4 +119,5 @@ class AuthISpec extends IntegrationBaseSpec {
       }
     }
   }
+
 }

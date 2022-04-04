@@ -33,5 +33,7 @@ trait MockAmendSampleValidator extends MockFactory {
         .validate(_: AmendSampleRawData))
         .expects(data)
     }
+
   }
+
 }

@@ -37,12 +37,12 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
-                                         val lookupService: MtdIdLookupService,
-                                         requestParser: DeleteRetrieveRequestParser,
-                                         service: DeleteRetrieveService,
-                                         hateoasFactory: HateoasFactory,
-                                         cc: ControllerComponents)(implicit ec: ExecutionContext)
+class RetrieveSampleController @Inject() (val authService: EnrolmentsAuthService,
+                                          val lookupService: MtdIdLookupService,
+                                          requestParser: DeleteRetrieveRequestParser,
+                                          service: DeleteRetrieveService,
+                                          hateoasFactory: HateoasFactory,
+                                          cc: ControllerComponents)(implicit ec: ExecutionContext)
     extends AuthorisedController(cc)
     with BaseController
     with Logging {
@@ -92,12 +92,12 @@ class RetrieveSampleController @Inject()(val authService: EnrolmentsAuthService,
 
   private def errorResult(errorWrapper: ErrorWrapper) = {
     errorWrapper.error match {
-      case BadRequestError | NinoFormatError | TaxYearFormatError |
-           RuleTaxYearRangeInvalidError | RuleTaxYearNotSupportedError
-      => BadRequest(Json.toJson(errorWrapper))
-      case NotFoundError => NotFound(Json.toJson(errorWrapper))
+      case BadRequestError | NinoFormatError | TaxYearFormatError | RuleTaxYearRangeInvalidError | RuleTaxYearNotSupportedError =>
+        BadRequest(Json.toJson(errorWrapper))
+      case NotFoundError           => NotFound(Json.toJson(errorWrapper))
       case StandardDownstreamError => InternalServerError(Json.toJson(errorWrapper))
-      case _ => unhandledError(errorWrapper)
+      case _                       => unhandledError(errorWrapper)
     }
   }
+
 }

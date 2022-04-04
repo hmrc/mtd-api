@@ -48,6 +48,7 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
       buildRequest(uri)
         .withHttpHeaders((ACCEPT, "application/vnd.hmrc.1.0+json"))
     }
+
   }
 
   "Calling the 'retrieve sample' endpoint" should {
@@ -154,4 +155,5 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
       }
     }
   }
+
 }
