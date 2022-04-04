@@ -50,7 +50,7 @@ trait AppConfig {
 }
 
 @Singleton
-class AppConfigImpl @Inject()(config: ServicesConfig, configuration: Configuration) extends AppConfig {
+class AppConfigImpl @Inject() (config: ServicesConfig, configuration: Configuration) extends AppConfig {
   // MTD ID Lookup Config
   val mtdIdBaseUrl: String = config.baseUrl("mtd-id-lookup")
 
@@ -80,6 +80,7 @@ class AppConfigImpl @Inject()(config: ServicesConfig, configuration: Configurati
 case class ConfidenceLevelConfig(definitionEnabled: Boolean, authValidationEnabled: Boolean)
 
 object ConfidenceLevelConfig {
+
   implicit val configLoader: ConfigLoader[ConfidenceLevelConfig] = (rootConfig: Config, path: String) => {
     val config = rootConfig.getConfig(path)
     ConfidenceLevelConfig(
@@ -87,4 +88,5 @@ object ConfidenceLevelConfig {
       authValidationEnabled = config.getBoolean("auth-validation.enabled")
     )
   }
+
 }

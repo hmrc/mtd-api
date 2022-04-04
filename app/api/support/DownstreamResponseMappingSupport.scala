@@ -61,4 +61,5 @@ trait DownstreamResponseMappingSupport {
         ErrorWrapper(Some(correlationId), error, errors)
     }
   }
+
 }

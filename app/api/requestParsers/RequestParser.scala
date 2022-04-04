@@ -33,4 +33,5 @@ trait RequestParser[Raw <: RawData, Request] {
       case errs       => Left(ErrorWrapper(None, BadRequestError, Some(errs)))
     }
   }
+
 }

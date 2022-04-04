@@ -39,13 +39,13 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
-                                      val lookupService: MtdIdLookupService,
-                                      appConfig: AppConfig,
-                                      requestParser: AmendSampleRequestParser,
-                                      service: AmendSampleService,
-                                      auditService: AuditService,
-                                      cc: ControllerComponents)(implicit ec: ExecutionContext)
+class AmendSampleController @Inject() (val authService: EnrolmentsAuthService,
+                                       val lookupService: MtdIdLookupService,
+                                       appConfig: AppConfig,
+                                       requestParser: AmendSampleRequestParser,
+                                       service: AmendSampleService,
+                                       auditService: AuditService,
+                                       cc: ControllerComponents)(implicit ec: ExecutionContext)
     extends AuthorisedController(cc)
     with BaseController
     with Logging
@@ -105,13 +105,12 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
 
   private def errorResult(errorWrapper: ErrorWrapper) = {
     errorWrapper.error match {
-      case RuleIncorrectOrEmptyBodyError | BadRequestError |
-           TaxYearFormatError | RuleTaxYearNotSupportedError |
-           NinoFormatError | RuleTaxYearRangeInvalidError
-      => BadRequest(Json.toJson(errorWrapper))
-      case NotFoundError => NotFound(Json.toJson(errorWrapper))
+      case RuleIncorrectOrEmptyBodyError | BadRequestError | TaxYearFormatError | RuleTaxYearNotSupportedError | NinoFormatError |
+          RuleTaxYearRangeInvalidError =>
+        BadRequest(Json.toJson(errorWrapper))
+      case NotFoundError           => NotFound(Json.toJson(errorWrapper))
       case StandardDownstreamError => InternalServerError(Json.toJson(errorWrapper))
-      case _ => unhandledError(errorWrapper)
+      case _                       => unhandledError(errorWrapper)
     }
   }
 
@@ -145,4 +144,5 @@ class AmendSampleController @Inject()(val authService: EnrolmentsAuthService,
 
     auditService.auditEvent(event)
   }
+
 }

@@ -24,7 +24,7 @@ import v1.models.request.amendSample.{AmendSampleRawData, AmendSampleRequestBody
 
 import javax.inject.Inject
 
-class AmendSampleValidator @Inject()(implicit appConfig: AppConfig) extends Validator[AmendSampleRawData] {
+class AmendSampleValidator @Inject() (implicit appConfig: AppConfig) extends Validator[AmendSampleRawData] {
 
   private val validationSet = List(parameterFormatValidation, parameterRuleValidation)
 
@@ -45,4 +45,5 @@ class AmendSampleValidator @Inject()(implicit appConfig: AppConfig) extends Vali
   override def validate(data: AmendSampleRawData): List[MtdError] = {
     run(validationSet, data).distinct
   }
+
 }

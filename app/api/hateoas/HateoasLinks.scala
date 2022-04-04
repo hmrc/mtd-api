@@ -23,11 +23,11 @@ import config.AppConfig
 
 trait HateoasLinks {
 
-  //Domain URIs
+  // Domain URIs
   private def sampleUri(appConfig: AppConfig, nino: String, taxYear: String) =
     s"/${appConfig.apiGatewayContext}/sample/$nino/$taxYear"
 
-  //Sample links
+  // Sample links
   def amendSample(appConfig: AppConfig, nino: String, taxYear: String): Link =
     Link(
       href = sampleUri(appConfig, nino, taxYear),
@@ -56,4 +56,5 @@ trait HateoasLinks {
       method = DELETE,
       rel = DELETE_SAMPLE_REL
     )
+
 }

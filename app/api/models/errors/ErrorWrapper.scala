@@ -28,9 +28,11 @@ case class ErrorWrapper(correlationId: Option[String], error: MtdError, errors: 
 
   def auditErrors: Seq[AuditError] =
     allErrors.map(error => AuditError(error.code))
+
 }
 
 object ErrorWrapper {
+
   implicit val writes: Writes[ErrorWrapper] = (errorResponse: ErrorWrapper) => {
 
     val json = Json.toJson(errorResponse.error).as[JsObject]
@@ -40,4 +42,5 @@ object ErrorWrapper {
       case _                               => json
     }
   }
+
 }

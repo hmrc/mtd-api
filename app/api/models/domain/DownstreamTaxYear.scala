@@ -16,10 +16,10 @@
 
 package api.models.domain
 
-/**
-  * Represents a tax year for the downstream service
+/** Represents a tax year for the downstream service
   *
-  * @param value the tax year string (where 2018 represents 2017-18)
+  * @param value
+  *   the tax year string (where 2018 represents 2017-18)
   */
 case class DownstreamTaxYear(value: String) extends AnyVal {
   override def toString: String = value
@@ -27,12 +27,13 @@ case class DownstreamTaxYear(value: String) extends AnyVal {
 
 object DownstreamTaxYear {
 
-  /**
-    * @param taxYear tax year in MTD format (e.g. 2017-18)
+  /** @param taxYear
+    *   tax year in MTD format (e.g. 2017-18)
     */
   def fromMtd(taxYear: String): DownstreamTaxYear =
     DownstreamTaxYear(taxYear.take(2) + taxYear.drop(5))
 
   def fromDownstream(taxYear: String): DownstreamTaxYear =
     DownstreamTaxYear((taxYear.toInt - 1) + "-" + taxYear.drop(2))
+
 }

@@ -31,10 +31,10 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DeleteRetrieveService @Inject()(connector: DeleteRetrieveConnector) extends DownstreamResponseMappingSupport with Logging {
+class DeleteRetrieveService @Inject() (connector: DeleteRetrieveConnector) extends DownstreamResponseMappingSupport with Logging {
 
-  def delete(downstreamErrorMap: Map[String, MtdError] = errorMap)(
-      implicit hc: HeaderCarrier,
+  def delete(downstreamErrorMap: Map[String, MtdError] = errorMap)(implicit
+      hc: HeaderCarrier,
       ec: ExecutionContext,
       logContext: EndpointLogContext,
       downstreamUri: DownstreamUri[Unit]): Future[Either[ErrorWrapper, ResponseWrapper[Unit]]] = {
@@ -46,8 +46,8 @@ class DeleteRetrieveService @Inject()(connector: DeleteRetrieveConnector) extend
     result.value
   }
 
-  def retrieve[Resp: Format](downstreamErrorMap: Map[String, MtdError] = errorMap)(
-      implicit hc: HeaderCarrier,
+  def retrieve[Resp: Format](downstreamErrorMap: Map[String, MtdError] = errorMap)(implicit
+      hc: HeaderCarrier,
       ec: ExecutionContext,
       logContext: EndpointLogContext,
       downstreamUri: DownstreamUri[Resp]): Future[Either[ErrorWrapper, ResponseWrapper[Resp]]] = {
@@ -67,4 +67,5 @@ class DeleteRetrieveService @Inject()(connector: DeleteRetrieveConnector) extend
     "SERVER_ERROR"        -> StandardDownstreamError,
     "SERVICE_UNAVAILABLE" -> StandardDownstreamError
   )
+
 }

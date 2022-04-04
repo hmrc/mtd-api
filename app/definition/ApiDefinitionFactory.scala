@@ -23,7 +23,7 @@ import utils.Logging
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class ApiDefinitionFactory @Inject()(appConfig: AppConfig) extends Logging {
+class ApiDefinitionFactory @Inject() (appConfig: AppConfig) extends Logging {
 
   private val readScope  = "read:self-assessment"
   private val writeScope = "write:self-assessment"
@@ -66,4 +66,5 @@ class ApiDefinitionFactory @Inject()(appConfig: AppConfig) extends Logging {
         APIStatus.ALPHA
       }
   }
+
 }

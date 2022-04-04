@@ -109,4 +109,5 @@ class JsonFormatValidationSpec extends UnitSpec with JsonErrorValidators {
       }
     }
   }
+
 }

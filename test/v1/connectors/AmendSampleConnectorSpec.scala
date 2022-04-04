@@ -72,4 +72,5 @@ class AmendSampleConnectorSpec extends ConnectorSpec {
       }
     }
   }
+
 }

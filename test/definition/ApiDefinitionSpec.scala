@@ -83,4 +83,5 @@ class ApiDefinitionSpec extends UnitSpec {
       )
     }
   }
+
 }

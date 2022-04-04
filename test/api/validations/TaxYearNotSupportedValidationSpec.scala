@@ -27,9 +27,10 @@ class TaxYearNotSupportedValidationSpec extends UnitSpec with JsonErrorValidator
   class Test extends MockAppConfig {
     implicit val appConfig: AppConfig = mockAppConfig
 
-    //noinspection ScalaStyle
+    // noinspection ScalaStyle
     MockAppConfig.minimumPermittedTaxYear
       .returns(2021)
+
   }
 
   "validate" should {
@@ -61,4 +62,5 @@ class TaxYearNotSupportedValidationSpec extends UnitSpec with JsonErrorValidator
       }
     }
   }
+
 }

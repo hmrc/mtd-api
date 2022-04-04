@@ -34,6 +34,7 @@ class DeleteRetrieveValidatorSpec extends UnitSpec {
 
     MockAppConfig.minimumPermittedTaxYear
       .returns(2021)
+
   }
 
   "running a validation" should {
@@ -78,4 +79,5 @@ class DeleteRetrieveValidatorSpec extends UnitSpec {
       }
     }
   }
+
 }

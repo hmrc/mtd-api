@@ -32,5 +32,7 @@ trait MockDeleteRetrieveValidator extends MockFactory {
       (mockDeleteRetrieveValidator
         .validate(_: DeleteRetrieveRawData))
         .expects(data)
+
   }
+
 }

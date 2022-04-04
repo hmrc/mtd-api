@@ -95,5 +95,7 @@ trait MockHttpClient extends MockFactory {
           }
         })
     }
+
   }
+
 }

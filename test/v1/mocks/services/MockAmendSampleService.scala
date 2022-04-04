@@ -38,6 +38,7 @@ trait MockAmendSampleService extends MockFactory {
         .amendSample(_: AmendSampleRequest)(_: HeaderCarrier, _: ExecutionContext, _: EndpointLogContext))
         .expects(requestData, *, *, *)
     }
+
   }
 
 }

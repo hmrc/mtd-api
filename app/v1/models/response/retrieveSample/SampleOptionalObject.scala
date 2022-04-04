@@ -16,9 +16,9 @@
 
 package v1.models.response.retrieveSample
 
-import play.api.libs.json.{ JsPath, Json, OWrites, Reads }
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import utils.JsonUtils
-import v1.models.domain.{ SampleDownstreamEnum, SampleMtdEnum }
+import v1.models.domain.{SampleDownstreamEnum, SampleMtdEnum}
 
 case class SampleOptionalObject(itemIdentifier: Option[String], itemType: Option[SampleMtdEnum], deductibleAmount: Option[BigDecimal])
 

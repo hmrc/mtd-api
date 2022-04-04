@@ -28,6 +28,7 @@ class AmendSampleValidatorSpec extends UnitSpec {
 
   private val validNino    = "AA123456A"
   private val validTaxYear = "2020-21"
+
   private val requestBodyJson = Json.parse(
     """{
       |  "data" : "someData"
@@ -45,6 +46,7 @@ class AmendSampleValidatorSpec extends UnitSpec {
 
     MockAppConfig.minimumPermittedTaxYear
       .returns(2021)
+
   }
 
   "running a validation" should {
@@ -82,4 +84,5 @@ class AmendSampleValidatorSpec extends UnitSpec {
       }
     }
   }
+
 }
