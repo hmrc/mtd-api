@@ -48,7 +48,7 @@ class AuthISpec extends IntegrationBaseSpec {
         .withHttpHeaders((ACCEPT, "application/vnd.hmrc.1.0+json"))
     }
 
-    def downstreamUri: String = s"/some-placeholder/template/$nino/${TaxYear.fromMtd(taxYear)}"
+    def downstreamUri: String = s"/some-placeholder/template/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
 
     val downstreamResponse: JsValue = Json.parse(
       """

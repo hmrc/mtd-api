@@ -17,7 +17,6 @@
 package utils
 
 import api.models.errors._
-import definition.Versions
 import play.api._
 import play.api.http.Status._
 import play.api.libs.json.Json
@@ -29,8 +28,9 @@ import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.bootstrap.backend.http.JsonErrorHandler
 import uk.gov.hmrc.play.bootstrap.config.HttpAuditEvent
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
-
 import javax.inject._
+import routing.Versions
+
 import scala.concurrent._
 
 @Singleton
@@ -44,10 +44,8 @@ class ErrorHandler @Inject() (config: Configuration, auditConnector: AuditConnec
     implicit val headerCarrier: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     logger.warn(
-      message = s"[ErrorHandler][onClientError] error in version " +
-        s"${Versions.getFromRequest(request).getOrElse("<unspecified>")}, " +
-        s"for (${request.method}) [${request.uri}] with status: " +
-        s"$statusCode and message: $message")
+      s"[ErrorHandler][onClientError] error in version ${versionIfSpecified(request)}, for (${request.method}) [${request.uri}] with status:" +
+        s" $statusCode and message: $message")
     statusCode match {
       case BAD_REQUEST =>
         auditConnector.sendEvent(dataEvent("ServerValidationError", "Request bad format exception", request))
@@ -79,11 +77,8 @@ class ErrorHandler @Inject() (config: Configuration, auditConnector: AuditConnec
     implicit val headerCarrier: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     logger.warn(
-      message = s"[ErrorHandler][onServerError] Internal server error in version " +
-        s"${Versions.getFromRequest(request).getOrElse("<unspecified>")}, " +
-        s"for (${request.method}) [${request.uri}] -> ",
-      ex
-    )
+      s"[ErrorHandler][onServerError] Internal server error in version ${versionIfSpecified(request)}, for (${request.method}) [${request.uri}] -> ",
+      ex)
 
     val (status, errorCode, eventType) = ex match {
       case _: NotFoundException                                                  => (NOT_FOUND, NotFoundError, "ResourceNotFound")
@@ -105,5 +100,7 @@ class ErrorHandler @Inject() (config: Configuration, auditConnector: AuditConnec
 
     Future.successful(Status(status)(Json.toJson(errorCode)))
   }
+
+  private def versionIfSpecified(request: RequestHeader): String = Versions.getFromRequest(request).map(_.name).getOrElse("<unspecified>")
 
 }

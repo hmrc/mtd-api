@@ -18,7 +18,7 @@ package definition
 
 import api.mocks.MockHttpClient
 import definition.APIStatus.{ALPHA, BETA}
-import definition.Versions.VERSION_1
+import .VERSION_1
 import mocks.MockAppConfig
 import support.UnitSpec
 

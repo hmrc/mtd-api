@@ -34,7 +34,7 @@ class DeleteSampleControllerISpec extends IntegrationBaseSpec {
     val taxYear: String = "2020-21"
 
     def uri: String           = s"/sample/$nino/$taxYear"
-    def downstreamUri: String = s"/sample/$nino/${TaxYear.fromMtd(taxYear)}"
+    def downstreamUri: String = s"/sample/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
 
     def setupStubs(): StubMapping
 
@@ -60,7 +60,6 @@ class DeleteSampleControllerISpec extends IntegrationBaseSpec {
         val response: WSResponse = await(request().delete())
         response.status shouldBe NO_CONTENT
         response.body shouldBe ""
-        response.header("Content-Type") shouldBe Some("application/json")
         response.header("X-CorrelationId") shouldBe defined
       }
     }

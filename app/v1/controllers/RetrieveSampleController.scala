@@ -59,7 +59,7 @@ class RetrieveSampleController @Inject() (val authService: EnrolmentsAuthService
       )
 
       implicit val downstreamUri: DownstreamUri[RetrieveSampleResponse] = IfsUri[RetrieveSampleResponse](
-        s"sample/$nino/${TaxYear.fromMtd(taxYear)}"
+        s"sample/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
       )
 
       val result =

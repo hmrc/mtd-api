@@ -19,8 +19,8 @@ package config
 import com.typesafe.config.Config
 import play.api.{ConfigLoader, Configuration}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-
 import javax.inject.{Inject, Singleton}
+import routing.Version
 
 trait AppConfig {
   // MTD ID Lookup Config
@@ -44,7 +44,7 @@ trait AppConfig {
   // API Config
   def apiGatewayContext: String
   def confidenceLevelConfig: ConfidenceLevelConfig
-  def apiStatus(version: String): String
+  def apiStatus(version: Version): String
   def featureSwitch: Option[Configuration]
   def endpointsEnabled(version: String): Boolean
 }
@@ -72,7 +72,7 @@ class AppConfigImpl @Inject() (config: ServicesConfig, configuration: Configurat
   // API Config
   val apiGatewayContext: String                    = config.getString("api.gateway.context")
   val confidenceLevelConfig: ConfidenceLevelConfig = configuration.get[ConfidenceLevelConfig](s"api.confidence-level-check")
-  def apiStatus(version: String): String           = config.getString(s"api.$version.status")
+  def apiStatus(version: Version): String          = config.getString(s"api.${version.name}.status")
   def featureSwitch: Option[Configuration]         = configuration.getOptional[Configuration](s"feature-switch")
   def endpointsEnabled(version: String): Boolean   = config.getBoolean(s"api.$version.endpoints.enabled")
 }

@@ -36,7 +36,7 @@ class AmendSampleControllerISpec extends IntegrationBaseSpec {
 
     def uri: String = s"/sample/$nino/$taxYear"
 
-    def downstreamUri: String = s"/some-placeholder/template/$nino/${TaxYear.fromMtd(taxYear)}"
+    def downstreamUri: String = s"/some-placeholder/template/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
 
     def setupStubs(): StubMapping
 

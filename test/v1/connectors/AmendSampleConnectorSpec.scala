@@ -60,7 +60,7 @@ class AmendSampleConnectorSpec extends ConnectorSpec {
 
         MockHttpClient
           .put(
-            url = s"$baseUrl/some-placeholder/template/$nino/$downstreamTaxYear",
+            url = s"$baseUrl/some-placeholder/template/$nino/${downstreamTaxYear.toDownstream}",
             config = dummyIfsHeaderCarrierConfig,
             body = request.body,
             requiredHeaders = requiredIfsHeadersPut,

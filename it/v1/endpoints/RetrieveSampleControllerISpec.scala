@@ -39,7 +39,7 @@ class RetrieveSampleControllerISpec extends IntegrationBaseSpec {
     val mtdResponse: JsValue        = RetrieveSampleControllerFixture.mtdResponseWithHateoas(nino, taxYear)
 
     def uri: String           = s"/sample/$nino/$taxYear"
-    def downstreamUri: String = s"/sample/$nino/${TaxYear.fromMtd(taxYear)}"
+    def downstreamUri: String = s"/sample/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
 
     def setupStubs(): StubMapping
 

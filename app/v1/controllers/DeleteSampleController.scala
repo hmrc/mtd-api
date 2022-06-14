@@ -56,7 +56,7 @@ class DeleteSampleController @Inject() (val authService: EnrolmentsAuthService,
       )
 
       implicit val downstreamUri: DownstreamUri[Unit] = IfsUri[Unit](
-        s"sample/$nino/${TaxYear.fromMtd(taxYear)}"
+        s"sample/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
       )
 
       val result =

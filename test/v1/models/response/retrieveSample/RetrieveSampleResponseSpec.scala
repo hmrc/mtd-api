@@ -16,11 +16,12 @@
 
 package v1.models.response.retrieveSample
 
-import play.api.libs.json.{JsError, JsObject, JsValue, Json}
+import api.models.utils.JsonErrorValidators
+import play.api.libs.json.{JsObject, JsValue, Json}
 import support.UnitSpec
 import v1.models.domain.SampleMtdEnum
 
-class RetrieveSampleResponseSpec extends UnitSpec {
+class RetrieveSampleResponseSpec extends UnitSpec with JsonErrorValidators {
 
   val arrayItemModel1: SampleArrayItem = SampleArrayItem(
     id = "AAA123",
@@ -177,20 +178,6 @@ class RetrieveSampleResponseSpec extends UnitSpec {
         )
 
         json.as[RetrieveSampleResponse] shouldBe RetrieveSampleResponse.empty
-      }
-    }
-
-    "read from invalid JSON" should {
-      "produce a JsError" in {
-        val json: JsValue = Json.parse(
-          """
-            |{
-            |  "historicalIncomeSubmissions": "true"
-            |}
-          """.stripMargin
-        )
-
-        json.validate[RetrieveSampleResponse] shouldBe a[JsError]
       }
     }
 
