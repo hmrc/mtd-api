@@ -19,7 +19,7 @@ package v1.controllers
 import api.connectors.DownstreamUri
 import api.connectors.DownstreamUri.IfsUri
 import api.controllers.{AuthorisedController, BaseController, EndpointLogContext}
-import api.models.domain.DownstreamTaxYear
+import api.models.domain.TaxYear
 import api.models.errors._
 import api.models.request.DeleteRetrieveRawData
 import api.requestParsers.DeleteRetrieveRequestParser
@@ -28,7 +28,6 @@ import cats.data.EitherT
 import cats.implicits._
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import play.mvc.Http.MimeTypes
 import utils.Logging
 
 import javax.inject.{Inject, Singleton}
@@ -57,7 +56,7 @@ class DeleteSampleController @Inject() (val authService: EnrolmentsAuthService,
       )
 
       implicit val downstreamUri: DownstreamUri[Unit] = IfsUri[Unit](
-        s"sample/$nino/${DownstreamTaxYear.fromMtd(taxYear)}"
+        s"sample/$nino/${TaxYear.fromMtd(taxYear)}"
       )
 
       val result =
@@ -71,7 +70,6 @@ class DeleteSampleController @Inject() (val authService: EnrolmentsAuthService,
 
           NoContent
             .withApiHeaders(serviceResponse.correlationId)
-            .as(MimeTypes.JSON)
         }
 
       result.leftMap { errorWrapper =>

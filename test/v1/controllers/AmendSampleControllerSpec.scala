@@ -19,7 +19,7 @@ package v1.controllers
 import api.controllers.ControllerBaseSpec
 import api.mocks.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
 import api.models.audit.{AuditError, AuditEvent, AuditResponse, GenericAuditDetail}
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.domain.{TaxYear, Nino}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
@@ -66,7 +66,7 @@ class AmendSampleControllerSpec
 
   val requestData: AmendSampleRequest = AmendSampleRequest(
     nino = Nino(nino),
-    downstreamTaxYear = DownstreamTaxYear.fromMtd(taxYear),
+    downstreamTaxYear = TaxYear.fromMtd(taxYear),
     body = requestBody
   )
 

@@ -16,7 +16,7 @@
 
 package api.requestParsers
 
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.domain.{TaxYear, Nino}
 import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
 import api.requestParsers.validators.DeleteRetrieveValidator
 
@@ -26,6 +26,6 @@ class DeleteRetrieveRequestParser @Inject() (val validator: DeleteRetrieveValida
     extends RequestParser[DeleteRetrieveRawData, DeleteRetrieveRequest] {
 
   override protected def requestFor(data: DeleteRetrieveRawData): DeleteRetrieveRequest =
-    DeleteRetrieveRequest(Nino(data.nino), DownstreamTaxYear.fromMtd(data.taxYear))
+    DeleteRetrieveRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear))
 
 }

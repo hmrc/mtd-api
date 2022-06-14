@@ -18,7 +18,7 @@ package v1.connectors
 
 import api.connectors.ConnectorSpec
 import api.mocks.MockHttpClient
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.domain.{TaxYear, Nino}
 import api.models.outcomes.ResponseWrapper
 import mocks.MockAppConfig
 import uk.gov.hmrc.http.HeaderCarrier
@@ -29,7 +29,7 @@ import scala.concurrent.Future
 class AmendSampleConnectorSpec extends ConnectorSpec {
 
   val nino: String                         = "AA123456A"
-  val downstreamTaxYear: DownstreamTaxYear = DownstreamTaxYear.fromMtd(taxYear = "2018-19")
+  val downstreamTaxYear: TaxYear = TaxYear.fromMtd(taxYear = "2018-19")
 
   val request: AmendSampleRequest = AmendSampleRequest(
     nino = Nino(nino),

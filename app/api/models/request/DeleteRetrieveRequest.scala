@@ -16,6 +16,6 @@
 
 package api.models.request
 
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.domain.{TaxYear, Nino}
 
-case class DeleteRetrieveRequest(nino: Nino, taxYear: DownstreamTaxYear)
+case class DeleteRetrieveRequest(nino: Nino, taxYear: TaxYear)

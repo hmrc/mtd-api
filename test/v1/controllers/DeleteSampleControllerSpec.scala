@@ -19,7 +19,7 @@ package v1.controllers
 import api.controllers.ControllerBaseSpec
 import api.mocks.requestParsers.MockDeleteRetrieveRequestParser
 import api.mocks.services.{MockDeleteRetrieveService, MockEnrolmentsAuthService, MockMtdIdLookupService}
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.domain.{TaxYear, Nino}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
@@ -48,7 +48,7 @@ class DeleteSampleControllerSpec
 
   val requestData: DeleteRetrieveRequest = DeleteRetrieveRequest(
     nino = Nino(nino),
-    taxYear = DownstreamTaxYear.fromMtd(taxYear)
+    taxYear = TaxYear.fromMtd(taxYear)
   )
 
   trait Test {

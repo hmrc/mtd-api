@@ -25,7 +25,6 @@ import api.services._
 import cats.data.EitherT
 import cats.implicits._
 import config.AppConfig
-import play.api.http.MimeTypes
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -83,7 +82,6 @@ class AmendSampleController @Inject() (val authService: EnrolmentsAuthService,
 
           Ok(amendSampleHateoasBody(appConfig, nino, taxYear))
             .withApiHeaders(serviceResponse.correlationId)
-            .as(MimeTypes.JSON)
         }
 
       result.leftMap { errorWrapper =>

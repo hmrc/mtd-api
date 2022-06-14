@@ -16,7 +16,7 @@
 
 package api.validations
 
-import api.models.domain.DownstreamTaxYear
+import api.models.domain.TaxYear
 import api.models.errors.{MtdError, RuleTaxYearNotSupportedError}
 import config.AppConfig
 
@@ -24,7 +24,7 @@ object TaxYearNotSupportedValidation {
 
   // @param taxYear In format YYYY-YY
   def validate(taxYear: String)(implicit appConfig: AppConfig): List[MtdError] = {
-    val downstreamTaxYear = Integer.parseInt(DownstreamTaxYear.fromMtd(taxYear).value)
+    val downstreamTaxYear = Integer.parseInt(TaxYear.fromMtd(taxYear).toDownstream)
     if (downstreamTaxYear < appConfig.minimumPermittedTaxYear) List(RuleTaxYearNotSupportedError) else NoValidationErrors
   }
 

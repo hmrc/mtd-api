@@ -16,7 +16,7 @@
 
 package v1.endpoints
 
-import api.models.domain.DownstreamTaxYear
+import api.models.domain.TaxYear
 import api.models.errors._
 import api.stubs.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
@@ -36,7 +36,7 @@ class AmendSampleControllerISpec extends IntegrationBaseSpec {
 
     def uri: String = s"/sample/$nino/$taxYear"
 
-    def downstreamUri: String = s"/some-placeholder/template/$nino/${DownstreamTaxYear.fromMtd(taxYear)}"
+    def downstreamUri: String = s"/some-placeholder/template/$nino/${TaxYear.fromMtd(taxYear)}"
 
     def setupStubs(): StubMapping
 
@@ -88,7 +88,10 @@ class AmendSampleControllerISpec extends IntegrationBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUri, NO_CONTENT)
+          DownstreamStub
+            .when(method = DownstreamStub.PUT, uri = downstreamUri)
+            .withRequestBody(requestJson)
+            .thenReturn(status = NO_CONTENT, None)
         }
 
         val response: WSResponse = await(request().put(requestJson))

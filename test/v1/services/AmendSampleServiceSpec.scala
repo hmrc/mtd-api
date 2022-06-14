@@ -17,7 +17,7 @@
 package v1.services
 
 import api.controllers.EndpointLogContext
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.domain.{TaxYear, Nino}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
@@ -38,7 +38,7 @@ class AmendSampleServiceSpec extends ServiceSpec {
 
   private val requestData = AmendSampleRequest(
     nino = Nino(nino),
-    downstreamTaxYear = DownstreamTaxYear.fromMtd(taxYear),
+    downstreamTaxYear = TaxYear.fromMtd(taxYear),
     body = requestBody
   )
 

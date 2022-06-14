@@ -16,7 +16,7 @@
 
 package v1.endpoints
 
-import api.models.domain.DownstreamTaxYear
+import api.models.domain.TaxYear
 import api.models.errors._
 import api.stubs.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
@@ -34,7 +34,7 @@ class DeleteSampleControllerISpec extends IntegrationBaseSpec {
     val taxYear: String = "2020-21"
 
     def uri: String           = s"/sample/$nino/$taxYear"
-    def downstreamUri: String = s"/sample/$nino/${DownstreamTaxYear.fromMtd(taxYear)}"
+    def downstreamUri: String = s"/sample/$nino/${TaxYear.fromMtd(taxYear)}"
 
     def setupStubs(): StubMapping
 
