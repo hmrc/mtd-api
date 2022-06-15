@@ -16,10 +16,12 @@
 
 package definition
 
+import config.ConfidenceLevelConfig
 import definition.APIStatus.{ALPHA, BETA}
 import mocks.MockAppConfig
 import routing.Version1
 import support.UnitSpec
+import uk.gov.hmrc.auth.core.ConfidenceLevel
 
 class ApiDefinitionFactorySpec extends UnitSpec with MockAppConfig {
 
@@ -27,12 +29,15 @@ class ApiDefinitionFactorySpec extends UnitSpec with MockAppConfig {
     val factory = new ApiDefinitionFactory(mockAppConfig)
   }
 
+  private val confidenceLevel: ConfidenceLevel = ConfidenceLevel.L200
+
   "definition" when {
     "there is no appConfig.apiStatus" should {
       "default apiStatus to ALPHA" in new Test {
         MockAppConfig.apiGatewayContext returns "mtd/template"
         MockAppConfig.apiStatus(Version1) returns "" anyNumberOfTimes ()
-        MockAppConfig.endpointsEnabled(version = Version1.configName) returns true anyNumberOfTimes ()
+        MockAppConfig.endpointsEnabled(version = Version1.name) returns false anyNumberOfTimes ()
+        MockAppConfig.confidenceLevelCheckEnabled returns ConfidenceLevelConfig(definitionEnabled = true, authValidationEnabled = true) anyNumberOfTimes ()
 
         private val readScope  = "read:self-assessment"
         private val writeScope = "write:self-assessment"
@@ -43,24 +48,25 @@ class ApiDefinitionFactorySpec extends UnitSpec with MockAppConfig {
               Scope(
                 key = readScope,
                 name = "View your Self Assessment information",
-                description = "Allow read access to self assessment data"
+                description = "Allow read access to self assessment data",
+                confidenceLevel
               ),
               Scope(
                 key = writeScope,
                 name = "Change your Self Assessment information",
-                description = "Allow write access to self assessment data"
+                description = "Allow write access to self assessment data",
+                confidenceLevel
               )
             ),
             api = APIDefinition(
               name = "#mtd-api# (MTD)",
               description = "#desc#",
               context = "mtd/template",
-              categories = Seq("INCOME_TAX_MTD"),
               versions = Seq(
                 APIVersion(
                   version = Version1,
                   status = ALPHA,
-                  endpointsEnabled = true
+                  endpointsEnabled = false
                 )
               ),
               requiresTrust = None

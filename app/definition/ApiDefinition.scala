@@ -18,6 +18,7 @@ package definition
 
 import play.api.libs.json.{Format, Json, OFormat}
 import routing.Version
+import uk.gov.hmrc.auth.core.ConfidenceLevel
 import utils.enums.Enums
 
 case class Parameter(name: String, required: Boolean = false)
@@ -30,15 +31,21 @@ case class PublishingException(message: String) extends Exception(message)
 
 sealed trait APIStatus
 
-object APIStatus extends Enumeration {
-  case object ALPHA      extends APIStatus
-  case object BETA       extends APIStatus
-  case object STABLE     extends APIStatus
-  case object DEPRECATED extends APIStatus
-  case object RETIRED    extends APIStatus
+object APIStatus {
 
-  implicit val formatApiVersion: Format[APIStatus] = Enums.format[APIStatus]
-  val parser: PartialFunction[String, APIStatus]   = Enums.parser[APIStatus]
+  case object ALPHA extends APIStatus
+
+  case object BETA extends APIStatus
+
+  case object STABLE extends APIStatus
+
+  case object DEPRECATED extends APIStatus
+
+  case object RETIRED extends APIStatus
+
+  implicit val formatAPIStatus: Format[APIStatus] = Enums.format[APIStatus]
+
+  val parser: PartialFunction[String, APIStatus] = Enums.parser[APIStatus]
 }
 
 case class APIVersion(version: Version, status: APIStatus, endpointsEnabled: Boolean)
@@ -47,16 +54,10 @@ object APIVersion {
   implicit val formatAPIVersion: OFormat[APIVersion] = Json.format[APIVersion]
 }
 
-case class APIDefinition(name: String,
-                         description: String,
-                         context: String,
-                         categories: Seq[String],
-                         versions: Seq[APIVersion],
-                         requiresTrust: Option[Boolean]) {
+case class APIDefinition(name: String, description: String, context: String, versions: Seq[APIVersion], requiresTrust: Option[Boolean]) {
 
   require(name.nonEmpty, "name is required")
   require(context.nonEmpty, "context is required")
-  require(categories.nonEmpty, "at least one category is required")
   require(description.nonEmpty, "description is required")
   require(versions.nonEmpty, "at least one version is required")
   require(uniqueVersions, "version numbers must be unique")
@@ -64,14 +65,13 @@ case class APIDefinition(name: String,
   private def uniqueVersions: Boolean = {
     !versions.map(_.version).groupBy(identity).mapValues(_.size).exists(_._2 > 1)
   }
-
 }
 
 object APIDefinition {
   implicit val formatAPIDefinition: OFormat[APIDefinition] = Json.format[APIDefinition]
 }
 
-case class Scope(key: String, name: String, description: String)
+case class Scope(key: String, name: String, description: String, confidenceLevel: ConfidenceLevel)
 
 object Scope {
   implicit val formatScope: OFormat[Scope] = Json.format[Scope]
