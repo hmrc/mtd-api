@@ -17,25 +17,25 @@
 package utils
 
 import api.models.errors._
-import play.api._
+import play.api.Configuration
 import play.api.http.Status._
 import play.api.libs.json.Json
 import play.api.mvc.Results._
-import play.api.mvc._
+import play.api.mvc.{RequestHeader, Result}
 import uk.gov.hmrc.auth.core.AuthorisationException
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.bootstrap.backend.http.JsonErrorHandler
 import uk.gov.hmrc.play.bootstrap.config.HttpAuditEvent
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
-import javax.inject._
+import javax.inject.{Inject, Singleton}
 import routing.Versions
 
-import scala.concurrent._
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class ErrorHandler @Inject() (config: Configuration, auditConnector: AuditConnector, httpAuditEvent: HttpAuditEvent)(implicit ec: ExecutionContext)
-    extends JsonErrorHandler(auditConnector, httpAuditEvent, config)
+class ErrorHandler @Inject()(config: Configuration, auditConnector: AuditConnector, httpAuditEvent: HttpAuditEvent)(implicit ec: ExecutionContext)
+  extends JsonErrorHandler(auditConnector, httpAuditEvent, config)
     with Logging {
 
   import httpAuditEvent.dataEvent
@@ -81,14 +81,17 @@ class ErrorHandler @Inject() (config: Configuration, auditConnector: AuditConnec
       ex)
 
     val (status, errorCode, eventType) = ex match {
-      case _: NotFoundException                                                  => (NOT_FOUND, NotFoundError, "ResourceNotFound")
-      case _: AuthorisationException                                             => (UNAUTHORIZED, UnauthorisedError, "ClientError")
-      case _: JsValidationException                                              => (BAD_REQUEST, BadRequestError, "ServerValidationError")
-      case e: HttpException                                                      => (e.responseCode, BadRequestError, "ServerValidationError")
-      case e: UpstreamErrorResponse if e.statusCode >= 400 && e.statusCode < 500 => (e.statusCode, BadRequestError, "ServerValidationError")
-      case e: UpstreamErrorResponse                                              => (e.reportAs, StandardDownstreamError, "ServerInternalError")
+      case _: NotFoundException      => (NOT_FOUND, NotFoundError, "ResourceNotFound")
+      case _: AuthorisationException => (UNAUTHORIZED, UnauthorisedError, "ClientError")
+      case _: JsValidationException  => (BAD_REQUEST, BadRequestError, "ServerValidationError")
+      case e: HttpException          => (e.responseCode, BadRequestError, "ServerValidationError")
+      case e: UpstreamErrorResponse if UpstreamErrorResponse.Upstream4xxResponse.unapply(e).isDefined =>
+        (e.reportAs, BadRequestError, "ServerValidationError")
+      case e: UpstreamErrorResponse if UpstreamErrorResponse.Upstream5xxResponse.unapply(e).isDefined =>
+        (e.reportAs, StandardDownstreamError, "ServerInternalError")
       case _ => (INTERNAL_SERVER_ERROR, StandardDownstreamError, "ServerInternalError")
     }
+
     auditConnector.sendEvent(
       dataEvent(
         eventType = eventType,
@@ -102,5 +105,4 @@ class ErrorHandler @Inject() (config: Configuration, auditConnector: AuditConnec
   }
 
   private def versionIfSpecified(request: RequestHeader): String = Versions.getFromRequest(request).map(_.name).getOrElse("<unspecified>")
-
 }

@@ -20,7 +20,6 @@ import config.AppConfig
 import utils.Logging
 import javax.inject.{Inject, Singleton}
 import routing.{Version, Version1}
-import routing.testthing.Version1
 
 @Singleton
 class ApiDefinitionFactory @Inject() (appConfig: AppConfig) extends Logging {
@@ -51,7 +50,7 @@ class ApiDefinitionFactory @Inject() (appConfig: AppConfig) extends Logging {
           APIVersion(
             version = Version1,
             status = buildAPIStatus(Version1),
-            endpointsEnabled = appConfig.endpointsEnabled(Version1.configName)
+            endpointsEnabled = appConfig.endpointsEnabled(version = Version1.configName)
           )
         ),
         requiresTrust = None
