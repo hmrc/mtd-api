@@ -20,8 +20,14 @@ import api.models.utils.JsonErrorValidators
 import play.api.libs.json.{JsObject, JsValue, Json}
 import support.UnitSpec
 import v1.models.domain.SampleMtdEnum
+import api.models.hateoas.Link
+import api.models.hateoas.Method.{DELETE, GET, PUT}
+import config.MockAppConfig
 
-class RetrieveSampleResponseSpec extends UnitSpec with JsonErrorValidators {
+class RetrieveSampleResponseSpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
+
+  val nino: String    = "AA123456A"
+  val taxYear: String = "2020-21"
 
   val arrayItemModel1: SampleArrayItem = SampleArrayItem(
     id = "AAA123",
@@ -231,6 +237,19 @@ class RetrieveSampleResponseSpec extends UnitSpec with JsonErrorValidators {
 
         Json.toJson(RetrieveSampleResponse.empty) shouldBe json
       }
+    }
+  }
+
+  "Links Factory" should {
+
+    "expose the correct links" in {
+      MockAppConfig.apiGatewayContext.returns("mtd/template").anyNumberOfTimes
+      RetrieveSampleResponse.RetrieveSampleLinksFactory.links(mockAppConfig, RetrieveSampleHateoasData(nino, taxYear)) shouldBe
+        Seq(
+          Link(s"/mtd/template/sample/$nino/$taxYear", PUT, "amend-sample-rel"),
+          Link(s"/mtd/template/sample/$nino/$taxYear", GET, "self"),
+          Link(s"/mtd/template/sample/$nino/$taxYear", DELETE, "delete-sample-rel")
+        )
     }
   }
 

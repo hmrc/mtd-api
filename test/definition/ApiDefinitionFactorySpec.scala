@@ -76,6 +76,22 @@ class ApiDefinitionFactorySpec extends UnitSpec with MockAppConfig {
     }
   }
 
+  "confidenceLevel" when {
+    Seq(
+      (true, ConfidenceLevel.L200),
+      (false, ConfidenceLevel.L50)
+    ).foreach {
+      case (definitionEnabled, cl) =>
+        s"confidence-level-check.definition.enabled is $definitionEnabled in config" should {
+          s"return $cl" in new Test {
+            MockAppConfig.confidenceLevelCheckEnabled returns ConfidenceLevelConfig(definitionEnabled = definitionEnabled,
+              authValidationEnabled = true)
+            factory.confidenceLevel shouldBe cl
+          }
+        }
+    }
+  }
+
   "buildAPIStatus" when {
     val anyVersion = Version1
     "the 'apiStatus' parameter is present and valid" should {
