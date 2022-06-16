@@ -16,11 +16,12 @@
 
 package v1.models.response.retrieveSample
 
-import play.api.libs.json.{JsError, JsValue, Json}
+import api.models.utils.JsonErrorValidators
+import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec
 import v1.models.domain.SampleMtdEnum
 
-class SampleArrayItemSpec extends UnitSpec {
+class SampleArrayItemSpec extends UnitSpec with JsonErrorValidators {
 
   val model: SampleArrayItem = SampleArrayItem(
     id = "AAA123",
@@ -72,27 +73,6 @@ class SampleArrayItemSpec extends UnitSpec {
           taxableAmount = None,
           finalised = false
         )
-      }
-    }
-
-    "read from invalid JSON" should {
-      "produce a JsError" in {
-        val json: JsValue = Json.parse(
-          """
-            |{
-            |  "itemId": "AAA123",
-            |  "submittedAmount": 200.11,
-            |  "itemDetail": {
-            |    "taxableAmount": "100.14"
-            |  },
-            |  "typeOfItem": "Two",
-            |  "taxYear": "2019",
-            |  "isFinalised": true
-            |}
-          """.stripMargin
-        )
-
-        json.validate[SampleArrayItem] shouldBe a[JsError]
       }
     }
 

@@ -16,7 +16,7 @@
 
 package api.endpoints
 
-import api.models.domain.DownstreamTaxYear
+import api.models.domain.TaxYear
 import api.stubs.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import play.api.http.HeaderNames.ACCEPT
@@ -48,7 +48,7 @@ class AuthISpec extends IntegrationBaseSpec {
         .withHttpHeaders((ACCEPT, "application/vnd.hmrc.1.0+json"))
     }
 
-    def downstreamUri: String = s"/some-placeholder/template/$nino/${DownstreamTaxYear.fromMtd(taxYear)}"
+    def downstreamUri: String = s"/some-placeholder/template/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
 
     val downstreamResponse: JsValue = Json.parse(
       """

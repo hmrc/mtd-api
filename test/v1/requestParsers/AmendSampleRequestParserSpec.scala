@@ -16,7 +16,7 @@
 
 package v1.requestParsers
 
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.domain.{TaxYear, Nino}
 import api.models.errors._
 import play.api.libs.json.Json
 import support.UnitSpec
@@ -49,7 +49,7 @@ class AmendSampleRequestParserSpec extends UnitSpec {
         MockAmendSampleValidator.validate(inputData).returns(Nil)
 
         parser.parseRequest(inputData) shouldBe
-          Right(AmendSampleRequest(Nino(nino), DownstreamTaxYear("2018"), AmendSampleRequestBody("someData")))
+          Right(AmendSampleRequest(Nino(nino), TaxYear.fromDownstream("2018"), AmendSampleRequestBody("someData")))
       }
     }
 

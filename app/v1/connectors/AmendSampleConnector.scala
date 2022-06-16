@@ -37,7 +37,7 @@ class AmendSampleConnector @Inject() (val http: HttpClient, val appConfig: AppCo
 
     put(
       body = request.body,
-      IfsUri[Unit](s"some-placeholder/template/$nino/$taxYear")
+      IfsUri[Unit](s"some-placeholder/template/$nino/${taxYear.toDownstream}")
     )
   }
 

@@ -17,10 +17,10 @@
 package definition
 
 import config.AppConfig
-import definition.Versions._
 import utils.Logging
-
 import javax.inject.{Inject, Singleton}
+import routing.{Version, Version1}
+import uk.gov.hmrc.auth.core.ConfidenceLevel
 
 @Singleton
 class ApiDefinitionFactory @Inject() (appConfig: AppConfig) extends Logging {
@@ -28,37 +28,40 @@ class ApiDefinitionFactory @Inject() (appConfig: AppConfig) extends Logging {
   private val readScope  = "read:self-assessment"
   private val writeScope = "write:self-assessment"
 
+  def confidenceLevel: ConfidenceLevel = if (appConfig.confidenceLevelConfig.definitionEnabled) ConfidenceLevel.L200 else ConfidenceLevel.L50
+
   lazy val definition: Definition =
     Definition(
       scopes = Seq(
         Scope(
           key = readScope,
           name = "View your Self Assessment information",
-          description = "Allow read access to self assessment data"
+          description = "Allow read access to self assessment data",
+          confidenceLevel = confidenceLevel
         ),
         Scope(
           key = writeScope,
           name = "Change your Self Assessment information",
-          description = "Allow write access to self assessment data"
+          description = "Allow write access to self assessment data",
+          confidenceLevel = confidenceLevel
         )
       ),
       api = APIDefinition(
         name = "#mtd-api# (MTD)",
         description = "#desc#",
         context = appConfig.apiGatewayContext,
-        categories = Seq("INCOME_TAX_MTD"),
         versions = Seq(
           APIVersion(
-            version = VERSION_1,
-            status = buildAPIStatus(VERSION_1),
-            endpointsEnabled = appConfig.endpointsEnabled(VERSION_1)
+            version = Version1,
+            status = buildAPIStatus(Version1),
+            endpointsEnabled = appConfig.endpointsEnabled(version = Version1.name)
           )
         ),
         requiresTrust = None
       )
     )
 
-  private[definition] def buildAPIStatus(version: String): APIStatus = {
+  private[definition] def buildAPIStatus(version: Version): APIStatus = {
     APIStatus.parser
       .lift(appConfig.apiStatus(version))
       .getOrElse {

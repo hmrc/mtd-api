@@ -16,7 +16,7 @@
 
 package v1.models.response.retrieveSample
 
-import api.models.domain.DownstreamTaxYear
+import api.models.domain.TaxYear
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import utils.JsonUtils
@@ -36,7 +36,7 @@ object SampleArrayItem extends JsonUtils {
       (JsPath \ "submittedAmount").readNullable[BigDecimal] and
       (JsPath \ "itemDetail" \ "taxableAmount").readNestedNullable[BigDecimal] and
       (JsPath \ "typeOfItem").read[SampleDownstreamEnum].map(_.toMtdEnum) and
-      (JsPath \ "taxYear").read[String].map(DownstreamTaxYear.fromDownstream(_).value) and
+      (JsPath \ "taxYear").read[String].map(TaxYear.fromDownstream(_).toMtd) and
       (JsPath \ "isFinalised").readWithDefault(defaultValue = false)
   )(SampleArrayItem.apply _)
 

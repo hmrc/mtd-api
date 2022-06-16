@@ -19,15 +19,37 @@ package api.validations
 import api.models.errors.{MtdError, RuleIncorrectOrEmptyBodyError}
 import play.api.Logger
 import play.api.libs.json._
+import utils.{EmptinessChecker, EmptyPathsResult}
 
 object JsonFormatValidation {
 
-  def validate[A: OFormat](data: JsValue): List[MtdError] = {
-    if (data == JsObject.empty) List(RuleIncorrectOrEmptyBodyError)
-    else {
+  private val logger: Logger = Logger(this.getClass)
+
+  def validate[A: OFormat](data: JsValue): List[MtdError] =
+    validateOrRead(data) match {
+      case Left(errors) => errors
+      case Right(_)     => Nil
+    }
+
+  def validateAndCheckNonEmpty[A: OFormat: EmptinessChecker](data: JsValue): List[MtdError] =
+    validateOrRead[A](data) match {
+      case Left(schemaErrors) => schemaErrors
+      case Right(body) =>
+        EmptinessChecker.findEmptyPaths(body) match {
+          case EmptyPathsResult.CompletelyEmpty   => List(RuleIncorrectOrEmptyBodyError)
+          case EmptyPathsResult.EmptyPaths(paths) => List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(paths)))
+          case EmptyPathsResult.NoEmptyPaths      => Nil
+        }
+      case _ => Nil
+    }
+
+  def validateOrRead[A: OFormat](data: JsValue): Either[List[MtdError], A] = {
+    if (data == JsObject.empty) {
+      Left(List(RuleIncorrectOrEmptyBodyError))
+    } else {
       data.validate[A] match {
-        case JsSuccess(body, _) => if (Json.toJson(body) == JsObject.empty) List(RuleIncorrectOrEmptyBodyError) else NoValidationErrors
-        case JsError(errors: Seq[(JsPath, Seq[JsonValidationError])]) => handleErrors(errors)
+        case JsSuccess(a, _)                                          => Right(a)
+        case JsError(errors: Seq[(JsPath, Seq[JsonValidationError])]) => Left(handleErrors(errors))
       }
     }
   }
@@ -47,16 +69,15 @@ object JsonFormatValidation {
       .dropRight(1)
       .drop(5)
 
-    val logger: Logger = Logger(this.getClass)
     logger.warn(s"[JsonFormatValidation][validate] - Request body failed validation with errors - $logString")
     List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(failures.map(_.fromJsPath))))
   }
 
   private class JsonFormatValidationFailure(path: JsPath, failure: String) {
-    val failureReason: String = this.failure
+    val failureReason: String = failure
 
     def fromJsPath: String =
-      this.path
+      path
         .toString()
         .replace("(", "/")
         .replace(")", "")

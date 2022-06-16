@@ -65,7 +65,7 @@ trait JsonErrorValidators {
 
   }
 
-  def testMandatoryProperty[A: Reads](json: JsValue)(property: String): Unit = {
+  def testMandatoryProperty[A](json: JsValue)(property: String)(implicit rds: Reads[A]): Unit = {
     s"the JSON is missing the required property $property" should {
 
       val jsPath: JsPath = property.split("/").filterNot(_ == "").foldLeft(JsPath())(_ \ _)
@@ -86,6 +86,47 @@ trait JsonErrorValidators {
       }
     }
   }
+
+  def testOptionalProperty[A](json: JsValue)(property: String)(implicit rds: Reads[A]): Unit = {
+    s"the JSON is missing the optional property $property" should {
+
+      val jsonWithoutProperty = json.as[JsObject].-(property)
+
+      "not throw any errors" in {
+        jsonWithoutProperty.validate[A].isError shouldBe false
+      }
+
+      "exist in the sample json" in {
+        jsonWithoutProperty should not equal json
+      }
+    }
+  }
+
+  def testJsonProperties[A](json: JsValue)(mandatoryProperties: Seq[String], optionalProperties: Seq[String], modelName: Option[String] = None)(
+    implicit rds: Reads[A]): Unit = {
+    s"For data model ${modelName.fold("")(modelName => s"- $modelName")}" when {
+      mandatoryProperties.foreach(property => testMandatoryProperty(json)(property))
+      optionalProperties.foreach(property => testOptionalProperty(json)(property))
+    }
+  }
+
+  def testJsonAllPropertiesOptionalExcept[A: Reads](json: JsValue)(mandatoryProperties: String*): Unit = {
+    val optionalProperties = json.as[JsObject].fields.map(_._1).filterNot(field => mandatoryProperties.contains(field))
+
+    testJsonProperties(json)(mandatoryProperties, optionalProperties)
+  }
+
+  def testJsonAllPropertiesOptional[A: Reads](json: JsValue): Unit =
+    testJsonAllPropertiesOptionalExcept(json)()
+
+  def testJsonAllPropertiesMandatoryExcept[A: Reads](json: JsValue)(optionalProperties: String*): Unit = {
+    val mandatoryProperties = json.as[JsObject].fields.map(_._1).filterNot(field => optionalProperties.contains(field))
+
+    testJsonProperties(json)(mandatoryProperties, optionalProperties)
+  }
+
+  def testJsonAllPropertiesMandatory[A: Reads](json: JsValue): Unit =
+    testJsonAllPropertiesMandatoryExcept(json)()
 
   def testPropertyType[T](json: JsValue)(path: String, replacement: JsValue, expectedError: String)(implicit rds: Reads[T]): Unit = {
 

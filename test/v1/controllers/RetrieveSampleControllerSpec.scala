@@ -21,7 +21,7 @@ import api.hateoas.HateoasLinks
 import api.mocks.hateoas.MockHateoasFactory
 import api.mocks.requestParsers.MockDeleteRetrieveRequestParser
 import api.mocks.services.{MockDeleteRetrieveService, MockEnrolmentsAuthService, MockMtdIdLookupService}
-import api.models.domain.{DownstreamTaxYear, Nino}
+import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import api.models.hateoas.Method.{DELETE, GET, PUT}
 import api.models.hateoas.RelType.{AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, SELF}
@@ -58,7 +58,7 @@ class RetrieveSampleControllerSpec
 
   val requestData: DeleteRetrieveRequest = DeleteRetrieveRequest(
     nino = Nino(nino),
-    taxYear = DownstreamTaxYear.fromMtd(taxYear)
+    taxYear = TaxYear.fromMtd(taxYear)
   )
 
   val amendSampleLink: Link =

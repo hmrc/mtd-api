@@ -20,7 +20,7 @@ import api.connectors.DownstreamUri
 import api.connectors.DownstreamUri.IfsUri
 import api.controllers.{AuthorisedController, BaseController, EndpointLogContext}
 import api.hateoas.HateoasFactory
-import api.models.domain.DownstreamTaxYear
+import api.models.domain.TaxYear
 import api.models.errors._
 import api.models.request.DeleteRetrieveRawData
 import api.requestParsers.DeleteRetrieveRequestParser
@@ -29,11 +29,10 @@ import cats.data.EitherT
 import cats.implicits._
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import play.mvc.Http.MimeTypes
 import utils.Logging
 import v1.models.response.retrieveSample.{RetrieveSampleHateoasData, RetrieveSampleResponse}
-
 import javax.inject.{Inject, Singleton}
+
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
@@ -60,7 +59,7 @@ class RetrieveSampleController @Inject() (val authService: EnrolmentsAuthService
       )
 
       implicit val downstreamUri: DownstreamUri[RetrieveSampleResponse] = IfsUri[RetrieveSampleResponse](
-        s"sample/$nino/${DownstreamTaxYear.fromMtd(taxYear)}"
+        s"sample/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
       )
 
       val result =
@@ -79,7 +78,6 @@ class RetrieveSampleController @Inject() (val authService: EnrolmentsAuthService
 
           Ok(Json.toJson(vendorResponse))
             .withApiHeaders(serviceResponse.correlationId)
-            .as(MimeTypes.JSON)
         }
 
       result.leftMap { errorWrapper =>
