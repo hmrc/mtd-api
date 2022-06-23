@@ -63,7 +63,7 @@ case class APIDefinition(name: String, description: String, context: String, ver
   require(uniqueVersions, "version numbers must be unique")
 
   private def uniqueVersions: Boolean = {
-    val foundVersions: Seq[Version] = versions.map(_.version)
+    val foundVersions = versions.map(_.version)
     foundVersions.distinct == foundVersions
   }
 
