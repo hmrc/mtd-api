@@ -48,14 +48,14 @@ object JsonFormatValidation {
       Left(List(RuleIncorrectOrEmptyBodyError))
     } else {
       data.validate[A] match {
-        case JsSuccess(a, _)                                          => Right(a)
-        case JsError(errors: Seq[(JsPath, Seq[JsonValidationError])]) => Left(handleErrors(errors))
+        case JsSuccess(a, _)  => Right(a)
+        case jsError: JsError => Left(handleErrors(jsError))
       }
     }
   }
 
-  private def handleErrors(errors: Seq[(JsPath, Seq[JsonValidationError])]): List[MtdError] = {
-    val failures = errors.map {
+  private def handleErrors(jsError: JsError): List[MtdError] = {
+    val failures = jsError.errors.map {
       case (path: JsPath, Seq(JsonValidationError(Seq("error.path.missing"))))                              => MissingMandatoryField(path)
       case (path: JsPath, Seq(JsonValidationError(Seq(error: String)))) if error.contains("error.expected") => WrongFieldType(path)
       case (path: JsPath, _)                                                                                => OtherFailure(path)
@@ -70,7 +70,7 @@ object JsonFormatValidation {
       .drop(5)
 
     logger.warn(s"[JsonFormatValidation][validate] - Request body failed validation with errors - $logString")
-    List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(failures.map(_.fromJsPath))))
+    List(RuleIncorrectOrEmptyBodyError.copy(paths = Some(List.from(failures.map(_.fromJsPath)))))
   }
 
   private class JsonFormatValidationFailure(path: JsPath, failure: String) {

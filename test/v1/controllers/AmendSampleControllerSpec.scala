@@ -150,7 +150,7 @@ class AmendSampleControllerSpec
           detail = detail
         )
 
-        MockAuditService.verifyAuditEvent(event).once
+        MockAuditService.verifyAuditEvent(event).once()
       }
     }
 
@@ -189,7 +189,7 @@ class AmendSampleControllerSpec
               detail = detail
             )
 
-            MockAuditService.verifyAuditEvent(event).once
+            MockAuditService.verifyAuditEvent(event).once()
           }
         }
 
@@ -244,7 +244,7 @@ class AmendSampleControllerSpec
               detail = detail
             )
 
-            MockAuditService.verifyAuditEvent(event).once
+            MockAuditService.verifyAuditEvent(event).once()
           }
         }
 
