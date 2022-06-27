@@ -55,7 +55,7 @@ class VersionRoutingRequestHandlerSpec extends UnitSpec with Inside with MockApp
   }
 
   private val routingMap = new VersionRoutingMap {
-    override val defaultRouter: Router    = test.defaultRouter
+    override val defaultRouter: Router     = test.defaultRouter
     override val map: Map[Version, Router] = Map(Version1 -> v1Router)
   }
 
@@ -63,7 +63,8 @@ class VersionRoutingRequestHandlerSpec extends UnitSpec with Inside with MockApp
     val httpConfiguration: HttpConfiguration = HttpConfiguration("context")
     private val errorHandler                 = mock[HttpErrorHandler]
     private val filters                      = mock[HttpFilters]
-    (filters.filters _).stubs().returns(Seq.empty)
+
+    (() => filters.filters).stubs().returns(Nil)
 
     MockAppConfig.featureSwitch.returns(Some(Configuration(ConfigFactory.parseString("""
                                                                            |version-1.enabled = true

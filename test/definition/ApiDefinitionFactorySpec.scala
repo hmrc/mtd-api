@@ -35,9 +35,11 @@ class ApiDefinitionFactorySpec extends UnitSpec with MockAppConfig {
     "there is no appConfig.apiStatus" should {
       "default apiStatus to ALPHA" in new Test {
         MockAppConfig.apiGatewayContext returns "mtd/template"
-        MockAppConfig.apiStatus(Version1) returns "" anyNumberOfTimes ()
-        MockAppConfig.endpointsEnabled(version = Version1.name) returns false anyNumberOfTimes ()
-        MockAppConfig.confidenceLevelCheckEnabled returns ConfidenceLevelConfig(definitionEnabled = true, authValidationEnabled = true) anyNumberOfTimes ()
+        MockAppConfig.apiStatus(Version1).returns("").anyNumberOfTimes()
+        MockAppConfig.endpointsEnabled(Version1).returns(false).anyNumberOfTimes()
+        MockAppConfig.confidenceLevelCheckEnabled
+          .returns(ConfidenceLevelConfig(definitionEnabled = true, authValidationEnabled = true))
+          .anyNumberOfTimes()
 
         private val readScope  = "read:self-assessment"
         private val writeScope = "write:self-assessment"
@@ -80,15 +82,13 @@ class ApiDefinitionFactorySpec extends UnitSpec with MockAppConfig {
     Seq(
       (true, ConfidenceLevel.L200),
       (false, ConfidenceLevel.L50)
-    ).foreach {
-      case (definitionEnabled, cl) =>
-        s"confidence-level-check.definition.enabled is $definitionEnabled in config" should {
-          s"return $cl" in new Test {
-            MockAppConfig.confidenceLevelCheckEnabled returns ConfidenceLevelConfig(definitionEnabled = definitionEnabled,
-              authValidationEnabled = true)
-            factory.confidenceLevel shouldBe cl
-          }
+    ).foreach { case (definitionEnabled, cl) =>
+      s"confidence-level-check.definition.enabled is $definitionEnabled in config" should {
+        s"return $cl" in new Test {
+          MockAppConfig.confidenceLevelCheckEnabled returns ConfidenceLevelConfig(definitionEnabled = definitionEnabled, authValidationEnabled = true)
+          factory.confidenceLevel shouldBe cl
         }
+      }
     }
   }
 

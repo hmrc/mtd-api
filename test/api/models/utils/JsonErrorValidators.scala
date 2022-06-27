@@ -46,7 +46,7 @@ trait JsonErrorValidators {
   implicit class JsResultOps[T](res: JsResult[T]) {
 
     def errors: JsErrors = res match {
-      case JsError(jsErrors) => jsErrors
+      case JsError(jsErrors) => jsErrors.map(item => (item._1, item._2.toList)).toList
       case JsSuccess(_, _)   => fail("A JSON error was expected")
     }
 
@@ -103,7 +103,7 @@ trait JsonErrorValidators {
   }
 
   def testJsonProperties[A](json: JsValue)(mandatoryProperties: Seq[String], optionalProperties: Seq[String], modelName: Option[String] = None)(
-    implicit rds: Reads[A]): Unit = {
+      implicit rds: Reads[A]): Unit = {
     s"For data model ${modelName.fold("")(modelName => s"- $modelName")}" when {
       mandatoryProperties.foreach(property => testMandatoryProperty(json)(property))
       optionalProperties.foreach(property => testOptionalProperty(json)(property))
@@ -111,7 +111,7 @@ trait JsonErrorValidators {
   }
 
   def testJsonAllPropertiesOptionalExcept[A: Reads](json: JsValue)(mandatoryProperties: String*): Unit = {
-    val optionalProperties = json.as[JsObject].fields.map(_._1).filterNot(field => mandatoryProperties.contains(field))
+    val optionalProperties = json.as[JsObject].fields.map(_._1).filterNot(field => mandatoryProperties.contains(field)).toList
 
     testJsonProperties(json)(mandatoryProperties, optionalProperties)
   }
@@ -120,7 +120,7 @@ trait JsonErrorValidators {
     testJsonAllPropertiesOptionalExcept(json)()
 
   def testJsonAllPropertiesMandatoryExcept[A: Reads](json: JsValue)(optionalProperties: String*): Unit = {
-    val mandatoryProperties = json.as[JsObject].fields.map(_._1).filterNot(field => optionalProperties.contains(field))
+    val mandatoryProperties = json.as[JsObject].fields.map(_._1).filterNot(field => optionalProperties.contains(field)).toList
 
     testJsonProperties(json)(mandatoryProperties, optionalProperties)
   }
@@ -165,12 +165,11 @@ trait JsonErrorValidators {
     json.as[JsObject](updateReads)
   }
 
-  private def filterErrorByPath(jsPath: JsPath, jsError: JsError): JsonValidationError = {
+  private def filterErrorByPath(jsPath: JsPath, jsError: JsError): JsonValidationError =
     jsError match {
       case (path, err :: Nil) if jsError.path == path => err
       case (path, _ :: Nil)                           => fail(s"single error returned but path $path does not match $jsPath")
-      case (path, errs @ _ :: _)                      => fail(s"multiple errors returned for $path but only 1 required : $errs")
+      case (path, errs)                               => fail(s"multiple errors returned for $path but only 1 required : $errs")
     }
-  }
 
 }

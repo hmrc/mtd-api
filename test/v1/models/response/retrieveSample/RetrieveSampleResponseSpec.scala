@@ -243,7 +243,7 @@ class RetrieveSampleResponseSpec extends UnitSpec with JsonErrorValidators with 
   "Links Factory" should {
 
     "expose the correct links" in {
-      MockAppConfig.apiGatewayContext.returns("mtd/template").anyNumberOfTimes
+      MockAppConfig.apiGatewayContext.returns("mtd/template").anyNumberOfTimes()
       RetrieveSampleResponse.RetrieveSampleLinksFactory.links(mockAppConfig, RetrieveSampleHateoasData(nino, taxYear)) shouldBe
         Seq(
           Link(s"/mtd/template/sample/$nino/$taxYear", PUT, "amend-sample-rel"),
