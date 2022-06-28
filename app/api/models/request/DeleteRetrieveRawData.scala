@@ -16,4 +16,6 @@
 
 package api.models.request
 
+import api.models.RawData
+
 case class DeleteRetrieveRawData(nino: String, taxYear: String) extends RawData

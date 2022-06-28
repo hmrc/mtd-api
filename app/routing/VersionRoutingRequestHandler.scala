@@ -23,23 +23,24 @@ import play.api.libs.json.Json
 import play.api.mvc.{DefaultActionBuilder, Handler, RequestHeader, Results}
 import play.api.routing.Router
 import play.core.DefaultWebCommands
+
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class VersionRoutingRequestHandler @Inject()(versionRoutingMap: VersionRoutingMap,
-                                             errorHandler: HttpErrorHandler,
-                                             httpConfiguration: HttpConfiguration,
-                                             config: AppConfig,
-                                             filters: HttpFilters,
-                                             action: DefaultActionBuilder)
-  extends DefaultHttpRequestHandler(
-    webCommands = new DefaultWebCommands,
-    optDevContext = None,
-    router = versionRoutingMap.defaultRouter,
-    errorHandler = errorHandler,
-    configuration = httpConfiguration,
-    filters = filters.filters
-  ) {
+class VersionRoutingRequestHandler @Inject() (versionRoutingMap: VersionRoutingMap,
+                                              errorHandler: HttpErrorHandler,
+                                              httpConfiguration: HttpConfiguration,
+                                              config: AppConfig,
+                                              filters: HttpFilters,
+                                              action: DefaultActionBuilder)
+    extends DefaultHttpRequestHandler(
+      webCommands = new DefaultWebCommands,
+      optDevContext = None,
+      router = versionRoutingMap.defaultRouter,
+      errorHandler = errorHandler,
+      configuration = httpConfiguration,
+      filters = filters.filters
+    ) {
 
   private val featureSwitch = FeatureSwitch(config.featureSwitch)
 
@@ -65,8 +66,7 @@ class VersionRoutingRequestHandler @Inject()(versionRoutingMap: VersionRoutingMa
     documentHandler orElse apiHandler
   }
 
-  /**
-    * If a route isn't found for this version, fall back to previous available.
+  /** If a route isn't found for this version, fall back to previous available.
     */
   private def findRoute(request: RequestHeader, version: Version): Option[Handler] = {
     val found =

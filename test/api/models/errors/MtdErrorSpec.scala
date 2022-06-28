@@ -22,15 +22,19 @@ import support.UnitSpec
 class MtdErrorSpec extends UnitSpec {
 
   "writes" should {
-    "generate the correct JSON" in {
-      Json.toJson(MtdError("CODE", "some message")) shouldBe Json.parse(
-        """
-          |{
-          |   "code": "CODE",
-          |   "message": "some message"
-          |}
+
+    val mtdError = MtdError("CODE", "some message")
+    val errorJson = Json.parse(
+      """
+        |{
+        |   "code": "CODE",
+        |   "message": "some message"
+        |}
         """.stripMargin
-      )
+    )
+
+    "generate the correct JSON" in {
+      Json.toJson(mtdError) shouldBe errorJson
     }
   }
 

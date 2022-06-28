@@ -17,9 +17,8 @@
 package api.connectors
 
 import api.connectors.DownstreamUri.IfsUri
-import api.mocks.MockHttpClient
-import api.models.outcomes.ResponseWrapper
-import mocks.MockAppConfig
+import api.models.ResponseWrapper
+import config.MockAppConfig
 import play.api.libs.json.{Json, Reads}
 
 import scala.concurrent.Future

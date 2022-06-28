@@ -16,9 +16,10 @@
 
 package api.requestParsers
 
-import api.models.domain.{TaxYear, Nino}
+import api.controllers.RequestParser
+import api.models.domain.{Nino, TaxYear}
 import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
-import api.requestParsers.validators.DeleteRetrieveValidator
+import api.validations.DeleteRetrieveValidator
 
 import javax.inject.Inject
 

@@ -17,8 +17,8 @@
 package api.support
 
 import api.controllers.EndpointLogContext
+import api.models.ResponseWrapper
 import api.models.errors._
-import api.models.outcomes.ResponseWrapper
 import play.api.libs.json.{JsObject, Json, Writes}
 import utils.Logging
 
@@ -61,5 +61,6 @@ trait DownstreamResponseMappingSupport {
         ErrorWrapper(Some(correlationId), error, errors)
     }
   }
+// We'd be going into the office once/month for sprint planning, story refinement & sprint retrospective - for contractors this should keep us still outside IR35
 
 }
