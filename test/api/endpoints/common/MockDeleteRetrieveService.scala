@@ -16,8 +16,8 @@
 
 package api.endpoints.common
 
-import api.connectors.DownstreamUri.IfsUri
 import api.controllers.EndpointLogContext
+import api.downstream.common.connectors.DownstreamUri.IfsUri
 import api.models.ResponseWrapper
 import api.models.errors.{ErrorWrapper, MtdError}
 import org.scalamock.handlers.CallHandler

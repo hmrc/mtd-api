@@ -16,8 +16,8 @@
 
 package api.endpoints.common
 
-import api.connectors.{DeleteRetrieveConnector, DownstreamUri}
 import api.controllers.EndpointLogContext
+import api.downstream.common.connectors.{DeleteRetrieveConnector, DownstreamUri}
 import api.models.ResponseWrapper
 import api.models.errors._
 import api.support.DownstreamResponseMappingSupport

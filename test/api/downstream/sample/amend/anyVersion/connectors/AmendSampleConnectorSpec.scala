@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package api.endpoints.sample.connector.anyVersion
+package api.downstream.sample.amend.anyVersion.connectors
 
-import api.connectors.{ConnectorSpec, MockHttpClient}
+import api.downstream.common.connectors.{ConnectorSpec, MockHttpClient}
 import api.endpoints.sample.amend.v1
 import api.endpoints.sample.amend.v1.request.{AmendSampleRequest, AmendSampleRequestBody}
 import api.models.ResponseWrapper

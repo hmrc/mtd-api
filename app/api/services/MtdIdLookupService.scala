@@ -16,7 +16,7 @@
 
 package api.services
 
-import api.connectors.{MtdIdLookupConnector, MtdIdLookupOutcome}
+import api.downstream.common.connectors.{MtdIdLookupConnector, MtdIdLookupOutcome}
 import api.models.domain.Nino
 import api.models.errors.NinoFormatError
 import uk.gov.hmrc.http.HeaderCarrier

@@ -16,9 +16,9 @@
 
 package api.endpoints.sample.amend.v1
 
-import api.connectors.DownstreamOutcome
+import api.downstream.common.connectors.DownstreamOutcome
+import api.downstream.sample.amend.anyVersion.connectors.AmendSampleConnector
 import api.endpoints.sample.amend.v1.request.AmendSampleRequest
-import api.endpoints.sample.connector.anyVersion.AmendSampleConnector
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier

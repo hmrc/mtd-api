@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package api.connectors
+package api.downstream.common.connectors
 
-import api.connectors.DownstreamUri.{DesUri, IfsUri}
+import api.downstream.common.connectors.DownstreamUri.{DesUri, IfsUri}
 import api.models.ResponseWrapper
 import config.{AppConfig, MockAppConfig}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads}

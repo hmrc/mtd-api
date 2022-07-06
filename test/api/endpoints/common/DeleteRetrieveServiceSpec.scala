@@ -16,9 +16,9 @@
 
 package api.endpoints.common
 
-import api.connectors.DownstreamUri.IfsUri
-import api.connectors.MockDeleteRetrieveConnector
 import api.controllers.EndpointLogContext
+import api.downstream.common.connectors.DownstreamUri.IfsUri
+import api.downstream.common.connectors.MockDeleteRetrieveConnector
 import api.models.ResponseWrapper
 import api.models.errors._
 import api.services.ServiceSpec

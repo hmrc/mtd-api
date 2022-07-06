@@ -16,7 +16,7 @@
 
 package api.services
 
-import api.connectors.MtdIdLookupOutcome
+import api.downstream.common.connectors.MtdIdLookupOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier

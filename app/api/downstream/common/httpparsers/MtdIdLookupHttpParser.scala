@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package api.connectors.httpparsers
+package api.downstream.common.httpparsers
 
-import api.connectors.MtdIdLookupOutcome
+import api.downstream.common.connectors.MtdIdLookupOutcome
 import api.models.errors.{InvalidBearerTokenError, NinoFormatError, StandardDownstreamError}
 import play.api.http.Status.{FORBIDDEN, OK, UNAUTHORIZED}
 import play.api.libs.json._

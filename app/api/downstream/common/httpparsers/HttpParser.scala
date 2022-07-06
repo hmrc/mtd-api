@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package api.connectors.httpparsers
+package api.downstream.common.httpparsers
 
 import api.models.errors._
 import play.api.libs.json._

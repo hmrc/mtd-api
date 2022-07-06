@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package api.connectors.httpparsers
+package api.downstream.common.httpparsers
 
-import api.connectors.DownstreamOutcome
+import api.downstream.common.connectors.DownstreamOutcome
 import api.models.ResponseWrapper
 import api.models.errors._
 import play.api.http.Status._
@@ -38,7 +38,7 @@ class StandardDownstreamHttpParserSpec extends UnitSpec {
 
   val correlationId = "a1e8057e-fbbc-47a8-a8b4-78d9f015c253"
 
-  import api.connectors.httpparsers.StandardDownstreamHttpParser._
+  import api.downstream.common.httpparsers.StandardDownstreamHttpParser._
 
   val httpReads: HttpReads[DownstreamOutcome[Unit]] = implicitly
 

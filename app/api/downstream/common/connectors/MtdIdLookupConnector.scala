@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-package api.endpoints.sample.connector.anyVersion
+package api.downstream.common.connectors
 
-import api.connectors.DownstreamUri.IfsUri
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
-import api.endpoints.sample.amend.v1.request.AmendSampleRequest
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 
@@ -26,19 +23,12 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendSampleConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
+class MtdIdLookupConnector @Inject() (http: HttpClient, appConfig: AppConfig) {
 
-  def amendSample(request: AmendSampleRequest)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[DownstreamOutcome[Unit]] = {
+  def getMtdId(nino: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[MtdIdLookupOutcome] = {
+    import api.downstream.common.httpparsers.MtdIdLookupHttpParser.mtdIdLookupHttpReads
 
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
-
-    val nino    = request.nino.nino
-    val taxYear = request.downstreamTaxYear
-
-    put(
-      body = request.body,
-      IfsUri[Unit](s"some-placeholder/template/$nino/${taxYear.toDownstream}")
-    )
+    http.GET[MtdIdLookupOutcome](s"${appConfig.mtdIdBaseUrl}/mtd-identifier-lookup/nino/$nino")
   }
 
 }

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package api.connectors.httpparsers
+package api.downstream.common.httpparsers
 
-import api.connectors.DownstreamOutcome
+import api.downstream.common.connectors.DownstreamOutcome
 import api.models.ResponseWrapper
 import api.models.errors.{OutboundError, StandardDownstreamError}
 import play.api.http.Status._

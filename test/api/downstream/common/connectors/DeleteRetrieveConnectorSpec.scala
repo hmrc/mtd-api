@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package api.connectors
+package api.downstream.common.connectors
 
-import api.connectors.DownstreamUri.IfsUri
+import api.downstream.common.connectors.DownstreamUri.IfsUri
 import api.models.ResponseWrapper
 import config.MockAppConfig
 import play.api.libs.json.{Json, Reads}

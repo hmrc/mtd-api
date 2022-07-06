@@ -17,8 +17,8 @@
 package api.endpoints.sample.amend.v1
 
 import api.controllers.EndpointLogContext
+import api.downstream.sample.amend.anyVersion.connectors.AmendSampleConnector
 import api.endpoints.sample.amend.v1.request.AmendSampleRequest
-import api.endpoints.sample.connector.anyVersion.AmendSampleConnector
 import api.models.ResponseWrapper
 import api.models.errors._
 import api.support.DownstreamResponseMappingSupport

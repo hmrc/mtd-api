@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package api.connectors
+package api.downstream.common.connectors
 
 import play.api.http.{HeaderNames, MimeTypes, Status}
 import support.UnitSpec

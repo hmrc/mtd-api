@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package api.connectors
+package api.downstream.common.connectors
 
 import config.AppConfig
 import play.api.libs.json.Reads
@@ -27,7 +27,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class DeleteRetrieveConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
 
   def delete()(implicit hc: HeaderCarrier, ec: ExecutionContext, downstreamUri: DownstreamUri[Unit]): Future[DownstreamOutcome[Unit]] = {
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
+    import api.downstream.common.httpparsers.StandardDownstreamHttpParser._
 
     delete(uri = downstreamUri)
   }
@@ -36,7 +36,7 @@ class DeleteRetrieveConnector @Inject() (val http: HttpClient, val appConfig: Ap
       hc: HeaderCarrier,
       ec: ExecutionContext,
       downstreamUri: DownstreamUri[Resp]): Future[DownstreamOutcome[Resp]] = {
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
+    import api.downstream.common.httpparsers.StandardDownstreamHttpParser._
 
     get(uri = downstreamUri)
   }

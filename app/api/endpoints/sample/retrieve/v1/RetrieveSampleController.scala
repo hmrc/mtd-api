@@ -16,9 +16,9 @@
 
 package api.endpoints.sample.retrieve.v1
 
-import api.connectors.DownstreamUri
-import api.connectors.DownstreamUri.IfsUri
 import api.controllers.{AuthorisedController, BaseController, EndpointLogContext}
+import api.downstream.common.connectors.DownstreamUri
+import api.downstream.common.connectors.DownstreamUri.IfsUri
 import api.endpoints.common.DeleteRetrieveService
 import api.endpoints.sample.retrieve.v1.response.{RetrieveSampleHateoasData, RetrieveSampleResponse}
 import api.hateoas.HateoasFactory

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package api
+package api.downstream.common.connectors
 
-import api.models.ResponseWrapper
-import api.models.errors.{DownstreamError, MtdError}
+sealed trait DownstreamUri[Resp] {
+  val value: String
+}
 
-package object connectors {
+object DownstreamUri {
+  final case class DesUri[Resp](value: String) extends DownstreamUri[Resp]
 
-  type MtdIdLookupOutcome = Either[MtdError, String]
-
-  type DownstreamOutcome[A] = Either[ResponseWrapper[DownstreamError], ResponseWrapper[A]]
+  final case class IfsUri[Resp](value: String) extends DownstreamUri[Resp]
 }

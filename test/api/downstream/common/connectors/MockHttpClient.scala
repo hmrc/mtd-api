@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package api.connectors
+package api.downstream.common.connectors
 
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
