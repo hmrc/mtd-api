@@ -70,6 +70,7 @@ All of these packages contain classes common to all versions, except for `endpoi
 api
 |__ connectors
 |__ controllers
+|__ downstream
 |__ endpoints
 |__ hateoas
 |__ mocks
@@ -79,6 +80,25 @@ api
 |__ anyVersion  - common eg JsonValidation, NumberValidation
 ```
 
+## downstream
+
+This contains the layer of classes responsible for connecting out to downstream services.
+
+They're divided into:
+
+```
+downstream
+  |__ common
+  |__ sample
+```
+
+`common` contains e.g. common parent classes, helpers etc.
+Other, feature-specific connectors go in their own package here, e.g. `sample`.
+There's usually (though not necessarily) a direct correlation between the downstream endpoint and the MTD endpoint calling it.
+
+Note that the downstream connectors aren't matched up with the MTD endpoint versions, as they would follow their own versioning scheme if any.
+
+
 ## endpoints
 
 Each package contains business-specific endpoints grouped together, e.g. all the Sample actions are under `sample`.
@@ -87,10 +107,9 @@ Beneath either one are the "CRUD" endpoints - create, delete, amend etc:
 ```
 endpoints
   |__ sample      - Sample endpoints
-  |__ connector
   |__ domain
 ```
-`connector` and `domain` contain code that can be version-specific, but shared by different endpoints in the same group:
+`domain` contains code that can be version-specific, but shared by different endpoints in the same group:
 ```
 sample
   |__ connector
@@ -125,6 +144,8 @@ Removing an older API version is no longer as simple as deleting the top-level "
 1. Find all the `v2` packages beneath `endpoints` (there may be one or two others under, e.g. `models.errors.v2` & `validations.v2`).
 2. Where the `v2` has a `v3` equivalent, simply delete `v2`.
 3. If there's no `v3` (i.e. the router uses `v2` as a fallback), rename `v2` to `v3` - also update in `v3.routes`.
+
+It's also worth checking whether any downstream connectors are no longer used and can be deleted.
 
 
 ## Request Router
