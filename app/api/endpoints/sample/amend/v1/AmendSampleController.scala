@@ -65,7 +65,7 @@ class AmendSampleController @Inject() (val authService: EnrolmentsAuthService,
       val result =
         for {
           parsedRequest   <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
-          serviceResponse <- EitherT(service.amendSample(parsedRequest))
+          serviceResponse <- EitherT(service.amend(parsedRequest))
         } yield {
           logger.info(
             s"[${endpointLogContext.controllerName}][${endpointLogContext.endpointName}] - " +

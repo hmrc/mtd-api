@@ -17,16 +17,11 @@
 package api.endpoints.sample.retrieve.v1
 
 import api.controllers.{AuthorisedController, BaseController, EndpointLogContext}
-import api.downstream.common.connectors.DownstreamUri
-import api.downstream.common.connectors.DownstreamUri.IfsUri
-import api.endpoints.common.DeleteRetrieveService
-import api.endpoints.sample.retrieve.v1.response.{RetrieveSampleHateoasData, RetrieveSampleResponse}
+import api.endpoints.sample.retrieve.v1.request.{RetrieveSampleParser, RetrieveSampleRawData}
+import api.endpoints.sample.retrieve.v1.response.RetrieveSampleHateoasData
 import api.hateoas.HateoasFactory
-import api.models.domain.TaxYear
 import api.models.errors._
 import api.models.errors.v1.{RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError}
-import api.models.request.DeleteRetrieveRawData
-import api.requestParsers.DeleteRetrieveRequestParser
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import cats.data.EitherT
 import cats.implicits._
@@ -40,8 +35,8 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class RetrieveSampleController @Inject() (val authService: EnrolmentsAuthService,
                                           val lookupService: MtdIdLookupService,
-                                          requestParser: DeleteRetrieveRequestParser,
-                                          service: DeleteRetrieveService,
+                                          requestParser: RetrieveSampleParser,
+                                          service: RetrieveSampleService,
                                           hateoasFactory: HateoasFactory,
                                           cc: ControllerComponents)(implicit ec: ExecutionContext)
     extends AuthorisedController(cc)
@@ -55,19 +50,15 @@ class RetrieveSampleController @Inject() (val authService: EnrolmentsAuthService
 
   def retrieveSample(nino: String, taxYear: String): Action[AnyContent] =
     authorisedAction(nino).async { implicit request =>
-      val rawData: DeleteRetrieveRawData = DeleteRetrieveRawData(
+      val rawData: RetrieveSampleRawData = RetrieveSampleRawData(
         nino = nino,
         taxYear = taxYear
       )
 
-      implicit val downstreamUri: DownstreamUri[RetrieveSampleResponse] = IfsUri[RetrieveSampleResponse](
-        s"sample/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
-      )
-
       val result =
         for {
-          _               <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
-          serviceResponse <- EitherT(service.retrieve[RetrieveSampleResponse]())
+          parsedRequest   <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
+          serviceResponse <- EitherT(service.retrieve(parsedRequest))
           vendorResponse <- EitherT.fromEither[Future](
             hateoasFactory
               .wrap(serviceResponse.responseData, RetrieveSampleHateoasData(nino, taxYear))

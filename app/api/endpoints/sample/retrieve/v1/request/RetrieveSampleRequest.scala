@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-package api.requestParsers
+package api.endpoints.sample.retrieve.v1.request
 
-import api.controllers.RequestParser
+import api.models.RawData
 import api.models.domain.{Nino, TaxYear}
-import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
-import api.validations.DeleteRetrieveValidator
 
-import javax.inject.Inject
+case class RetrieveSampleRawData(nino: String, taxYear: String) extends RawData
 
-class DeleteRetrieveRequestParser @Inject() (val validator: DeleteRetrieveValidator)
-    extends RequestParser[DeleteRetrieveRawData, DeleteRetrieveRequest] {
-
-  override protected def requestFor(data: DeleteRetrieveRawData): DeleteRetrieveRequest =
-    DeleteRetrieveRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear))
-
-}
+case class RetrieveSampleRequest(nino: Nino, downstreamTaxYear: TaxYear)

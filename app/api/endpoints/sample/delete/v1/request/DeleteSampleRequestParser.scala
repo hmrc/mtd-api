@@ -14,24 +14,16 @@
  * limitations under the License.
  */
 
-package api.validations
+package api.endpoints.sample.delete.v1.request
 
-import api.models.errors.MtdError
-import api.models.request.DeleteRetrieveRawData
-import org.scalamock.handlers.CallHandler1
-import org.scalamock.scalatest.MockFactory
+import api.controllers.RequestParser
+import api.models.domain.{Nino, TaxYear}
 
-trait MockDeleteRetrieveValidator extends MockFactory {
+import javax.inject.Inject
 
-  val mockDeleteRetrieveValidator = mock[DeleteRetrieveValidator]
+class DeleteSampleRequestParser @Inject() (val validator: DeleteSampleValidator) extends RequestParser[DeleteSampleRawData, DeleteSampleRequest] {
 
-  object MockDeleteRetrieveValidator {
-
-    def validate(data: DeleteRetrieveRawData): CallHandler1[DeleteRetrieveRawData, List[MtdError]] =
-      (mockDeleteRetrieveValidator
-        .validate(_: DeleteRetrieveRawData))
-        .expects(data)
-
-  }
+  override protected def requestFor(data: DeleteSampleRawData): DeleteSampleRequest =
+    DeleteSampleRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear))
 
 }

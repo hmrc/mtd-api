@@ -14,28 +14,41 @@
  * limitations under the License.
  */
 
-package api.endpoints.sample.amend.v1
+package api.downstream.sample.connectors
 
 import api.downstream.common.connectors.DownstreamOutcome
-import api.downstream.sample.amend.anyVersion.connectors.AmendSampleConnector
 import api.endpoints.sample.amend.v1.request.AmendSampleRequest
+import api.endpoints.sample.delete.v1.request.DeleteSampleRequest
+import api.endpoints.sample.retrieve.v1.request.RetrieveSampleRequest
+import api.endpoints.sample.retrieve.v1.response.RetrieveSampleResponse
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockAmendSampleConnector extends MockFactory {
+trait MockSampleConnector extends MockFactory {
 
-  val mockAmendSampleConnector: AmendSampleConnector = mock[AmendSampleConnector]
+  val mockSampleConnector: SampleConnector = mock[SampleConnector]
 
-  object MockAmendSampleConnector {
+  object MockSampleConnector {
 
     def amendSample(requestData: AmendSampleRequest): CallHandler[Future[DownstreamOutcome[Unit]]] = {
-      (mockAmendSampleConnector
+      (mockSampleConnector
         .amendSample(_: AmendSampleRequest)(_: HeaderCarrier, _: ExecutionContext))
         .expects(requestData, *, *)
     }
+
+    def deleteSample(requestData: DeleteSampleRequest): CallHandler[Future[DownstreamOutcome[Unit]]] = {
+      (mockSampleConnector
+        .deleteSample(_: DeleteSampleRequest)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(requestData, *, *)
+    }
+
+    def retrieveSample(requestData: RetrieveSampleRequest): CallHandler[Future[DownstreamOutcome[RetrieveSampleResponse]]] =
+      (mockSampleConnector
+        .retrieveSample(_: RetrieveSampleRequest)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(requestData, *, *)
 
   }
 

@@ -17,14 +17,9 @@
 package api.endpoints.sample.delete.v1
 
 import api.controllers.{AuthorisedController, BaseController, EndpointLogContext}
-import api.downstream.common.connectors.DownstreamUri
-import api.downstream.common.connectors.DownstreamUri.IfsUri
-import api.endpoints.common.DeleteRetrieveService
-import api.models.domain.TaxYear
+import api.endpoints.sample.delete.v1.request.{DeleteSampleRawData, DeleteSampleRequestParser}
 import api.models.errors._
 import api.models.errors.v1.{RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError}
-import api.models.request.DeleteRetrieveRawData
-import api.requestParsers.DeleteRetrieveRequestParser
 import api.services.{EnrolmentsAuthService, MtdIdLookupService}
 import cats.data.EitherT
 import cats.implicits._
@@ -38,8 +33,8 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class DeleteSampleController @Inject() (val authService: EnrolmentsAuthService,
                                         val lookupService: MtdIdLookupService,
-                                        requestParser: DeleteRetrieveRequestParser,
-                                        service: DeleteRetrieveService,
+                                        requestParser: DeleteSampleRequestParser,
+                                        service: DeleteSampleService,
                                         cc: ControllerComponents)(implicit ec: ExecutionContext)
     extends AuthorisedController(cc)
     with BaseController
@@ -52,19 +47,15 @@ class DeleteSampleController @Inject() (val authService: EnrolmentsAuthService,
 
   def deleteSample(nino: String, taxYear: String): Action[AnyContent] =
     authorisedAction(nino).async { implicit request =>
-      val rawData: DeleteRetrieveRawData = DeleteRetrieveRawData(
+      val rawData: DeleteSampleRawData = DeleteSampleRawData(
         nino = nino,
         taxYear = taxYear
       )
 
-      implicit val downstreamUri: DownstreamUri[Unit] = IfsUri[Unit](
-        s"sample/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
-      )
-
       val result =
         for {
-          _               <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
-          serviceResponse <- EitherT(service.delete())
+          parsedRequest   <- EitherT.fromEither[Future](requestParser.parseRequest(rawData))
+          serviceResponse <- EitherT(service.delete(parsedRequest))
         } yield {
           logger.info(
             message = s"[${endpointLogContext.controllerName}][${endpointLogContext.endpointName}] - " +
@@ -76,9 +67,7 @@ class DeleteSampleController @Inject() (val authService: EnrolmentsAuthService,
 
       result.leftMap { errorWrapper =>
         val correlationId = getCorrelationId(errorWrapper)
-        val result        = errorResult(errorWrapper).withApiHeaders(correlationId)
-
-        result
+        errorResult(errorWrapper).withApiHeaders(correlationId)
       }.merge
     }
 

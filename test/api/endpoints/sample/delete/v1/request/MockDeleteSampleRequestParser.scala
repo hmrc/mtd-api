@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package api.endpoints.sample.amend.v1
+package api.endpoints.sample.delete.v1.request
 
-import api.endpoints.sample.amend.v1.request.AmendSampleRequest
-import api.models.ResponseWrapper
 import api.models.errors.ErrorWrapper
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import uk.gov.hmrc.http.HeaderCarrier
 
-import scala.concurrent.{ExecutionContext, Future}
+trait MockDeleteSampleRequestParser extends MockFactory {
 
-trait MockAmendSampleService extends MockFactory {
+  val mockDeleteSampleRequestParser: DeleteSampleRequestParser = mock[DeleteSampleRequestParser]
 
-  val mockAmendSampleService: AmendSampleService = mock[AmendSampleService]
+  object MockDeleteSampleRequestParser {
 
-  object MockAmendSampleService {
-
-    def amendSample(requestData: AmendSampleRequest): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Unit]]]] = {
-      (mockAmendSampleService
-        .amend(_: AmendSampleRequest)(_: HeaderCarrier, _: ExecutionContext))
-        .expects(requestData, *, *)
-    }
+    def parse(data: DeleteSampleRawData): CallHandler[Either[ErrorWrapper, DeleteSampleRequest]] =
+      (mockDeleteSampleRequestParser.parseRequest(_: DeleteSampleRawData)).expects(data)
 
   }
 

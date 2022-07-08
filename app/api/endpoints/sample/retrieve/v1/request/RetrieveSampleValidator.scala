@@ -14,32 +14,32 @@
  * limitations under the License.
  */
 
-package api.validations
+package api.endpoints.sample.retrieve.v1.request
 
 import api.models.errors.MtdError
-import api.models.request.DeleteRetrieveRawData
+import api.validations.Validator
 import api.validations.anyVersion.NinoValidation
 import api.validations.v1.{TaxYearNotSupportedValidation, TaxYearValidation}
 import config.AppConfig
 
 import javax.inject.Inject
 
-class DeleteRetrieveValidator @Inject() (implicit appConfig: AppConfig) extends Validator[DeleteRetrieveRawData] {
+class RetrieveSampleValidator @Inject() (implicit appConfig: AppConfig) extends Validator[RetrieveSampleRawData] {
 
   private val validationSet = List(parameterFormatValidation, parameterRuleValidation)
 
-  override def validate(data: DeleteRetrieveRawData): List[MtdError] = {
+  override def validate(data: RetrieveSampleRawData): List[MtdError] = {
     run(validationSet, data).distinct
   }
 
-  private def parameterFormatValidation: DeleteRetrieveRawData => List[List[MtdError]] = (data: DeleteRetrieveRawData) => {
+  private def parameterFormatValidation: RetrieveSampleRawData => List[List[MtdError]] = (data: RetrieveSampleRawData) => {
     List(
       NinoValidation.validate(data.nino),
       TaxYearValidation.validate(data.taxYear)
     )
   }
 
-  private def parameterRuleValidation: DeleteRetrieveRawData => List[List[MtdError]] = (data: DeleteRetrieveRawData) => {
+  private def parameterRuleValidation: RetrieveSampleRawData => List[List[MtdError]] = (data: RetrieveSampleRawData) => {
     List(
       TaxYearNotSupportedValidation.validate(data.taxYear)
     )

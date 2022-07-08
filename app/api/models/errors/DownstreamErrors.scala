@@ -28,7 +28,7 @@ object DownstreamErrorCode {
 
 sealed trait DownstreamError
 
-case class DownstreamErrors(errors: List[DownstreamErrorCode]) extends DownstreamError
+case class DownstreamErrors(errors: Seq[DownstreamErrorCode]) extends DownstreamError
 
 object DownstreamErrors {
   def single(error: DownstreamErrorCode): DownstreamErrors = DownstreamErrors(List(error))

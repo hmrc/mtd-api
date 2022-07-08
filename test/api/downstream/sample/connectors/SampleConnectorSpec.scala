@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package api.downstream.sample.amend.anyVersion.connectors
+package api.downstream.sample.connectors
 
 import api.downstream.common.connectors.{ConnectorSpec, MockHttpClient}
-import api.endpoints.sample.amend.v1
 import api.endpoints.sample.amend.v1.request.{AmendSampleRequest, AmendSampleRequestBody}
+import api.endpoints.sample.delete.v1.request.DeleteSampleRequest
+import api.endpoints.sample.retrieve.v1.request.RetrieveSampleRequest
+import api.endpoints.sample.retrieve.v1.response.SampleObject
 import api.models.ResponseWrapper
 import api.models.domain.{Nino, TaxYear}
 import config.MockAppConfig
@@ -26,20 +28,30 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 
-class AmendSampleConnectorSpec extends ConnectorSpec {
+class SampleConnectorSpec extends ConnectorSpec {
 
   val nino: String               = "AA123456A"
   val downstreamTaxYear: TaxYear = TaxYear.fromMtd(taxYear = "2018-19")
 
-  val request: AmendSampleRequest = v1.request.AmendSampleRequest(
+  val amendRequest: AmendSampleRequest = AmendSampleRequest(
     nino = Nino(nino),
     downstreamTaxYear = downstreamTaxYear,
     body = AmendSampleRequestBody("someData")
   )
 
+  val retrieveRequest: RetrieveSampleRequest = RetrieveSampleRequest(
+    nino = Nino(nino),
+    downstreamTaxYear = downstreamTaxYear
+  )
+
+  val deleteRequest: DeleteSampleRequest = DeleteSampleRequest(
+    nino = Nino(nino),
+    downstreamTaxYear = downstreamTaxYear
+  )
+
   class Test extends MockHttpClient with MockAppConfig {
 
-    val connector: AmendSampleConnector = new AmendSampleConnector(
+    val connector: SampleConnector = new SampleConnector(
       http = mockHttpClient,
       appConfig = mockAppConfig
     )
@@ -50,7 +62,7 @@ class AmendSampleConnectorSpec extends ConnectorSpec {
     MockAppConfig.ifsEnvironmentHeaders returns Some(allowedIfsHeaders)
   }
 
-  "AmendSampleConnector" when {
+  "SampleConnector" when {
     "amendSample" must {
       "return a 204 status for a success scenario" in new Test {
         val outcome = Right(ResponseWrapper(correlationId, ()))
@@ -62,15 +74,52 @@ class AmendSampleConnectorSpec extends ConnectorSpec {
           .put(
             url = s"$baseUrl/some-placeholder/template/$nino/${downstreamTaxYear.toDownstream}",
             config = dummyIfsHeaderCarrierConfig,
-            body = request.body,
+            body = amendRequest.body,
             requiredHeaders = requiredIfsHeadersPut,
             excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
           )
           .returns(Future.successful(outcome))
 
-        await(connector.amendSample(request)) shouldBe outcome
+        await(connector.amendSample(amendRequest)) shouldBe outcome
       }
     }
+
+    "delete" must {
+      "return a 204 status for a success scenario" in new Test {
+
+        val outcome = Right(ResponseWrapper(correlationId, ()))
+
+        MockHttpClient
+          .delete(
+            url = s"$baseUrl/some-placeholder/template/$nino/${downstreamTaxYear.toDownstream}",
+            config = dummyIfsHeaderCarrierConfig,
+            requiredHeaders = requiredIfsHeaders,
+            excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
+          )
+          .returns(Future.successful(outcome))
+
+        await(connector.deleteSample(deleteRequest)) shouldBe outcome
+      }
+    }
+
+    "retrieve" must {
+      "return a 200 status for a success scenario" in new Test {
+
+        val outcome = Right(ResponseWrapper(correlationId, SampleObject(dateSubmitted = "value", submissionItem = None)))
+
+        MockHttpClient
+          .get(
+            url = s"$baseUrl/some-placeholder/template/$nino/${downstreamTaxYear.toDownstream}",
+            config = dummyIfsHeaderCarrierConfig,
+            requiredHeaders = requiredIfsHeaders,
+            excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
+          )
+          .returns(Future.successful(outcome))
+
+        await(connector.retrieveSample(retrieveRequest)) shouldBe outcome
+      }
+    }
+
   }
 
 }

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package api.endpoints.sample.amend.v1
+package api.endpoints.sample.delete.v1
 
 import api.controllers.EndpointLogContext
 import api.downstream.sample.connectors.MockSampleConnector
-import api.endpoints.sample.amend.v1.request.{AmendSampleRequest, AmendSampleRequestBody}
+import api.endpoints.sample.delete.v1.request.DeleteSampleRequest
 import api.models.ResponseWrapper
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
@@ -26,41 +26,36 @@ import api.services.ServiceSpec
 
 import scala.concurrent.Future
 
-class AmendSampleServiceSpec extends ServiceSpec {
+class DeleteSampleServiceSpec extends ServiceSpec {
 
   private val nino          = "AA123456A"
   private val taxYear       = "2017-18"
   private val correlationId = "X-123"
 
-  private val requestBody = AmendSampleRequestBody(
-    data = "someData"
-  )
-
-  private val requestData = AmendSampleRequest(
+  private val requestData = DeleteSampleRequest(
     nino = Nino(nino),
-    downstreamTaxYear = TaxYear.fromMtd(taxYear),
-    body = requestBody
+    downstreamTaxYear = TaxYear.fromMtd(taxYear)
   )
 
   trait Test extends MockSampleConnector {
     implicit val logContext: EndpointLogContext = EndpointLogContext("c", "ep")
 
-    val service = new AmendSampleService(
+    val service = new DeleteSampleService(
       connector = mockSampleConnector
     )
 
   }
 
-  "AmendSampleService" when {
-    "amend is called" must {
+  "DeleteSampleService" when {
+    "delete is called" must {
       "return correct result for a success" in new Test {
         val outcome = Right(ResponseWrapper(correlationId, ()))
 
         MockSampleConnector
-          .amendSample(requestData)
+          .deleteSample(requestData)
           .returns(Future.successful(outcome))
 
-        await(service.amend(requestData)) shouldBe outcome
+        await(service.delete(requestData)) shouldBe outcome
       }
     }
 
@@ -70,10 +65,10 @@ class AmendSampleServiceSpec extends ServiceSpec {
         s"a $downstreamErrorCode error is returned from the service" in new Test {
 
           MockSampleConnector
-            .amendSample(requestData)
+            .deleteSample(requestData)
             .returns(Future.successful(Left(ResponseWrapper(correlationId, DownstreamErrors.single(DownstreamErrorCode(downstreamErrorCode))))))
 
-          await(service.amend(requestData)) shouldBe Left(ErrorWrapper(Some(correlationId), error))
+          await(service.delete(requestData)) shouldBe Left(ErrorWrapper(Some(correlationId), error))
         }
 
       val input = Seq(

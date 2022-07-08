@@ -34,7 +34,7 @@ class DeleteSampleControllerISpec extends IntegrationBaseSpec {
     val taxYear: String = "2020-21"
 
     def uri: String           = s"/sample/$nino/$taxYear"
-    def downstreamUri: String = s"/sample/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
+    def downstreamUri: String = s"/some-placeholder/template/$nino/${TaxYear.fromMtd(taxYear).toDownstream}"
 
     def setupStubs(): StubMapping
 

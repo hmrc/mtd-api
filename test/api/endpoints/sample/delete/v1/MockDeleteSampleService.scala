@@ -14,31 +14,27 @@
  * limitations under the License.
  */
 
-package api.downstream.common.connectors
+package api.endpoints.sample.delete.v1
 
+import api.endpoints.sample.delete.v1.request.DeleteSampleRequest
+import api.models.ResponseWrapper
+import api.models.errors.ErrorWrapper
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import play.api.libs.json.Reads
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockDeleteRetrieveConnector extends MockFactory {
+trait MockDeleteSampleService extends MockFactory {
 
-  val mockDeleteRetrieveConnector = mock[DeleteRetrieveConnector]
+  val mockDeleteSampleService: DeleteSampleService = mock[DeleteSampleService]
 
-  object MockDeleteRetrieveConnector {
+  object MockDeleteSampleService {
 
-    def delete(): CallHandler[Future[DownstreamOutcome[Unit]]] = {
-      (mockDeleteRetrieveConnector
-        .delete()(_: HeaderCarrier, _: ExecutionContext, _: DownstreamUri[Unit]))
-        .expects(*, *, *)
-    }
-
-    def retrieve[Resp: Reads](): CallHandler[Future[DownstreamOutcome[Resp]]] =
-      (mockDeleteRetrieveConnector
-        .retrieve[Resp]()(_: Reads[Resp], _: HeaderCarrier, _: ExecutionContext, _: DownstreamUri[Resp]))
-        .expects(*, *, *, *)
+    def delete(requestData: DeleteSampleRequest): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Unit]]]] =
+      (mockDeleteSampleService
+        .delete(_: DeleteSampleRequest)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(requestData, *, *)
 
   }
 

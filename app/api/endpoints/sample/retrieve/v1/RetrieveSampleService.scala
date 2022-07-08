@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package api.endpoints.sample.amend.v1
+package api.endpoints.sample.retrieve.v1
 
-import api.downstream.sample.SampleOutcomes.AmendSampleOutcome
+import api.downstream.sample.SampleOutcomes.RetrieveSampleOutcome
 import api.downstream.sample.connectors.SampleConnector
-import api.endpoints.sample.amend.v1.request.AmendSampleRequest
+import api.endpoints.sample.retrieve.v1.request.RetrieveSampleRequest
+import api.endpoints.sample.retrieve.v1.response.RetrieveSampleResponse
 import api.models.errors._
 import api.support.DownstreamServiceSupport
 import uk.gov.hmrc.http.HeaderCarrier
@@ -28,12 +29,17 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendSampleService @Inject() (connector: SampleConnector) extends DownstreamServiceSupport with Logging {
+class RetrieveSampleService @Inject() (connector: SampleConnector) extends DownstreamServiceSupport with Logging {
 
-  def amend(request: AmendSampleRequest)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[AmendSampleOutcome] = {
-    connector.amendSample(request).map {
-      mapToVendorDirect("amendSample", errorMap)
-    }
+  def retrieve(request: RetrieveSampleRequest)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[RetrieveSampleOutcome] = {
+    connector
+      .retrieveSample(request)
+      .map(mapToVendorDirect("retrieveSample", errorMap))
+      .map { downstreamOutcome =>
+        downstreamOutcome.flatMap { responseWrapper =>
+          validateRetrieveResponse[RetrieveSampleResponse](responseWrapper)
+        }
+      }
   }
 
   private def errorMap: Map[String, MtdError] = Map(

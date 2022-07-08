@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package api.validations
+package api.endpoints.sample.retrieve.v1.request
 
 import api.models.errors._
 import api.models.errors.v1.{RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError}
-import api.models.request.DeleteRetrieveRawData
 import config.MockAppConfig
 import org.joda.time.format.DateTimeFormat
 import support.UnitSpec
 
-class DeleteRetrieveValidatorSpec extends UnitSpec {
+class RetrieveSampleValidatorSpec extends UnitSpec {
 
   private val validNino    = "AA123456A"
   private val validTaxYear = "2020-21"
@@ -31,7 +30,7 @@ class DeleteRetrieveValidatorSpec extends UnitSpec {
   class Test extends MockAppConfig {
     implicit val appConfig = mockAppConfig
     val dateTimeFormatter  = DateTimeFormat.forPattern("yyyy-MM-dd")
-    val validator          = new DeleteRetrieveValidator()
+    val validator          = new RetrieveSampleValidator()
 
     MockAppConfig.minimumPermittedTaxYear
       .returns(2021)
@@ -41,41 +40,41 @@ class DeleteRetrieveValidatorSpec extends UnitSpec {
   "running a validation" should {
     "return no errors" when {
       "a valid request is supplied" in new Test {
-        validator.validate(DeleteRetrieveRawData(validNino, validTaxYear)) shouldBe Nil
+        validator.validate(RetrieveSampleRawData(validNino, validTaxYear)) shouldBe Nil
       }
     }
 
     "return NinoFormatError error" when {
       "an invalid nino is supplied" in new Test {
-        validator.validate(DeleteRetrieveRawData("A12344A", validTaxYear)) shouldBe
+        validator.validate(RetrieveSampleRawData("A12344A", validTaxYear)) shouldBe
           List(NinoFormatError)
       }
     }
 
     "return TaxYearFormatError error" when {
       "an invalid tax year is supplied" in new Test {
-        validator.validate(DeleteRetrieveRawData(validNino, "20178")) shouldBe
+        validator.validate(RetrieveSampleRawData(validNino, "20178")) shouldBe
           List(TaxYearFormatError)
       }
     }
 
     "return RuleTaxYearRangeInvalidError" when {
       "an invalid tax year is supplied" in new Test {
-        validator.validate(DeleteRetrieveRawData(validNino, "2017-19")) shouldBe
+        validator.validate(RetrieveSampleRawData(validNino, "2017-19")) shouldBe
           List(RuleTaxYearRangeInvalidError)
       }
     }
 
     "return RuleTaxYearNotSupportedError" when {
       "an invalid tax year is supplied" in new Test {
-        validator.validate(DeleteRetrieveRawData(validNino, "2016-17")) shouldBe
+        validator.validate(RetrieveSampleRawData(validNino, "2016-17")) shouldBe
           List(RuleTaxYearNotSupportedError)
       }
     }
 
     "return multiple errors" when {
       "request supplied has multiple errors" in new Test {
-        validator.validate(DeleteRetrieveRawData("A12344A", "20178")) shouldBe
+        validator.validate(RetrieveSampleRawData("A12344A", "20178")) shouldBe
           List(NinoFormatError, TaxYearFormatError)
       }
     }

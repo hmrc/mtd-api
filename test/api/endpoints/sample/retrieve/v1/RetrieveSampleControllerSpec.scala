@@ -17,8 +17,8 @@
 package api.endpoints.sample.retrieve.v1
 
 import api.controllers.ControllerBaseSpec
-import api.endpoints.common.MockDeleteRetrieveService
 import api.endpoints.sample.domain.v1.SampleMtdEnum
+import api.endpoints.sample.retrieve.v1.request.{MockRetrieveSampleParser, RetrieveSampleRawData, RetrieveSampleRequest}
 import api.endpoints.sample.retrieve.v1.response._
 import api.hateoas.{HateoasLinks, MockHateoasFactory}
 import api.models.ResponseWrapper
@@ -28,8 +28,6 @@ import api.models.errors.v1.{RuleTaxYearNotSupportedError, RuleTaxYearRangeInval
 import api.models.hateoas.Method.{DELETE, GET, PUT}
 import api.models.hateoas.RelType.{AMEND_SAMPLE_REL, DELETE_SAMPLE_REL, SELF}
 import api.models.hateoas.{HateoasWrapper, Link}
-import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
-import api.requestParsers.MockDeleteRetrieveRequestParser
 import api.services.{MockEnrolmentsAuthService, MockMtdIdLookupService}
 import play.api.libs.json.{JsObject, Json}
 import play.api.mvc.Result
@@ -42,23 +40,23 @@ class RetrieveSampleControllerSpec
     extends ControllerBaseSpec
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
-    with MockDeleteRetrieveService
+    with MockRetrieveSampleService
     with MockHateoasFactory
-    with MockDeleteRetrieveRequestParser
+    with MockRetrieveSampleParser
     with HateoasLinks {
 
   val nino: String          = "AA123456A"
   val taxYear: String       = "2017-18"
   val correlationId: String = "X-123"
 
-  val rawData: DeleteRetrieveRawData = DeleteRetrieveRawData(
+  val rawData: RetrieveSampleRawData = RetrieveSampleRawData(
     nino = nino,
     taxYear = taxYear
   )
 
-  val requestData: DeleteRetrieveRequest = DeleteRetrieveRequest(
+  val requestData: RetrieveSampleRequest = request.RetrieveSampleRequest(
     nino = Nino(nino),
-    taxYear = TaxYear.fromMtd(taxYear)
+    downstreamTaxYear = TaxYear.fromMtd(taxYear)
   )
 
   val amendSampleLink: Link =
@@ -118,7 +116,7 @@ class RetrieveSampleControllerSpec
   )
 
   val retrieveSampleResponseModel: RetrieveSampleResponse = RetrieveSampleResponse(
-    Some(Seq(arrayItemModel1)),
+    Some(List(arrayItemModel1)),
     Some(sampleObjectModel),
     Some(sampleOptionalModel1),
     Some(Seq(sampleOptionalModel2))
@@ -132,8 +130,8 @@ class RetrieveSampleControllerSpec
     val controller = new RetrieveSampleController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      requestParser = mockDeleteRetrieveRequestParser,
-      service = mockDeleteRetrieveService,
+      requestParser = mockRetrieveSampleParser,
+      service = mockRetrieveSampleService,
       hateoasFactory = mockHateoasFactory,
       cc = cc
     )
@@ -155,12 +153,12 @@ class RetrieveSampleControllerSpec
           )
         )
 
-        MockDeleteRetrieveRequestParser
+        MockRetrieveSampleParser
           .parse(rawData)
           .returns(Right(requestData))
 
-        MockDeleteRetrieveService
-          .retrieve[RetrieveSampleResponse]()
+        MockRetrieveSampleService
+          .retrieve(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, retrieveSampleResponseModel))))
 
         MockHateoasFactory
@@ -180,7 +178,7 @@ class RetrieveSampleControllerSpec
         def errorsFromParserTester(error: MtdError, expectedStatus: Int): Unit = {
           s"a ${error.code} error is returned from the parser" in new Test {
 
-            MockDeleteRetrieveRequestParser
+            MockRetrieveSampleParser
               .parse(rawData)
               .returns(Left(ErrorWrapper(Some(correlationId), error, None)))
 
@@ -207,12 +205,12 @@ class RetrieveSampleControllerSpec
         def serviceErrors(mtdError: MtdError, expectedStatus: Int): Unit = {
           s"a $mtdError error is returned from the service" in new Test {
 
-            MockDeleteRetrieveRequestParser
+            MockRetrieveSampleParser
               .parse(rawData)
               .returns(Right(requestData))
 
-            MockDeleteRetrieveService
-              .retrieve[RetrieveSampleResponse]()
+            MockRetrieveSampleService
+              .retrieve(requestData)
               .returns(Future.successful(Left(ErrorWrapper(Some(correlationId), mtdError))))
 
             val result: Future[Result] = controller.retrieveSample(nino, taxYear)(fakeGetRequest)

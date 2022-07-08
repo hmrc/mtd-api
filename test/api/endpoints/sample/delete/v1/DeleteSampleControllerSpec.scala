@@ -17,13 +17,11 @@
 package api.endpoints.sample.delete.v1
 
 import api.controllers.ControllerBaseSpec
-import api.endpoints.common.MockDeleteRetrieveService
+import api.endpoints.sample.delete.v1.request.{DeleteSampleRawData, DeleteSampleRequest, MockDeleteSampleRequestParser}
 import api.models.ResponseWrapper
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import api.models.errors.v1.{RuleTaxYearNotSupportedError, RuleTaxYearRangeInvalidError}
-import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
-import api.requestParsers.MockDeleteRetrieveRequestParser
 import api.services.{MockEnrolmentsAuthService, MockMtdIdLookupService}
 import play.api.libs.json.Json
 import play.api.mvc.Result
@@ -36,21 +34,21 @@ class DeleteSampleControllerSpec
     extends ControllerBaseSpec
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
-    with MockDeleteRetrieveService
-    with MockDeleteRetrieveRequestParser {
+    with MockDeleteSampleService
+    with MockDeleteSampleRequestParser {
 
   val nino: String          = "AA123456A"
   val taxYear: String       = "2017-18"
   val correlationId: String = "X-123"
 
-  val rawData: DeleteRetrieveRawData = DeleteRetrieveRawData(
+  val rawData: DeleteSampleRawData = DeleteSampleRawData(
     nino = nino,
     taxYear = taxYear
   )
 
-  val requestData: DeleteRetrieveRequest = DeleteRetrieveRequest(
+  val requestData: DeleteSampleRequest = DeleteSampleRequest(
     nino = Nino(nino),
-    taxYear = TaxYear.fromMtd(taxYear)
+    downstreamTaxYear = TaxYear.fromMtd(taxYear)
   )
 
   trait Test {
@@ -59,8 +57,8 @@ class DeleteSampleControllerSpec
     val controller = new DeleteSampleController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      requestParser = mockDeleteRetrieveRequestParser,
-      service = mockDeleteRetrieveService,
+      requestParser = mockDeleteSampleRequestParser,
+      service = mockDeleteSampleService,
       cc = cc
     )
 
@@ -72,12 +70,12 @@ class DeleteSampleControllerSpec
     "return NO_CONTENT" when {
       "happy path" in new Test {
 
-        MockDeleteRetrieveRequestParser
+        MockDeleteSampleRequestParser
           .parse(rawData)
           .returns(Right(requestData))
 
-        MockDeleteRetrieveService
-          .delete()
+        MockDeleteSampleService
+          .delete(requestData)
           .returns(Future.successful(Right(ResponseWrapper(correlationId, ()))))
 
         val result: Future[Result] = controller.deleteSample(nino, taxYear)(fakeDeleteRequest)
@@ -93,7 +91,7 @@ class DeleteSampleControllerSpec
         def errorsFromParserTester(error: MtdError, expectedStatus: Int): Unit = {
           s"a ${error.code} error is returned from the parser" in new Test {
 
-            MockDeleteRetrieveRequestParser
+            MockDeleteSampleRequestParser
               .parse(rawData)
               .returns(Left(ErrorWrapper(Some(correlationId), error, None)))
 
@@ -120,12 +118,12 @@ class DeleteSampleControllerSpec
         def serviceErrors(mtdError: MtdError, expectedStatus: Int): Unit = {
           s"a $mtdError error is returned from the service" in new Test {
 
-            MockDeleteRetrieveRequestParser
+            MockDeleteSampleRequestParser
               .parse(rawData)
               .returns(Right(requestData))
 
-            MockDeleteRetrieveService
-              .delete()
+            MockDeleteSampleService
+              .delete(requestData)
               .returns(Future.successful(Left(ErrorWrapper(Some(correlationId), mtdError))))
 
             val result: Future[Result] = controller.deleteSample(nino, taxYear)(fakeDeleteRequest)

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package api.endpoints.sample.amend.v1
+package api.endpoints.sample.delete.v1
 
-import api.downstream.sample.SampleOutcomes.AmendSampleOutcome
+import api.downstream.sample.SampleOutcomes.DeleteSampleOutcome
 import api.downstream.sample.connectors.SampleConnector
-import api.endpoints.sample.amend.v1.request.AmendSampleRequest
+import api.endpoints.sample.delete.v1.request.DeleteSampleRequest
 import api.models.errors._
 import api.support.DownstreamServiceSupport
 import uk.gov.hmrc.http.HeaderCarrier
@@ -28,15 +28,15 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AmendSampleService @Inject() (connector: SampleConnector) extends DownstreamServiceSupport with Logging {
+class DeleteSampleService @Inject() (connector: SampleConnector) extends DownstreamServiceSupport with Logging {
 
-  def amend(request: AmendSampleRequest)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[AmendSampleOutcome] = {
-    connector.amendSample(request).map {
-      mapToVendorDirect("amendSample", errorMap)
+  def delete(request: DeleteSampleRequest)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[DeleteSampleOutcome] = {
+    connector.deleteSample(request).map {
+      mapToVendorDirect("deleteSample", errorMap)
     }
   }
 
-  private def errorMap: Map[String, MtdError] = Map(
+  private val errorMap: Map[String, MtdError] = Map(
     "INVALID_NINO"        -> NinoFormatError,
     "INVALID_TAX_YEAR"    -> TaxYearFormatError,
     "NOT_FOUND"           -> NotFoundError,

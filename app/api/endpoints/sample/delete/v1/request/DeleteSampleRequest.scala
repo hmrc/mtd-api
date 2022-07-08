@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package api.models.request
+package api.endpoints.sample.delete.v1.request
 
 import api.models.RawData
+import api.models.domain.{Nino, TaxYear}
 
-case class DeleteRetrieveRawData(nino: String, taxYear: String) extends RawData
+case class DeleteSampleRawData(nino: String, taxYear: String) extends RawData
+
+case class DeleteSampleRequest(nino: Nino, downstreamTaxYear: TaxYear)

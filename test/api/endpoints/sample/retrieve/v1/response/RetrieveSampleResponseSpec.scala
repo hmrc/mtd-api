@@ -65,7 +65,7 @@ class RetrieveSampleResponseSpec extends UnitSpec with JsonErrorValidators with 
   )
 
   val model: RetrieveSampleResponse = RetrieveSampleResponse(
-    Some(Seq(arrayItemModel1)),
+    Some(List(arrayItemModel1)),
     Some(sampleObjectModel),
     Some(sampleOptionalModel1),
     Some(Seq(sampleOptionalModel2))

@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-package api.requestParsers
+package api.endpoints.sample.retrieve.v1
 
-import api.models.errors.ErrorWrapper
-import api.models.request.{DeleteRetrieveRawData, DeleteRetrieveRequest}
+import api.downstream.sample.SampleOutcomes.RetrieveSampleOutcome
+import api.endpoints.sample.retrieve.v1.request.RetrieveSampleRequest
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import uk.gov.hmrc.http.HeaderCarrier
 
-trait MockDeleteRetrieveRequestParser extends MockFactory {
+import scala.concurrent.{ExecutionContext, Future}
 
-  val mockDeleteRetrieveRequestParser = mock[DeleteRetrieveRequestParser]
+trait MockRetrieveSampleService extends MockFactory {
 
-  object MockDeleteRetrieveRequestParser {
+  val mockRetrieveSampleService: RetrieveSampleService = mock[RetrieveSampleService]
 
-    def parse(data: DeleteRetrieveRawData): CallHandler[Either[ErrorWrapper, DeleteRetrieveRequest]] =
-      (mockDeleteRetrieveRequestParser.parseRequest(_: DeleteRetrieveRawData)).expects(data)
+  object MockRetrieveSampleService {
+
+    def retrieve(requestData: RetrieveSampleRequest): CallHandler[Future[RetrieveSampleOutcome]] =
+      (mockRetrieveSampleService
+        .retrieve(_: RetrieveSampleRequest)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(requestData, *, *)
 
   }
 

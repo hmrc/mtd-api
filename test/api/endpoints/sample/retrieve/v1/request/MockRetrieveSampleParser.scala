@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package api.endpoints.sample.amend.v1
+package api.endpoints.sample.retrieve.v1.request
 
-import api.endpoints.sample.amend.v1.request.AmendSampleRequest
-import api.models.ResponseWrapper
 import api.models.errors.ErrorWrapper
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import uk.gov.hmrc.http.HeaderCarrier
 
-import scala.concurrent.{ExecutionContext, Future}
+trait MockRetrieveSampleParser extends MockFactory {
 
-trait MockAmendSampleService extends MockFactory {
+  val mockRetrieveSampleParser = mock[RetrieveSampleParser]
 
-  val mockAmendSampleService: AmendSampleService = mock[AmendSampleService]
+  object MockRetrieveSampleParser {
 
-  object MockAmendSampleService {
-
-    def amendSample(requestData: AmendSampleRequest): CallHandler[Future[Either[ErrorWrapper, ResponseWrapper[Unit]]]] = {
-      (mockAmendSampleService
-        .amend(_: AmendSampleRequest)(_: HeaderCarrier, _: ExecutionContext))
-        .expects(requestData, *, *)
-    }
+    def parse(data: RetrieveSampleRawData): CallHandler[Either[ErrorWrapper, RetrieveSampleRequest]] =
+      (mockRetrieveSampleParser.parseRequest(_: RetrieveSampleRawData)).expects(data)
 
   }
 
