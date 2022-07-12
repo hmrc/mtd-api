@@ -21,4 +21,4 @@ import api.models.domain.{Nino, TaxYear}
 
 case class RetrieveSampleRawData(nino: String, taxYear: String) extends RawData
 
-case class RetrieveSampleRequest(nino: Nino, downstreamTaxYear: TaxYear)
+case class RetrieveSampleRequest(nino: Nino, taxYear: TaxYear)

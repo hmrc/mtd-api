@@ -21,4 +21,4 @@ import api.models.domain.{Nino, TaxYear}
 
 case class DeleteSampleRawData(nino: String, taxYear: String) extends RawData
 
-case class DeleteSampleRequest(nino: Nino, downstreamTaxYear: TaxYear)
+case class DeleteSampleRequest(nino: Nino, taxYear: TaxYear)

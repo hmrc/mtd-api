@@ -34,7 +34,7 @@ class DeleteSampleServiceSpec extends ServiceSpec {
 
   private val requestData = DeleteSampleRequest(
     nino = Nino(nino),
-    downstreamTaxYear = TaxYear.fromMtd(taxYear)
+    taxYear = TaxYear.fromMtd(taxYear)
   )
 
   trait Test extends MockSampleConnector {

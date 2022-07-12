@@ -36,7 +36,7 @@ class SampleConnector @Inject() (val http: HttpClient, val appConfig: AppConfig)
     import api.downstream.common.httpparsers.StandardDownstreamHttpParser._
 
     val nino    = request.nino.nino
-    val taxYear = request.downstreamTaxYear
+    val taxYear = request.taxYear
 
     put(
       body = request.body,
@@ -50,7 +50,7 @@ class SampleConnector @Inject() (val http: HttpClient, val appConfig: AppConfig)
     import api.downstream.common.httpparsers.StandardDownstreamHttpParser._
 
     val nino    = request.nino.nino
-    val taxYear = request.downstreamTaxYear
+    val taxYear = request.taxYear
 
     get(
       IfsUri[RetrieveSampleResponse](s"some-placeholder/template/$nino/${taxYear.toDownstream}")
@@ -61,7 +61,7 @@ class SampleConnector @Inject() (val http: HttpClient, val appConfig: AppConfig)
     import api.downstream.common.httpparsers.StandardDownstreamHttpParser._
 
     val nino    = request.nino.nino
-    val taxYear = request.downstreamTaxYear
+    val taxYear = request.taxYear
 
     delete(uri = IfsUri[Unit](s"some-placeholder/template/$nino/${taxYear.toDownstream}"))
   }

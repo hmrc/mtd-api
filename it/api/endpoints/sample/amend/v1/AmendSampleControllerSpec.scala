@@ -17,7 +17,7 @@
 package api.endpoints.sample.amend.v1
 
 import api.controllers.ControllerBaseSpec
-import api.endpoints.sample.amend.v1.request.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody}
+import api.endpoints.sample.amend.v1.request.{AmendSampleRawData, AmendSampleRequest, AmendSampleRequestBody, MockAmendSampleRequestParser}
 import api.models.ResponseWrapper
 import api.models.audit.{AuditError, AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.domain.{Nino, TaxYear}
@@ -65,7 +65,7 @@ class AmendSampleControllerSpec
 
   val requestData: AmendSampleRequest = request.AmendSampleRequest(
     nino = Nino(nino),
-    downstreamTaxYear = TaxYear.fromMtd(taxYear),
+    taxYear = TaxYear.fromMtd(taxYear),
     body = requestBody
   )
 

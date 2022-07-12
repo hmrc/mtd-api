@@ -48,7 +48,7 @@ class DeleteSampleControllerSpec
 
   val requestData: DeleteSampleRequest = DeleteSampleRequest(
     nino = Nino(nino),
-    downstreamTaxYear = TaxYear.fromMtd(taxYear)
+    taxYear = TaxYear.fromMtd(taxYear)
   )
 
   trait Test {

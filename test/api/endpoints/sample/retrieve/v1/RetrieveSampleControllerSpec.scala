@@ -56,7 +56,7 @@ class RetrieveSampleControllerSpec
 
   val requestData: RetrieveSampleRequest = request.RetrieveSampleRequest(
     nino = Nino(nino),
-    downstreamTaxYear = TaxYear.fromMtd(taxYear)
+    taxYear = TaxYear.fromMtd(taxYear)
   )
 
   val amendSampleLink: Link =

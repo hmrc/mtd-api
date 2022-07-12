@@ -31,22 +31,22 @@ import scala.concurrent.Future
 class SampleConnectorSpec extends ConnectorSpec {
 
   val nino: String               = "AA123456A"
-  val downstreamTaxYear: TaxYear = TaxYear.fromMtd(taxYear = "2018-19")
+  val taxYear: TaxYear = TaxYear.fromMtd(taxYear = "2018-19")
 
   val amendRequest: AmendSampleRequest = AmendSampleRequest(
     nino = Nino(nino),
-    downstreamTaxYear = downstreamTaxYear,
+    taxYear = taxYear,
     body = AmendSampleRequestBody("someData")
   )
 
   val retrieveRequest: RetrieveSampleRequest = RetrieveSampleRequest(
     nino = Nino(nino),
-    downstreamTaxYear = downstreamTaxYear
+    taxYear = taxYear
   )
 
   val deleteRequest: DeleteSampleRequest = DeleteSampleRequest(
     nino = Nino(nino),
-    downstreamTaxYear = downstreamTaxYear
+    taxYear = taxYear
   )
 
   class Test extends MockHttpClient with MockAppConfig {
@@ -72,7 +72,7 @@ class SampleConnectorSpec extends ConnectorSpec {
 
         MockHttpClient
           .put(
-            url = s"$baseUrl/some-placeholder/template/$nino/${downstreamTaxYear.toDownstream}",
+            url = s"$baseUrl/some-placeholder/template/$nino/${taxYear.toDownstream}",
             config = dummyIfsHeaderCarrierConfig,
             body = amendRequest.body,
             requiredHeaders = requiredIfsHeadersPut,
@@ -91,7 +91,7 @@ class SampleConnectorSpec extends ConnectorSpec {
 
         MockHttpClient
           .delete(
-            url = s"$baseUrl/some-placeholder/template/$nino/${downstreamTaxYear.toDownstream}",
+            url = s"$baseUrl/some-placeholder/template/$nino/${taxYear.toDownstream}",
             config = dummyIfsHeaderCarrierConfig,
             requiredHeaders = requiredIfsHeaders,
             excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")
@@ -109,7 +109,7 @@ class SampleConnectorSpec extends ConnectorSpec {
 
         MockHttpClient
           .get(
-            url = s"$baseUrl/some-placeholder/template/$nino/${downstreamTaxYear.toDownstream}",
+            url = s"$baseUrl/some-placeholder/template/$nino/${taxYear.toDownstream}",
             config = dummyIfsHeaderCarrierConfig,
             requiredHeaders = requiredIfsHeaders,
             excludedHeaders = Seq("AnotherHeader" -> "HeaderValue")

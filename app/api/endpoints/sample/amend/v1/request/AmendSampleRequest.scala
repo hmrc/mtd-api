@@ -18,4 +18,4 @@ package api.endpoints.sample.amend.v1.request
 
 import api.models.domain.{Nino, TaxYear}
 
-case class AmendSampleRequest(nino: Nino, downstreamTaxYear: TaxYear, body: AmendSampleRequestBody)
+case class AmendSampleRequest(nino: Nino, taxYear: TaxYear, body: AmendSampleRequestBody)
