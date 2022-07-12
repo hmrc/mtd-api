@@ -41,6 +41,9 @@ trait MockAppConfig extends MockFactory {
     def ifsEnvironment: CallHandler[String]                     = (() => mockAppConfig.ifsEnv: String).expects()
     def ifsEnvironmentHeaders: CallHandler[Option[Seq[String]]] = (() => mockAppConfig.ifsEnvironmentHeaders: Option[Seq[String]]).expects()
 
+    // Business Rule Config
+    def minimumPermittedTaxYear: CallHandler[Int] = (() => mockAppConfig.minimumPermittedTaxYear: Int).expects()
+
     // API Config
     def featureSwitch: CallHandler[Option[Configuration]]        = (() => mockAppConfig.featureSwitch: Option[Configuration]).expects()
     def apiGatewayContext: CallHandler[String]                   = (() => mockAppConfig.apiGatewayContext: String).expects()

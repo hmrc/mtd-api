@@ -28,6 +28,7 @@ object Version {
     def writes(version: Version): JsValue = version match {
       case Version1 => Json.toJson(Version1.name)
     }
+
   }
 
   implicit object VersionReads extends Reads[Version] {
@@ -37,6 +38,7 @@ object Version {
         case Version1.name => JsSuccess(Version1)
         case _             => JsError("Unrecognised version")
       }
+
   }
 
   implicit val versionFormat: Format[Version] = Format(VersionReads, VersionWrites)
@@ -74,6 +76,7 @@ object Versions {
 
   private def getFrom(name: String): Either[GetFromRequestError, Version] =
     versionsByName.get(name).toRight(left = VersionNotFound)
+
 }
 
 sealed trait GetFromRequestError

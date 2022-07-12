@@ -21,6 +21,7 @@ import play.api.libs.json.Json
 import play.api.mvc.Result
 import play.api.mvc.Results.InternalServerError
 import utils.Logging
+
 import java.util.UUID
 
 trait BaseController {
